@@ -16,5 +16,5 @@ vendor/stanley-cheung/protobuf-php/protoc-gen-php-with-composer.php \
      -o ./ \
      `find $FENCER_PROTOCOL_HOME -name *.proto`
 
-php tools/template/TypeTableUtilTemplate.php $FENCER_PROTOCOL_HOME > app/Utils/TypeTableUtil.php
+php builds/template/ProtobufObjectTemplate.php $FENCER_PROTOCOL_HOME > app/Utils/ProtobufObject.php
 find app/Proto -type f | xargs sed -i -e "/^\/\/   Date: /d"

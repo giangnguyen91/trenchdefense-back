@@ -2,7 +2,7 @@
 echo '<?php';
 
 /**
- * @param string 型名
+ * @param string
  * @return int
  */
 function calcTypeId($typeName)
@@ -22,31 +22,25 @@ function searchProto(&$typeNames, $dir)
     }
 }
 
-// fencer-protocol から proto ファイルの一覧を取得する
 $typeNames = [];
-searchProto($typeNames, $argv[1] . '/proto');
+searchProto($typeNames, $argv[1]);
 ?>
 
 namespace App\Utils;
 
 use \DrSlump\Protobuf\Message;
-use App\Exceptions\IllegalTypeObjectException;
 <?php
 foreach ($typeNames as $typeName) {
     echo "use App\\Models\\$typeName;\n";
 }
 ?>
 
-/**
-* シリアライズ・デシリアライズ時に参照する型テーブル変換ユーティリティ。
-*/
 class TypeTableUtil
 {
 /**
-* モデルデータから型IDを取得します。
 *
-* @param  Message $object モデルデータ
-* @return int             型ID
+* @param  Message $object
+* @return int
 */
 public static function objectToTypeId(Message $object)
 {
@@ -58,14 +52,12 @@ foreach ($typeNames as $typeName) {
 }
 ?>
 }
-throw new IllegalTypeObjectException("unknown object type");
+throw new Exception("unknown object type");
 }
 
 /**
-* 型IDからモデルデータを取得します。
-*
-* @param  int     $typeId 型ID
-* @return Message         モデルデータ
+* @param  int     $typeId
+* @return Message
 */
 public static function typeIdToObject($typeId)
 {
@@ -77,7 +69,7 @@ foreach ($typeNames as $typeName) {
 }
 ?>
 }
-throw new IllegalTypeObjectException("unknown type id");
+throw new Exception("unknown type id");
 }
 }
 

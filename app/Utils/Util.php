@@ -21,7 +21,7 @@ class Util
         foreach($objects as $object) {
             if(!($object instanceof Message)) throw new IllegalTypeObjectException("can not serializable object");
             $message = new ProtobufMessage();
-            $typeId = TypeTableUtil::objectToTypeId($object);
+            $typeId = ProtobufObject::objectToTypeId($object);
             $message->setType($typeId);
             $message->setPayload($object->serialize());
             $messages->addMessages($message);
@@ -42,7 +42,7 @@ class Util
         $messages = ProbufMessages::deserialize($serializedObject);
         for($i=0; $i<$messages->getCount(); $i++) {
             $message = $messages->getMessages($i);
-            $object = TypeTableUtil::typeIdToObject($message->getType());
+            $object = ProtobufObject::typeIdToObject($message->getType());
             $object = $object->deserialize($message->getPayload());
             $objects[] = $object;
         }
