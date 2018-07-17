@@ -2,7 +2,6 @@
 
 namespace App\Utils;
 
-use App\Exceptions\IllegalTypeObjectException;
 use \DrSlump\Protobuf\Message;
 use App\Models\ProbufMessages;
 use App\Models\ProtobufMessage;
@@ -19,7 +18,7 @@ class Util
         $messages = new ProbufMessages();
         $count = 0;
         foreach($objects as $object) {
-            if(!($object instanceof Message)) throw new IllegalTypeObjectException("can not serializable object");
+            if(!($object instanceof Message)) throw new \Exception("can not serializable object");
             $message = new ProtobufMessage();
             $typeId = ProtobufObject::objectToTypeId($object);
             $message->setType($typeId);
