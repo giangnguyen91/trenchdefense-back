@@ -2,10 +2,7 @@
 
 namespace App\Domains\Base\ValueObject;
 
-use PHPUnit\Framework\Assert;
-
 /**
- * Floatのバリューオブジェクトのベース
  * @package App\Domains\Base
  */
 class FloatValueObject
@@ -21,7 +18,6 @@ class FloatValueObject
     }
 
     /**
-     * プリミティブ値を取得する
      * @return float
      */
     public function getValue()
@@ -47,15 +43,5 @@ class FloatValueObject
     {
         $subtractedValue = $this->value - $value;
         return new static($subtractedValue);
-    }
-
-    /**
-     * 対象と比較する。
-     * 一致しない場合は assert が発生する。
-     * @param FloatValueObject $actual
-     */
-    public function assertEquals(FloatValueObject $actual)
-    {
-        Assert::assertEquals($this->value, $actual->value);
     }
 }

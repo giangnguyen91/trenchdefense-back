@@ -2,10 +2,7 @@
 
 namespace App\Domains\Base\ValueObject;
 
-use PHPUnit\Framework\Assert;
-
 /**
- * Intのバリューオブジェクトのベース
  * @package App\Domains\Base
  */
 class IntValueObject
@@ -30,8 +27,6 @@ class IntValueObject
     }
 
     /**
-     * 対象と比較する。
-     * 一致しない場合は assert が発生する。
      * @param IntValueObject $actual
      */
     public function assertEquals(IntValueObject $actual)
