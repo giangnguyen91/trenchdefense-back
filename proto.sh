@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FENCER_PROTOCOL_HOME=$1
+PROTOCOL_PATH=$1
 
 rm -r app/Proto
 echo "NOTICE: app/Proto deleted."
@@ -12,9 +12,9 @@ chmod 755 vendor/stanley-cheung/protobuf-php/protoc-gen-php-with-composer.php
 vendor/stanley-cheung/protobuf-php/protoc-gen-php-with-composer.php \
      -Dmultifile \
      -Dnamespace=App.Proto \
-     -i $FENCER_PROTOCOL_HOME \
+     -i $PROTOCOL_PATH \
      -o ./ \
-     `find $FENCER_PROTOCOL_HOME -name *.proto`
+     `find $PROTOCOL_PATH -name *.proto`
 
-php builds/template/ProtobufObjectTemplate.php $FENCER_PROTOCOL_HOME > app/Utils/ProtobufObject.php
+php builds/template/ProtobufObjectTemplate.php $PROTOCOL_PATH > app/Utils/ProtobufObject.php
 find app/Proto -type f | xargs sed -i -e "/^\/\/   Date: /d"
