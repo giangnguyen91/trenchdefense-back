@@ -1,6 +1,8 @@
 <?php
+
 namespace app\Components\User;
 
+use App\Domains\User\Exception\UserNotFound;
 use App\Domains\User\ISocialID;
 use App\Domains\User\Name;
 use App\Domains\User\User;
@@ -20,6 +22,10 @@ class UserComponent implements IUserComponent
      */
     private $userFactory;
 
+    /**
+     * @param UserRepository $userRepository
+     * @param UserFactory $userFactory
+     */
     public function __construct(
         UserRepository $userRepository,
         UserFactory $userFactory
@@ -29,20 +35,48 @@ class UserComponent implements IUserComponent
         $this->userFactory = $userFactory;
     }
 
+    /**
+     * @param ISocialID $imeiId | null
+     * @param ISocialID $googleId | null
+     * @return User | null
+     */
     public function getUserBySocialId(
-        ISocialID $socialID
+        ISocialID $imeiId = null,
+        ISocialID $googleId = null
     ): ?User
     {
-        return $this->userRepository->findBySocialId($socialID);
+        return $this->userRepository->findBySocialId($imeiId, $googleId);
     }
 
+    /**
+     * @param ISocialID $imeiId | null
+     * @param ISocialID $googleId | null
+     * @param Name $name
+     * @return UserId
+     */
     public function createUser(
-        ISocialID $socialID,
+        ISocialID $imeiId = null,
+        ISocialID $googleId = null,
         Name $name
     ): UserId
     {
-        $user =  $this->userFactory->init($name, $socialID);
+        $user = $this->userFactory->init($imeiId, $googleId, $name);
         return $this->userRepository->persist($user);
     }
 
+    /**
+     * @param UserId $userId
+     * @return User
+     * @throws
+     */
+    public function getUser(
+        UserId $userId
+    ): User
+    {
+        $user = $this->userRepository->find($userId);
+        if (is_null($user)) {
+            throw new UserNotFound('User not found');
+        }
+        return $user;
+    }
 }

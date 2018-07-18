@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use Illuminate\Routing\Router;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,3 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 Route::post('/access_token', 'AuthenticateController@grantAccesToken');
+
+Route::group(['middleware' => ['auth:api'],'prefix' => 'user'], function (Router $router) {
+    $router->get('/myself', "UserController@getMySelf");
+
+});

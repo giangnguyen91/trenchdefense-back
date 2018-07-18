@@ -7,12 +7,33 @@ use App\Domains\User\UserId;
 
 interface IUserComponent
 {
+    /**
+     * @param ISocialID $imeiId | null
+     * @param ISocialID $googleId | null
+     * @return User | null
+     */
     public function getUserBySocialId(
-        ISocialID $socialID
+        ISocialID $imeiId = null,
+        ISocialID $googleId = null
     ) : ?User;
 
+    /**
+     * @param ISocialID $imeiId | null
+     * @param ISocialID $googleId | null
+     * @param Name $name
+     * @return UserId
+     */
     public function createUser(
-        ISocialID $socialID,
+        ISocialID $imeiId = null,
+        ISocialID $googleId = null,
         Name $name
     ): UserId;
+
+    /**
+     * @param UserId $userId
+     * @return User
+     */
+    public function getUser(
+        UserId $userId
+    ): User;
 }

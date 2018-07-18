@@ -16,6 +16,7 @@ use App\Domains\User\UserId;
 use Google\Api\Login;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\Request;
 use Laravel\Passport\PersonalAccessTokenResult;
 
 class AuthComponent implements IAuthComponent
@@ -54,34 +55,37 @@ class AuthComponent implements IAuthComponent
     }
 
 
+    /**
+     * @param Credential $credential
+     * @return Auth | null
+     */
     public function validate(
         Credential $credential
     ): ?Auth
     {
         $loginType = $credential->getType()->getValue();
 
+        $imeiId = null;
+        $googleId = null;
         if ($loginType == Type::GOOGLE) {
             $user = $this->authenticateGoogle($credential->getAccessToken()->getValue());
-            $socialId = new GoogleId($user->id);
+            $googleId = new GoogleId($user->id);
             $name = new Name($user->name);
         } else {
-            $socialId = new Imei($credential->getImei()->getValue());
+            $name = new Name('guest_'.rand(1,9999));
+            $imeiId = new Imei($credential->getImei()->getValue());
 
         }
-        $user = $this->userComponent->getUserBySocialId($socialId);
+        $user = $this->userComponent->getUserBySocialId($imeiId, $googleId);
 
         if (is_null($user)) {
-            $userId = $this->userComponent->createUser($socialId, $name);
-            $user = $this->userComponent->getUserBySocialId($socialId);
-        }
-        else{
+            $userId = $this->userComponent->createUser($imeiId, $googleId, $name);
+        } else {
             $userId = $user->getUserId();
         }
 
         $authInfo = $this->generateToken($userId);
         $auth = new Auth(new AccessToken($authInfo->accessToken), $authInfo->token->expires_at);
-
-        $this->loginIfNotLoggedIn($user);
         return $auth;
     }
 
@@ -97,20 +101,10 @@ class AuthComponent implements IAuthComponent
     }
 
     /**
-     * @param User $user
-     */
-    private function loginIfNotLoggedIn(User $user)
-    {
-        if (!$this->guard->check()) {
-            $this->guard->login($user);
-        }
-    }
-
-    /**
      * @param string $accessToken
      * @return \Google_Service_Oauth2_Userinfoplus
      */
-    private function authenticateGoogle(string $accessToken) : \Google_Service_Oauth2_Userinfoplus
+    private function authenticateGoogle(string $accessToken): \Google_Service_Oauth2_Userinfoplus
     {
         $googlePackage = new Login(
             env('APP_URL'),
@@ -120,5 +114,17 @@ class AuthComponent implements IAuthComponent
 
         $user = $googlePackage->getUserInfo($accessToken);
         return $user;
+    }
+
+    /**
+     * @return UserId | null
+     */
+    public function getUserId(): ?UserId
+    {
+        $request = app(Request::class);
+        if (!$request->user()) {
+            return null;
+        }
+        return new UserId($request->user()->id);
     }
 }

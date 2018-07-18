@@ -4,7 +4,7 @@ namespace App\Domains\User;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 
-class User implements Authenticatable
+class User
 {
     /**
      * @var  UserId
@@ -14,7 +14,12 @@ class User implements Authenticatable
     /**
      * @var ISocialID
      */
-    private $socialId;
+    private $imei;
+
+    /**
+     * @var ISocialID
+     */
+    private $googleId;
 
     /**
      * @var Name
@@ -22,26 +27,38 @@ class User implements Authenticatable
     private $name;
 
     /**
-     * @param ISocialID $socialId
+     * @param ISocialID $imei | null
+     * @param ISocialID $googleId | null
      * @param UserId $userId
+     * @param Name $name
      */
     public function __construct(
-        ISocialID $socialId,
+        ISocialID $imei = null,
+        ISocialID $googleId = null,
         UserId $userId,
         Name $name
     )
     {
-        $this->socialId = $socialId;
+        $this->imei = $imei;
+        $this->googleId = $googleId;
         $this->userId = $userId;
         $this->name = $name;
     }
 
     /**
-     * @return ISocialID
+     * @return ISocialID | null
      */
-    public function getSocialId(): ISocialID
+    public function getImei(): ?ISocialID
     {
-        return $this->socialId;
+        return $this->imei;
+    }
+
+    /**
+     * @return ISocialID | null
+     */
+    public function getGoogleId(): ?ISocialID
+    {
+        return $this->googleId;
     }
 
     /**
@@ -61,52 +78,15 @@ class User implements Authenticatable
     }
 
     /**
-     * Get the name of the unique identifier for the user.
-     *
-     * @return string
+     * @return \App\Proto\User()
      */
-    public function getAuthIdentifierName()
+    public function toProtobuf()
     {
-        return 'id';
-    }
+        $proto = new \App\Proto\User();
+        $proto->name = $this->name->getValue();
+        $proto->imei = !is_null($this->getImei()) ? $this->getImei()->getValue() : null;
+        $proto->google_id = !is_null($this->getGoogleId()) ? $this->getGoogleId()->getValue() : null;
 
-    public function getAuthIdentifier()
-    {
-        return $this->userId->getValue();
-    }
-
-    public function getAuthPassword()
-    {
-        return '';
-    }
-
-    /**
-     * Get the token value for the "remember me" session.
-     *
-     * @return string
-     */
-    public function getRememberToken()
-    {
-        return '';
-    }
-
-    /**
-     * Set the token value for the "remember me" session.
-     *
-     * @param  string $value
-     * @return void
-     */
-    public function setRememberToken($value)
-    {
-    }
-
-    /**
-     * Get the column name for the "remember me" token.
-     *
-     * @return string
-     */
-    public function getRememberTokenName()
-    {
-        return '';
+        return $proto;
     }
 }
