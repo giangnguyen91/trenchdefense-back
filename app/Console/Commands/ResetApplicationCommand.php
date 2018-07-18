@@ -3,17 +3,16 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 
 class ResetApplicationCommand extends Command
 {
-    use EnvAwareTrait;
-
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:reset {--force} {--env=}';
+    protected $signature = 'app:reset';
 
     /**
      * The console command description.
@@ -21,6 +20,26 @@ class ResetApplicationCommand extends Command
      * @var string
      */
     protected $description = 'Reset application';
+
+    /**
+     * The filesystem instance.
+     *
+     * @var \Illuminate\Filesystem\Filesystem
+     */
+    protected $files;
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct(
+        Filesystem $files
+    )
+    {
+        parent::__construct();
+        $this->files = $files;
+    }
 
     /**
      * Execute the console command.
@@ -31,13 +50,12 @@ class ResetApplicationCommand extends Command
     {
         $this->line("<info>Artisan:</info> Reset");
 
-        $force = $this->option('force');
-
         $this->dropIfExistsAndCreateDatabase(
             env('DB_HOST', '127.0.0.1'),
             env('DB_USERNAME', 'root'),
             env('DB_PASSWORD', 'secret'),
             env('DB_DATABASE', 'trenchdefense'));
+        $this->flushFacades();
 
         $this->line('');
         $this->line("<info>Artisan: app:reset is All Done!</info>");
@@ -90,5 +108,17 @@ class ResetApplicationCommand extends Command
     protected function createDatabase(\PDO $pdo, string $dbName)
     {
         $pdo->exec("create database {$dbName}");
+    }
+
+    /**
+     *  Clear cache framework
+     */
+    public function flushFacades()
+    {
+        foreach ($this->files->files(storage_path('framework/cache')) as $file) {
+            if (preg_match('/facade-.*\.php$/', $file)) {
+                $this->files->delete($file);
+            }
+        }
     }
 }

@@ -15,7 +15,9 @@ function searchProto(&$typeNames, $dir)
     foreach (glob($dir . '/*') as $file) {
         if (is_file($file)) {
             $fileName = explode($dir . '/', $file)[1];
-            $typeNames[] = substr($fileName, 0, strrpos($fileName, '.'));
+            if (strpos($fileName,'proto')) {
+                $typeNames[] = substr($fileName, 0, strrpos($fileName, '.'));
+            }
         } else {
             searchProto($typeNames, $file);
         }
@@ -31,46 +33,47 @@ namespace App\Utils;
 use \DrSlump\Protobuf\Message;
 <?php
 foreach ($typeNames as $typeName) {
-    echo "use App\\Models\\$typeName;\n";
+    echo "use App\\Proto\\$typeName;\n";
 }
 ?>
 
-class TypeTableUtil
+class ProtobufObject
 {
-/**
-*
-* @param  Message $object
-* @return int
-*/
-public static function objectToTypeId(Message $object)
-{
-switch(true) {
-<?php
-foreach ($typeNames as $typeName) {
-    $typeId = '0x' . dechex(calcTypeId($typeName));
-    echo "            case \$object instanceof $typeName: return $typeId;\n";
-}
-?>
-}
-throw new Exception("unknown object type");
-}
+    /**
+    * @param Message $object
+    * @return int
+    * @throws \Exception
+    */
+    public static function objectToTypeId(Message $object)
+    {
+        switch(true) {
+            <?php
+            foreach ($typeNames as $typeName) {
+                $typeId = '0x' . dechex(calcTypeId($typeName));
+                echo "            case \$object instanceof $typeName: return $typeId;\n";
+            }
+            ?>
+        }
+        throw new \Exception("unknown object type");
+    }
 
-/**
-* @param  int     $typeId
-* @return Message
-*/
-public static function typeIdToObject($typeId)
-{
-switch($typeId) {
-<?php
-foreach ($typeNames as $typeName) {
-    $typeId = '0x' . dechex(calcTypeId($typeName));
-    echo "            case $typeId: return new $typeName();\n";
-}
-?>
-}
-throw new Exception("unknown type id");
-}
+    /**
+    * @param  int $typeId
+    * @return Message
+    * @throws \Exception
+    */
+    public static function typeIdToObject($typeId)
+    {
+        switch($typeId) {
+            <?php
+                foreach ($typeNames as $typeName) {
+                    $typeId = '0x' . dechex(calcTypeId($typeName));
+                    echo "            case $typeId: return new $typeName();\n";
+                }
+            ?>
+        }
+        throw new \Exception("unknown type id");
+    }
 }
 
 <?php
