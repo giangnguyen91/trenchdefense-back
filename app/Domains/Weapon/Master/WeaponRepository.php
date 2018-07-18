@@ -2,7 +2,7 @@
 
 namespace App\Domains\Weapon\Master;
 
-class UserRepository
+class WeaponRepository
 {
     /**
      * @var WeaponFactory
@@ -40,8 +40,8 @@ class UserRepository
         Weapon $weapon
     ): WeaponId
     {
-        $eloquent = \App\User::unguarded(function () use ($weapon){
-            return \App\User::query()->updateOrCreate(
+        $eloquent = \App\Weapon::unguarded(function () use ($weapon){
+            return \App\Weapon::query()->updateOrCreate(
                 [
                     'id' => !is_null($weapon->getId()->getValue()) ? $weapon->getId()->getValue() : null
                 ],
