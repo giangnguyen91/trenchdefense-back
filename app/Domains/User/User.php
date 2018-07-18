@@ -88,6 +88,16 @@ class User
     }
 
     /**
+     * @param Name $name
+     * @return User
+     */
+    public function setName(Name $name): User
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
      * @return \App\Proto\User()
      */
     public function toProtobuf()

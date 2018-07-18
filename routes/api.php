@@ -17,4 +17,5 @@ Route::post('/access_token', 'AuthenticateController@grantAccessToken');
 Route::group(['middleware' => ['auth:api'],'prefix' => 'user'], function (Router $router) {
     $router->get('/myself', "UserController@getMySelf");
     $router->post('/myself/link_social', "UserController@linkSocial");
+    $router->post('/myself/change_name', "UserController@updateName");
 });

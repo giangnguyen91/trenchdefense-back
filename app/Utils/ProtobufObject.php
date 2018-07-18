@@ -10,6 +10,7 @@ use App\Proto\AuthenticateParameter;
 use App\Proto\LinkSocialParameter;
 use App\Proto\LinkSocialResult;
 use App\Proto\Type;
+use App\Proto\UpdateNameParameter;
 use App\Proto\User;
 
 class ProtobufObject
@@ -30,6 +31,7 @@ class ProtobufObject
             case $object instanceof LinkSocialParameter: return 0x46a202c4;
             case $object instanceof LinkSocialResult: return 0xee66a1ad;
             case $object instanceof Type: return 0x3deb7456;
+            case $object instanceof UpdateNameParameter: return 0xe807208b;
             case $object instanceof User: return 0x9f8a2389;
         }
         throw new \Exception("unknown object type");
@@ -51,6 +53,7 @@ class ProtobufObject
             case 0x46a202c4: return new LinkSocialParameter();
             case 0xee66a1ad: return new LinkSocialResult();
             case 0x3deb7456: return new Type();
+            case 0xe807208b: return new UpdateNameParameter();
             case 0x9f8a2389: return new User();
         }
         throw new \Exception("unknown type id");

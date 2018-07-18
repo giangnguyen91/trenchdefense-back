@@ -46,4 +46,14 @@ interface IUserComponent
     public function persist(
         User $user
     ): UserId;
+
+    /**
+     * @param UserId $userId
+     * @param Name $name
+     * @return User
+     */
+    public function updateName(
+        UserId $userId,
+        Name $name
+    ): User;
 }

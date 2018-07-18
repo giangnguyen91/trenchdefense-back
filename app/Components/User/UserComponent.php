@@ -90,4 +90,25 @@ class UserComponent implements IUserComponent
     {
         return $this->userRepository->persist($user);
     }
+
+    /**
+     * @param Name $name
+     * @return User
+     */
+    /**
+     * @param UserId $userId
+     * @param Name $name
+     * @return User
+     * @throws UserNotFound
+     */
+    public function updateName(
+        UserId $userId,
+        Name $name
+    ): User
+    {
+        $user = $this->getUser($userId);
+        $user->setName($name);
+        $this->persist($user);
+        return $user;
+    }
 }

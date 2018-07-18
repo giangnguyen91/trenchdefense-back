@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Components\Auth\IAuthComponent;
 use App\Components\User\IUserComponent;
 use App\Domains\Auth\AccessToken;
+use App\Domains\User\Name;
 use App\Proto\LinkSocialParameter;
+use App\Proto\UpdateNameParameter;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -44,6 +46,14 @@ class UserController extends Controller
     {
         $parameter = $request->get(LinkSocialParameter::class);
         $user = $this->authComponent->doLinkSocial(new AccessToken($parameter->access_code));
+        return response()->protobuf([$user->toProtobuf()]);
+    }
+
+    public function updateName(Request $request)
+    {
+        $parameter = $request->get(UpdateNameParameter::class);
+        $userId = $this->authComponent->getUserId();
+        $user = $this->userComponent->updateName($userId, new Name($parameter->name));
         return response()->protobuf([$user->toProtobuf()]);
     }
 }
