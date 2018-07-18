@@ -2,6 +2,7 @@
 namespace App\Utils;
 
 use \DrSlump\Protobuf\Message;
+use App\Proto\Error;
 use App\Proto\ProtobufMessage;
 use App\Proto\ProtobufMessages;
 use App\Proto\Authenticate;
@@ -18,7 +19,8 @@ class ProtobufObject
     public static function objectToTypeId(Message $object)
     {
         switch(true) {
-                        case $object instanceof ProtobufMessage: return 0xe5bba9f8;
+                        case $object instanceof Error: return 0x7f2f6a15;
+            case $object instanceof ProtobufMessage: return 0xe5bba9f8;
             case $object instanceof ProtobufMessages: return 0xfb72b96d;
             case $object instanceof Authenticate: return 0x94a019d4;
             case $object instanceof AuthenticateParameter: return 0xcdcb779f;
@@ -35,7 +37,8 @@ class ProtobufObject
     public static function typeIdToObject($typeId)
     {
         switch($typeId) {
-                        case 0xe5bba9f8: return new ProtobufMessage();
+                        case 0x7f2f6a15: return new Error();
+            case 0xe5bba9f8: return new ProtobufMessage();
             case 0xfb72b96d: return new ProtobufMessages();
             case 0x94a019d4: return new Authenticate();
             case 0xcdcb779f: return new AuthenticateParameter();
