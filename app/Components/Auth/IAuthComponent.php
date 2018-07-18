@@ -2,10 +2,11 @@
 
 namespace App\Components\Auth;
 
+use App\Domains\Auth\AccessToken;
 use App\Domains\Auth\Auth;
 use App\Domains\Auth\Credential\Credential;
+use App\Domains\User\Action\LinkSocialResult;
 use App\Domains\User\UserId;
-use Illuminate\Http\Request;
 
 interface IAuthComponent
 {
@@ -21,4 +22,10 @@ interface IAuthComponent
      * @return UserId | null
      */
     public function getUserId(): ?UserId;
+
+    /**
+     * @param AccessToken $accessToken
+     * @return LinkSocialResult
+     */
+    public function doLinkSocial(AccessToken $accessToken): LinkSocialResult;
 }

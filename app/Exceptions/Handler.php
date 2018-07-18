@@ -78,6 +78,7 @@ class Handler extends ExceptionHandler
     {
         switch (get_class($ex)) {
             case AuthenticationException::class:
+            case \InvalidArgumentException::class:
                 return new Error('Authenticate failed', $this->parseErrorCode($ex, 40101), $httpStatusCode = 401);
                 break;
             default:

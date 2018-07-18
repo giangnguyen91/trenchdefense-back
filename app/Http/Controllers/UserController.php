@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Components\Auth\IAuthComponent;
 use App\Components\User\IUserComponent;
+use App\Domains\Auth\AccessToken;
+use App\Proto\LinkSocialParameter;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -40,8 +42,8 @@ class UserController extends Controller
 
     public function linkSocial(Request $request)
     {
-        $userId = $this->authComponent->getUserId();
-        $user = $this->userComponent->getUser($userId);
+        $parameter = $request->get(LinkSocialParameter::class);
+        $user = $this->authComponent->doLinkSocial(new AccessToken($parameter->access_code));
         return response()->protobuf([$user->toProtobuf()]);
     }
 }

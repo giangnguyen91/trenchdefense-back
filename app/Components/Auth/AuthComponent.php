@@ -8,6 +8,8 @@ use App\Domains\Auth\Auth;
 use App\Domains\Auth\AuthRepository;
 use App\Domains\Auth\Credential\Credential;
 use App\Domains\Auth\Credential\Type;
+use App\Domains\User\Action\LinkSocialResult;
+use App\Domains\User\Exception\SocialIdExist;
 use App\Domains\User\GoogleId;
 use App\Domains\User\Imei;
 use App\Domains\User\Name;
@@ -72,7 +74,7 @@ class AuthComponent implements IAuthComponent
             $googleId = new GoogleId($user->id);
             $name = new Name($user->name);
         } else {
-            $name = new Name('guest_'.rand(1,9999));
+            $name = new Name('guest_' . rand(1, 9999));
             $imeiId = new Imei($credential->getImei()->getValue());
 
         }
@@ -126,5 +128,26 @@ class AuthComponent implements IAuthComponent
             return null;
         }
         return new UserId($request->user()->id);
+    }
+
+    /**
+     * @param AccessToken $accessToken
+     * @return LinkSocialResult
+     */
+    public function doLinkSocial(AccessToken $accessToken): LinkSocialResult
+    {
+        $userId = $this->getUserId();
+        $userSocial = $this->authenticateGoogle($accessToken->getValue());
+        $user = $this->userComponent->getUserBySocialId(null, new GoogleId($userSocial->id));
+
+        if (!is_null($user) && $userId->getValue() != $user->getUserId()->getValue()) {
+            return new LinkSocialResult(false, new SocialIdExist(), $user);
+        } else {
+            $user = $this->userComponent->getUser($userId);
+            $user->setGoogleId(new GoogleId($userSocial->id));
+            $this->userComponent->persist($user);
+        }
+
+        return new LinkSocialResult(true, null, $user);
     }
 }

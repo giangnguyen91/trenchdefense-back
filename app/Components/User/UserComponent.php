@@ -79,4 +79,15 @@ class UserComponent implements IUserComponent
         }
         return $user;
     }
+
+    /**
+     * @param User $user
+     * @return UserId
+     */
+    public function persist(
+        User $user
+    ): UserId
+    {
+        return $this->userRepository->persist($user);
+    }
 }

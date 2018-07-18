@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Components\User;
+
 use App\Domains\User\ISocialID;
 use App\Domains\User\Name;
 use App\Domains\User\User;
@@ -15,7 +17,7 @@ interface IUserComponent
     public function getUserBySocialId(
         ISocialID $imeiId = null,
         ISocialID $googleId = null
-    ) : ?User;
+    ): ?User;
 
     /**
      * @param ISocialID $imeiId | null
@@ -36,4 +38,12 @@ interface IUserComponent
     public function getUser(
         UserId $userId
     ): User;
+
+    /**
+     * @param User $user
+     * @return UserId
+     */
+    public function persist(
+        User $user
+    ): UserId;
 }

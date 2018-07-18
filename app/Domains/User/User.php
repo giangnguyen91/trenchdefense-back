@@ -78,6 +78,16 @@ class User
     }
 
     /**
+     * @param GoogleId $googleId
+     * @return User
+     */
+    public function setGoogleId(GoogleId $googleId): User
+    {
+        $this->googleId = $googleId;
+        return $this;
+    }
+
+    /**
      * @return \App\Proto\User()
      */
     public function toProtobuf()
