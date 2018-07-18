@@ -8,6 +8,7 @@ use App\Proto\ProtobufMessages;
 use App\Proto\Authenticate;
 use App\Proto\AuthenticateParameter;
 use App\Proto\Type;
+use App\Proto\Weapon;
 
 class ProtobufObject
 {
@@ -25,6 +26,7 @@ class ProtobufObject
             case $object instanceof Authenticate: return 0x94a019d4;
             case $object instanceof AuthenticateParameter: return 0xcdcb779f;
             case $object instanceof Type: return 0x3deb7456;
+            case $object instanceof Weapon: return 0xead53368;
         }
         throw new \Exception("unknown object type");
     }
@@ -43,6 +45,7 @@ class ProtobufObject
             case 0x94a019d4: return new Authenticate();
             case 0xcdcb779f: return new AuthenticateParameter();
             case 0x3deb7456: return new Type();
+            case 0xead53368: return new Weapon();
         }
         throw new \Exception("unknown type id");
     }
