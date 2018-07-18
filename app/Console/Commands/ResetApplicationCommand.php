@@ -22,26 +22,6 @@ class ResetApplicationCommand extends Command
     protected $description = 'Reset application';
 
     /**
-     * The filesystem instance.
-     *
-     * @var \Illuminate\Filesystem\Filesystem
-     */
-    protected $files;
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct(
-        Filesystem $files
-    )
-    {
-        parent::__construct();
-        $this->files = $files;
-    }
-
-    /**
      * Execute the console command.
      *
      * @return void
@@ -55,7 +35,14 @@ class ResetApplicationCommand extends Command
             env('DB_USERNAME', 'root'),
             env('DB_PASSWORD', 'secret'),
             env('DB_DATABASE', 'trenchdefense'));
-        $this->flushFacades();
+
+        //Flush cache redis
+        $redis = config('database.redis');
+        unset($redis['client']);
+
+        foreach ($redis as $redisCluster) {
+            $this->doFlushAll($redisCluster['host'], $redisCluster['port'], $redisCluster['database']);
+        }
 
         $this->line('');
         $this->line("<info>Artisan: app:reset is All Done!</info>");
@@ -74,7 +61,7 @@ class ResetApplicationCommand extends Command
         string $dbName)
     {
         /** @var \PDO $pdo */
-        $pdo = new \PDO("mysql:host=".$hostName, $userName, $password);
+        $pdo = new \PDO("mysql:host=" . $hostName, $userName, $password);
         if ($this->existsDatabase($pdo, $dbName)) {
             $this->dropDatabase($pdo, $dbName);
         }
@@ -89,7 +76,7 @@ class ResetApplicationCommand extends Command
     protected function existsDatabase(\PDO $pdo, string $dbName)
     {
         $stmt = $pdo->query("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '{$dbName}'");
-        return (bool) $stmt->fetchColumn();
+        return (bool)$stmt->fetchColumn();
     }
 
     /**
@@ -111,14 +98,24 @@ class ResetApplicationCommand extends Command
     }
 
     /**
-     *  Clear cache framework
+     * @param string $host
+     * @param string $port
+     * @param int $database
      */
-    public function flushFacades()
+    private function doFlushAll(
+        string $host,
+        string $port,
+        int $database
+    ): void
     {
-        foreach ($this->files->files(storage_path('framework/cache')) as $file) {
-            if (preg_match('/facade-.*\.php$/', $file)) {
-                $this->files->delete($file);
-            }
-        }
+        $redis = new \Predis\Client(
+            [
+                'scheme' => 'tcp',
+                'host' => $host,
+                'port' => $port,
+                'database' => $database
+            ]
+        );
+        $redis->flushall();
     }
 }
