@@ -12,6 +12,7 @@
         "laravel/passport": "^6.0",
         "laravel/tinker": "^1.0",
         "pear/console_commandline": "^1.2",
+        "predis/predis": "^1.1",
         "stanley-cheung/Protobuf-PHP": "^0.6.0"
     },
     "require-dev": {

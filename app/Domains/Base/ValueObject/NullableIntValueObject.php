@@ -5,7 +5,6 @@ namespace App\Domains\Base\ValueObject;
 use PHPUnit\Framework\Assert;
 
 /**
- * Intのバリューオブジェクトのベース
  * @package App\Domains\Base
  */
 class NullableIntValueObject
@@ -21,22 +20,11 @@ class NullableIntValueObject
     }
 
     /**
-     * プリミティブ値を取得する
      * @return int|null
      */
     public function getValue()
     {
         return $this->value;
-    }
-
-    /**
-     * 対象と比較する。
-     * 一致しない場合は assert が発生する。
-     * @param NullableIntValueObject $actual
-     */
-    public function assertEquals(NullableIntValueObject $actual)
-    {
-        Assert::assertEquals($this->value, $actual->value);
     }
 
     /**

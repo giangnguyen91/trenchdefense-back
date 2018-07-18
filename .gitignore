@@ -6,7 +6,7 @@ npm-debug.log
 bootstrap/compiled.php
 storage/*
 vendor
-.idea
+.idea/*
 composer.lock
 
 # Laravel 5 & Lumen specific
