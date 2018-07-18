@@ -76,13 +76,7 @@ class HavingWeapon
      */
     public function sub(int $value): HavingWeapon
     {
-        $count = $this->count->subtract($value);
-
-        if($count->getValue() < 0){
-            throw new \Exception('Logic Exception');
-        }
-
-        $this->count = $count;
+        $this->count = $this->count->subtract($value);
         return $this;
     }
 
