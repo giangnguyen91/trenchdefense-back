@@ -27,14 +27,6 @@ class IntValueObject
     }
 
     /**
-     * @param IntValueObject $actual
-     */
-    public function assertEquals(IntValueObject $actual)
-    {
-        Assert::assertEquals($this->value, $actual->value);
-    }
-
-    /**
      * @param int $value
      * @return IntValueObject
      */

@@ -18,16 +18,32 @@ class HavingWeapon
     private $weapon;
 
     /**
-     * @var User $user
-     * @var Weapon $weapon
+     * @var HavingWeaponId
+     */
+    private $havingWeaponId;
+
+    /**
+     * @var Count
+     */
+    private $count;
+
+    /**
+     * @param  User $user
+     * @param Weapon $weapon
+     * @param HavingWeaponId $havingWeaponId
+     * @param Count $count
      */
     public function __construct(
         User $user,
-        Weapon $weapon
+        Weapon $weapon,
+        HavingWeaponId $havingWeaponId,
+        Count $count
     )
     {
         $this->weapon = $weapon;
         $this->user = $user;
+        $this->havingWeaponId = $havingWeaponId;
+        $this->count = $count;
     }
 
     /**
@@ -36,6 +52,47 @@ class HavingWeapon
     public function getWeapon(): Weapon
     {
         return $this->weapon;
+    }
+
+    /**
+     * @return  HavingWeaponId
+     */
+    public function getHavingId(): HavingWeaponId
+    {
+        return $this->havingWeaponId;
+    }
+
+    /**
+     * @return Count
+     */
+    public function getCount(): Count
+    {
+        return $this->count;
+    }
+
+    /**
+     * @return HavingWeapon
+     * @throws \Exception
+     */
+    public function sub(int $value): HavingWeapon
+    {
+        $count = $this->count->subtract($value);
+
+        if($count->getValue() < 0){
+            throw new \Exception('Logic Exception');
+        }
+
+        $this->count = $count;
+        return $this;
+    }
+
+    /**
+     * @return HavingWeapon
+     */
+    public function add(int $value): HavingWeapon
+    {
+        $this->count = $this->count->add($value);
+        return $this;
     }
 
     /**

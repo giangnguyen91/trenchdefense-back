@@ -16,9 +16,11 @@ class CreateTableHavingWeapons extends Migration
         Schema::create('having_weapons', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('user_id');
+
             $table->bigInteger('weapon_id');
             $table->unique(['user_id', 'weapon_id']);
             $table->index(['user_id', 'weapon_id']);
+            $table->bigInteger('count');
             $table->timestamps();
         });
     }

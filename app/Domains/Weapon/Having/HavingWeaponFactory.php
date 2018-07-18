@@ -38,16 +38,19 @@ class HavingWeaponFactory
     /**
      * @param User $user
      * @param Weapon $weapon
+     * @param HavingWeaponId $havingWeaponId
      * @return HavingWeapon
      */
     public function make(
         User $user,
-        Weapon $weapon
+        Weapon $weapon,
+        HavingWeaponId $havingWeaponId
     ) : HavingWeapon
     {
         return new HavingWeapon(
             $user,
-            $weapon
+            $weapon,
+            $havingWeaponId
         );
     }
 
@@ -62,7 +65,24 @@ class HavingWeaponFactory
 
         return $this->make(
             $user,
-            $weapon
+            $weapon,
+            new HavingWeaponId($eloquent->id)
+        );
+    }
+
+    /**
+     * @param WeaponId $weaponId
+     * @param UserId $userId
+     * @return HavingWeapon
+     */
+    public function initialize(WeaponId $weaponId, UserId $userId)
+    {
+        $weapon = $this->weaponRepository->find($weaponId);
+        $user = $this->userRepository->find($userId);
+        return $this->make(
+            $user,
+            $weapon,
+            new HavingWeaponId(null)
         );
     }
 
