@@ -25,22 +25,30 @@ class Weapon
     private $weaponId;
 
     /**
+     * @var DelayTime
+     */
+    private $delayTime;
+
+    /**
      * @param WeaponId $weaponId
      * @param Damage $damage
      * @param ReloadSpeed $reloadSpeed
      * @param ShotSpeed $shotSpeed
+     * @param DelayTime $delayTime
      */
     public function __construct(
         WeaponId $weaponId,
         Damage $damage,
         ReloadSpeed $reloadSpeed,
-        ShotSpeed $shotSpeed
+        ShotSpeed $shotSpeed,
+        DelayTime $delayTime
     )
     {
         $this->weaponId = $weaponId;
         $this->damage = $damage;
         $this->reloadSpeed = $reloadSpeed;
         $this->shotSpeed = $shotSpeed;
+        $this->delayTime = $delayTime;
     }
 
     /**
@@ -76,6 +84,14 @@ class Weapon
     }
 
     /**
+     * @return DelayTime
+     */
+    public function getDelayTime(): DelayTime
+    {
+        return $this->delayTime;
+    }
+
+    /**
      * @return \App\Proto\Weapon
      */
     public function toProtobuf(): \App\Proto\Weapon
@@ -85,6 +101,7 @@ class Weapon
         $model->damage = $this->getDamage()->getValue();
         $model->reloadSpeed = $this->getReloadSpeed()->getValue();
         $model->shotSpeed = $this->getShotSpeed()->getValue();
+        $model->delayTime = $this->getDelayTime()->getValue();
         return $model;
     }
 }

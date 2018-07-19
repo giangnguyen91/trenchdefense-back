@@ -25,3 +25,6 @@ php artisan migrate:refresh
 
 #install laravel passport
 php artisan passport:install --force
+
+#Seed master data
+php artisan db:seed --class=MasterDataSeeder

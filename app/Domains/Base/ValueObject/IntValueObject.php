@@ -14,13 +14,9 @@ class IntValueObject
 
     /**
      * @param int $value
-     * @throws \Exception
      */
     public function __construct(int $value)
     {
-        if($value < 0){
-            throw new \Exception('Logic Exception');
-        }
         $this->value = $value;
     }
 
@@ -35,7 +31,6 @@ class IntValueObject
     /**
      * @param int $value
      * @return IntValueObject
-     * @throws \Exception
      */
     public function add(int $value): IntValueObject
     {
@@ -46,7 +41,6 @@ class IntValueObject
     /**
      * @param int $value
      * @return IntValueObject
-     * @throws \Exception
      */
     public function subtract(int $value): IntValueObject
     {
@@ -57,7 +51,6 @@ class IntValueObject
     /**
      * @param int $value
      * @return IntValueObject
-     * @throws \Exception
      */
     public function renew(int $value): IntValueObject
     {

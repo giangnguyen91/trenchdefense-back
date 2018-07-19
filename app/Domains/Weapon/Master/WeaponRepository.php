@@ -48,7 +48,8 @@ class WeaponRepository
                 [
                     'damage' => $weapon->getDamage()->getValue(),
                     'reload_speed' => $weapon->getReloadSpeed()->getValue(),
-                    'shot_speed' => $weapon->getShotSpeed()->getValue()
+                    'shot_speed' => $weapon->getShotSpeed()->getValue(),
+                    'delay_time' => $weapon->getDelayTime()->getValue()
                 ]
             );
         });

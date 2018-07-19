@@ -15,9 +15,11 @@ class CreateTableWeapons extends Migration
     {
         Schema::create('weapons', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('name');
             $table->bigInteger('damage');
             $table->bigInteger('reload_speed');
             $table->bigInteger('shot_speed');
+            $table->bigInteger('delay_time');
             $table->timestamps();
         });
     }

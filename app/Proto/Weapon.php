@@ -18,6 +18,9 @@ namespace App\Proto {
     /**  @var int */
     public $shotSpeed = null;
     
+    /**  @var int */
+    public $delayTime = null;
+    
 
     /** @var \Closure[] */
     protected static $__extensions = array();
@@ -54,6 +57,14 @@ namespace App\Proto {
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 4;
       $f->name      = "shotSpeed";
+      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
+      $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
+      $descriptor->addField($f);
+
+      // REQUIRED UINT32 delayTime = 5
+      $f = new \DrSlump\Protobuf\Field();
+      $f->number    = 5;
+      $f->name      = "delayTime";
       $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
@@ -211,6 +222,43 @@ namespace App\Proto {
      */
     public function setShotSpeed( $value){
       return $this->_set(4, $value);
+    }
+    
+    /**
+     * Check if <delayTime> has a value
+     *
+     * @return boolean
+     */
+    public function hasDelayTime(){
+      return $this->_has(5);
+    }
+    
+    /**
+     * Clear <delayTime> value
+     *
+     * @return \App\Proto\Weapon
+     */
+    public function clearDelayTime(){
+      return $this->_clear(5);
+    }
+    
+    /**
+     * Get <delayTime> value
+     *
+     * @return int
+     */
+    public function getDelayTime(){
+      return $this->_get(5);
+    }
+    
+    /**
+     * Set <delayTime> value
+     *
+     * @param int $value
+     * @return \App\Proto\Weapon
+     */
+    public function setDelayTime( $value){
+      return $this->_set(5, $value);
     }
   }
 }
