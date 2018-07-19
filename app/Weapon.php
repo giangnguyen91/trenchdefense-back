@@ -8,13 +8,13 @@ use Illuminate\Support\Collection;
 class Weapon extends Model
 {
     const GID_ID = 1055890663;
+
     /**
      * @param array $json
      * @return Collection|Model
      */
     public static function fromCsvArray(array $json): Collection
     {
-
         if (isset($json['0'])) {
             $json['name'] = $json['0'];
             unset($json[0]);
@@ -44,6 +44,10 @@ class Weapon extends Model
         if (isset($json['5'])) {
             $json['id'] = $json['5'];
             unset($json[5]);
+        }
+        if (isset($json['6'])) {
+            $json['resource_id'] = $json['6'];
+            unset($json[6]);
         }
 
         return collect([(new static())->forceFill($json)]);

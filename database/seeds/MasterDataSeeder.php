@@ -67,7 +67,6 @@ class MasterDataSeeder extends Seeder
 
         $sheet = new \Google\Api\Sheet();
         $items = $sheet->getData($sampleEloquent::GID_ID);
-
         foreach ($items as $csv) {
             $eloquents = $sampleEloquent::fromCsvArray($csv);
             $eloquents->each(function (\Illuminate\Database\Eloquent\Model $eloquent) {

@@ -20,6 +20,7 @@ class CreateTableWeapons extends Migration
             $table->bigInteger('reload_speed');
             $table->bigInteger('shot_speed');
             $table->bigInteger('delay_time');
+            $table->text('resource_id')->nullable();
             $table->timestamps();
         });
     }
