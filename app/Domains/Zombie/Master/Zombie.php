@@ -104,4 +104,20 @@ class Zombie
     {
         return $this->armor;
     }
+
+    /**
+     * @return \App\Proto\Zombie
+     */
+    public function toProtobuf(): \App\Proto\Zombie
+    {
+        $model = new \App\Proto\Zombie();
+        $model->id = $this->getZombieID()->getValue();
+        $model->name = $this->getName()->getValue();
+        $model->damage = $this->getDamage()->getValue();
+        $model->hp = $this->getHp()->getValue();
+        $model->speed = $this->getSpeed()->getValue();
+        $model->armor = $this->getArmor()->getValue();
+
+        return $model;
+    }
 }

@@ -13,4 +13,4 @@ use Illuminate\Routing\Router;
 |
 */
 Route::get('/weapons', 'WeaponController@getAll');
-
+Route::get('/zombies', 'ZombieController@getAll');
