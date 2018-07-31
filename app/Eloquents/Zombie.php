@@ -3,6 +3,7 @@
 namespace App\Eloquents;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * Class Zombie
@@ -16,6 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Zombie extends Model
 {
+    const GID_ID = 1833784483;
+
     protected $guarded = [];
 
     /**
@@ -24,4 +27,25 @@ class Zombie extends Model
      * @var string
      */
     protected $table = 'zombies';
+
+    /**
+     * @param array $json
+     * @return Collection|Model
+     */
+    public static function fromCsvArray(array $json): Collection
+    {
+        $cols = [
+            'name', 'damage', 'hp', 'speed', 'armor'
+        ];
+
+        $colLength = count($cols);
+        for ($i = 0; $i < $colLength; $i++) {
+            if (isset($json[$i])) {
+                $json[$cols[$i]] = $json[$i];
+                unset($json[$i]);
+            }
+        }
+
+        return collect([(new static())->forceFill($json)]);
+    }
 }
