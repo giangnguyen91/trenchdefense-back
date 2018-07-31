@@ -5,18 +5,22 @@ namespace App\Domains\User;
 class UserFactory
 {
     /**
-     * @param ISocialID $socialID | null
+     * @param ISocialID $imei | null
+     * @param ISocialID $googleId | null
      * @param UserId $userId
+     * @param Name $name
      * @return User|null
      */
     public function make(
-        ISocialID $socialID = null,
+        ISocialID $imei = null,
+        ISocialID $googleId = null,
         UserId $userId,
         Name $name
     ): ?User
     {
         return new User(
-            $socialID,
+            $imei,
+            $googleId,
             $userId,
             $name
         );
@@ -31,32 +35,38 @@ class UserFactory
         \App\User $user
     ): ?User
     {
-        $socialId = null;
+        $imei = null;
+        $googleId = null;
 
         if(!is_null($user->google_id)){
-            $socialId = new GoogleId($user->google_id);
+            $googleId = new GoogleId($user->google_id);
         }
         else if(!is_null($user->imei)){
-            $socialId = new Imei($user->imei);
+            $imei = new Imei($user->imei);
         }
         return $this->make(
-            $socialId,
+            $imei,
+            $googleId,
             new UserId($user->id),
             new Name($user->name)
         );
     }
 
     /**
-     * @param ISocialID $socialId
+     * @param ISocialID $imei
+     * @param ISocialID $googleId
+     * @param Name $name
      * @return User|null
      */
     public function init(
-        Name $name,
-        ISocialID $socialId
+        ISocialID $imei = null,
+        ISocialID $googleId = null,
+        Name $name
     ): ?User
     {
         return $this->make(
-            $socialId,
+            $imei,
+            $googleId,
             new UserId(null),
             $name
         );

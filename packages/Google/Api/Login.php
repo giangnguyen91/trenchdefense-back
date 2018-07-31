@@ -44,16 +44,15 @@ class Login
         $client->setAccessType('offline');
         $client->setRedirectUri($this->redirectUrl);
         $client->setScopes($this->scopes);
-
         return $client;
     }
 
     public function authenticate(string $code)
     {
         $client = $this->config();
-
         $accessToken = $client->fetchAccessTokenWithAuthCode($code);
-        $client->setAccessToken($accessToken);
+
+        $client->setAccessToken($accessToken['access_token']);
         return $client;
     }
 

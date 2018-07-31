@@ -36,19 +36,21 @@ class UserRepository
     }
 
     /**
-     * @param ISocialID $socialId
+     * @param ISocialID $imeiId | null
+     * @param ISocialID $googleId | null
      * @return User | null
      */
     public function findBySocialId(
-        ISocialID $socialId
+        ISocialID $imeiId = null,
+        ISocialID $googleId = null
     ): ?User
     {
         $userEloquent = \App\User::query();
 
-        if ($socialId instanceof GoogleId) {
-            $userEloquent->where('google_id', $socialId->getValue());
-        } else if ($socialId instanceof Imei) {
-            $userEloquent->where('imei', $socialId->getValue());
+        if (!is_null($imeiId)) {
+            $userEloquent->where('imei', $imeiId->getValue());
+        } else if (!is_null($googleId)) {
+            $userEloquent->where('google_id', $googleId->getValue());
         }
         $userEloquent = $userEloquent->first();
 
@@ -64,23 +66,15 @@ class UserRepository
         User $user
     ): UserId
     {
-        $imei = null;
-        $googleId = null;
 
-        if($user->getSocialId()->getLoginType()->getValue() == Type::GOOGLE){
-            $googleId = $user->getSocialId()->getValue();
-        }
-        else{
-            $imei = $user->getSocialId()->getValue();
-        }
-        $eloquent = \App\User::unguarded(function () use ($user, $googleId, $imei){
+        $eloquent = \App\User::unguarded(function () use ($user) {
             return \App\User::query()->updateOrCreate(
                 [
                     'id' => !is_null($user->getUserId()) ? $user->getUserId()->getValue() : null
                 ],
                 [
-                    'google_id' => $googleId,
-                    'imei' => $imei,
+                    'google_id' => !is_null($user->getGoogleId()) ? $user->getGoogleId()->getValue() : null,
+                    'imei' => !is_null($user->getImei()) ? $user->getImei()->getValue() : null,
                     'name' => $user->getName()->getValue()
                 ]
             );
