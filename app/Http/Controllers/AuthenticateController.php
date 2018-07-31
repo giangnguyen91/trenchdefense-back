@@ -46,7 +46,7 @@ class AuthenticateController extends Controller
         );
 
         $auth = $this->authComponent->validate($credential);
-        return response()->toProtobuf([$auth->toProtobuf()]);
+        return response()->protobuf([$auth->toProtobuf()]);
     }
 
 }

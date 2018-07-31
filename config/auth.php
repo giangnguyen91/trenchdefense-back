@@ -97,5 +97,5 @@ return [
             'expire' => 60,
         ],
     ],
-
+    'token_expired' => env('APP_TOKEN_EXPIRE', 1)
 ];

@@ -12,9 +12,8 @@
 */
 
 Route::get('/', function () {
-    $REDIRECT_URI = 'http://localhost';
-    $KEY_LOCATION = __DIR__ . '/client_secret.json';
-
+    $REDIRECT_URI = 'http://trenchdefense.com';
+    $KEY_LOCATION = base_path() . '/resources/key/client_secret.json';
     $TOKEN_FILE   = __DIR__ . "/token.txt";
 
     $SCOPES = array(

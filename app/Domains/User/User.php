@@ -4,7 +4,7 @@ namespace App\Domains\User;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 
-class User implements Authenticatable
+class User
 {
     /**
      * @var  UserId
@@ -14,7 +14,12 @@ class User implements Authenticatable
     /**
      * @var ISocialID
      */
-    private $socialId;
+    private $imei;
+
+    /**
+     * @var ISocialID
+     */
+    private $googleId;
 
     /**
      * @var Name
@@ -22,26 +27,38 @@ class User implements Authenticatable
     private $name;
 
     /**
-     * @param ISocialID $socialId
+     * @param ISocialID $imei | null
+     * @param ISocialID $googleId | null
      * @param UserId $userId
+     * @param Name $name
      */
     public function __construct(
-        ISocialID $socialId,
+        ISocialID $imei = null,
+        ISocialID $googleId = null,
         UserId $userId,
         Name $name
     )
     {
-        $this->socialId = $socialId;
+        $this->imei = $imei;
+        $this->googleId = $googleId;
         $this->userId = $userId;
         $this->name = $name;
     }
 
     /**
-     * @return ISocialID
+     * @return ISocialID | null
      */
-    public function getSocialId(): ISocialID
+    public function getImei(): ?ISocialID
     {
-        return $this->socialId;
+        return $this->imei;
+    }
+
+    /**
+     * @return ISocialID | null
+     */
+    public function getGoogleId(): ?ISocialID
+    {
+        return $this->googleId;
     }
 
     /**
@@ -61,52 +78,35 @@ class User implements Authenticatable
     }
 
     /**
-     * Get the name of the unique identifier for the user.
-     *
-     * @return string
+     * @param GoogleId $googleId
+     * @return User
      */
-    public function getAuthIdentifierName()
+    public function setGoogleId(GoogleId $googleId): User
     {
-        return 'id';
-    }
-
-    public function getAuthIdentifier()
-    {
-        return $this->userId->getValue();
-    }
-
-    public function getAuthPassword()
-    {
-        return '';
+        $this->googleId = $googleId;
+        return $this;
     }
 
     /**
-     * Get the token value for the "remember me" session.
-     *
-     * @return string
+     * @param Name $name
+     * @return User
      */
-    public function getRememberToken()
+    public function setName(Name $name): User
     {
-        return '';
+        $this->name = $name;
+        return $this;
     }
 
     /**
-     * Set the token value for the "remember me" session.
-     *
-     * @param  string $value
-     * @return void
+     * @return \App\Proto\User()
      */
-    public function setRememberToken($value)
+    public function toProtobuf()
     {
-    }
+        $proto = new \App\Proto\User();
+        $proto->name = $this->name->getValue();
+        $proto->imei = !is_null($this->getImei()) ? $this->getImei()->getValue() : null;
+        $proto->google_id = !is_null($this->getGoogleId()) ? $this->getGoogleId()->getValue() : null;
 
-    /**
-     * Get the column name for the "remember me" token.
-     *
-     * @return string
-     */
-    public function getRememberTokenName()
-    {
-        return '';
+        return $proto;
     }
 }

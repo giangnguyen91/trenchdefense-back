@@ -1,8 +1,5 @@
 <?php
-
 namespace App\Providers;
-
-use App\Utils\CommunicationUtil;
 use App\Utils\Util;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,7 +12,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Response::macro('toProtobuf', function (array $models, int $status = 200) {
+        \Response::macro('protobuf', function (array $models, int $status = 200) {
             $packed = Util::serialize($models);
             return response($packed, $status)->header('Content-Type', 'application/octet-stream');
         });
