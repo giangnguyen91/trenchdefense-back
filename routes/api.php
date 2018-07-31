@@ -12,10 +12,5 @@ use Illuminate\Routing\Router;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/access_token', 'AuthenticateController@grantAccessToken');
+Route::get('/weapons', 'WeaponController@getAll');
 
-Route::group(['middleware' => ['auth:api'],'prefix' => 'user'], function (Router $router) {
-    $router->get('/myself', "UserController@getMySelf");
-    $router->post('/myself/link_social', "UserController@linkSocial");
-    $router->post('/myself/change_name', "UserController@updateName");
-});

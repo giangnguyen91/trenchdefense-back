@@ -2,6 +2,8 @@
 
 namespace App\Domains\Weapon\Master;
 
+use Illuminate\Support\Collection;
+
 interface IWeaponRepository
 {
     /**
@@ -19,4 +21,9 @@ interface IWeaponRepository
     public function persist(
         Weapon $weapon
     ): WeaponId;
+
+    /**
+     * @return Weapon[] | Collection
+     */
+    public function all(): Collection;
 }

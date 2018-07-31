@@ -6,6 +6,10 @@ use App\Components\Auth\AuthComponent;
 use App\Components\Auth\IAuthComponent;
 use App\Components\User\IUserComponent;
 use App\Components\User\UserComponent;
+use App\Components\Weapon\IWeaponComponent;
+use App\Components\Weapon\WeaponComponent;
+use App\Domains\Weapon\Master\IWeaponRepository;
+use App\Domains\Weapon\Master\WeaponRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(IUserComponent::class, UserComponent::class);
-        $this->app->bind(IAuthComponent::class, AuthComponent::class);
+        $this->app->bind(IWeaponRepository::class, WeaponRepository::class);
+        $this->app->bind(IWeaponComponent::class, WeaponComponent::class);
     }
 }

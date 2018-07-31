@@ -2,6 +2,8 @@
 
 namespace App\Domains\Weapon\Master;
 
+use Illuminate\Support\Collection;
+
 class WeaponRepository implements IWeaponRepository
 {
     /**
@@ -27,9 +29,9 @@ class WeaponRepository implements IWeaponRepository
         WeaponId $weaponId
     ): ?Weapon
     {
-        $weponEloquent = \App\Weapon::query()->find($weaponId->getValue())->first();
-        if (is_null($weponEloquent)) return null;
-        return $this->weaponFactory->makeByEloquent($weponEloquent);
+        $weaponEloquent = \App\Weapon::query()->find($weaponId->getValue())->first();
+        if (is_null($weaponEloquent)) return null;
+        return $this->weaponFactory->makeByEloquent($weaponEloquent);
     }
 
     /**
@@ -55,5 +57,16 @@ class WeaponRepository implements IWeaponRepository
         });
 
         return new WeaponId($eloquent->id);
+    }
+
+    /**
+     * @return Weapon[] | Collection
+     */
+    public function all(): Collection
+    {
+        $weaponEloquent = \App\Weapon::query()->get();
+        return collect($weaponEloquent)->map(function (\App\Weapon $eloquent){
+            return $this->weaponFactory->makeByEloquent($eloquent);
+        });
     }
 }
