@@ -12,26 +12,20 @@ class IntValueObject
      */
     protected $value;
 
+    /**
+     * @param int $value
+     */
     public function __construct(int $value)
     {
         $this->value = $value;
     }
 
     /**
-     * プリミティブ値を取得する
      * @return int
      */
     public function getValue()
     {
         return $this->value;
-    }
-
-    /**
-     * @param IntValueObject $actual
-     */
-    public function assertEquals(IntValueObject $actual)
-    {
-        Assert::assertEquals($this->value, $actual->value);
     }
 
     /**
