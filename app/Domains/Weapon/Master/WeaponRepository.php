@@ -2,7 +2,7 @@
 
 namespace App\Domains\Weapon\Master;
 
-class WeaponRepository
+class WeaponRepository implements IWeaponRepository
 {
     /**
      * @var WeaponFactory
