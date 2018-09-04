@@ -20,7 +20,8 @@ class ZombieFactory
         Name $name,
         ResourceID $resourceID,
         Speed $speed,
-        ZombieID $zombieID
+        ZombieID $zombieID,
+        DropGold $dropGold
     ): Zombie
     {
         return new Zombie(
@@ -30,7 +31,8 @@ class ZombieFactory
             $name,
             $resourceID,
             $speed,
-            $zombieID
+            $zombieID,
+            $dropGold
         );
     }
 
@@ -49,7 +51,8 @@ class ZombieFactory
             new Name($eloquent->name),
             new ResourceID($eloquent->resource_id),
             new Speed($eloquent->speed),
-            new ZombieID($eloquent->id)
+            new ZombieID($eloquent->id),
+            new DropGold($eloquent->drop_gold)
         );
     }
 
@@ -68,7 +71,8 @@ class ZombieFactory
             new Name($array['name']),
             new ResourceID($array['resource_id']),
             new Speed($array['speed']),
-            $zombieID
+            $zombieID,
+            new DropGold($array['drop_gold'])
         );
     }
 }

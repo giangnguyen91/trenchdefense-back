@@ -20,6 +20,7 @@ class CreateTableZoombies extends Migration
             $table->bigInteger('hp');
             $table->bigInteger('speed');
             $table->bigInteger('attack');
+            $table->bigInteger('drop_gold');
             $table->text('resource_id')->nullable();
             $table->timestamps();
         });

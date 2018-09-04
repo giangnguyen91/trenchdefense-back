@@ -39,6 +39,11 @@ class Zombie
      */
     private $zombieID;
 
+    /**
+     * @var DropGold
+     */
+    private $dropGold;
+
     /***/
     public function __construct(
         Damage $damage,
@@ -47,7 +52,8 @@ class Zombie
         Name $name,
         ResourceID $resourceID,
         Speed $speed,
-        ZombieID $zombieID
+        ZombieID $zombieID,
+        DropGold $dropGold
     )
     {
         $this->damage = $damage;
@@ -57,6 +63,7 @@ class Zombie
         $this->resourceID = $resourceID;
         $this->speed = $speed;
         $this->zombieID = $zombieID;
+        $this->dropGold = $dropGold;
     }
 
     /**
@@ -116,6 +123,13 @@ class Zombie
         return $this->zombieID;
     }
 
+    /**
+     * @return DropGold
+     */
+    public function getDropGold(): DropGold
+    {
+        return $this->dropGold;
+    }
 
     /**
      * @return array
@@ -129,6 +143,7 @@ class Zombie
             'name' => $this->getName()->getValue(),
             'speed' => $this->getSpeed()->getValue(),
             'resource_id' => $this->getResourceID()->getValue(),
+            'drop_gold' => $this->getDropGold()->getValue(),
         );
     }
 }

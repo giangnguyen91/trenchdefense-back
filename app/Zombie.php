@@ -49,6 +49,11 @@ class Zombie extends Model
             unset($json[6]);
         }
 
+        if (isset($json['7'])) {
+            $json['drop_gold'] = $json['7'];
+            unset($json[7]);
+        }
+
         return collect([(new static())->forceFill($json)]);
     }
 }

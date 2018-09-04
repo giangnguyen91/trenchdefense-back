@@ -53,7 +53,8 @@ class ZombieRepository
                     'damage' => $zombie->getDamage()->getValue(),
                     'hp' => $zombie->getHp()->getValue(),
                     'speed' => $zombie->getSpeed()->getValue(),
-                    'attack' => $zombie->getAttack()->getValue()
+                    'attack' => $zombie->getAttack()->getValue(),
+                    'drop_gold' => $zombie->getDropGold()->getValue()
                 ]
             );
         });

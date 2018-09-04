@@ -42,15 +42,27 @@
                                value="@if(isset($default['resource_id'])){{$default['resource_id']}}@endif" required/>
                     </div>
 
+                    <div class="form-group">
+                        <label>Drop Gold</label>
+                        <input type="text" class="form-control" name="drop_gold"
+                               value="@if(isset($default['drop_gold'])){{$default['drop_gold']}}@endif" required/>
+                    </div>
+
                     @if($mode == 'create')
                         <button type="submit" class="btn btn-primary">Create</button>
                     @else
                         <button type="submit" class="btn btn-primary">Update</button>
                     @endif
-                    <button type="reset" class="btn btn-danger">Cancel</button>
+                    <button onclick="goBack()" type="button" class="btn btn-danger">Cancel</button>
                 </form>
             </div>
 
         </div>
     </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 @stop
