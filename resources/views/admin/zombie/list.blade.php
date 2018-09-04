@@ -27,9 +27,9 @@
                             <td>{{$zombie->getSpeed()->getValue()}}</td>
                             <td>{{$zombie->getAttack()->getValue()}}</td>
                             <td><a href="{{ route('admin.zombie.get.update', ['zombieID' => $zombie->getID()->getValue()]) }}"
-                                   class="btn btn-default btn-sm">Update</a>
+                                   class="btn btn-primary btn-sm">Update</a>
                                 <a href="{{ route('admin.zombie.delete', ['zombieID' => $zombie->getID()->getValue()]) }}"
-                                   class="btn btn-default btn-sm">Delete</a></td>
+                                   class="btn btn-danger btn-sm">Delete</a></td>
                         </tr>
                     @endforeach
                     </tbody>

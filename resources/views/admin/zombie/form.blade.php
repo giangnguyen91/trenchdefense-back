@@ -42,7 +42,7 @@
                                value="@if(isset($default['resource_id'])){{$default['resource_id']}}@endif" required/>
                     </div>
 
-                    @if(!isset($mode) && $mode == 'create')
+                    @if($mode == 'create')
                         <button type="submit" class="btn btn-primary">Create</button>
                     @else
                         <button type="submit" class="btn btn-primary">Update</button>

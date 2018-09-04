@@ -43,7 +43,8 @@ class ZombieController extends Controller
 
     public function getCreate()
     {
-        return view('admin.zombie.form');
+        $mode = 'create';
+        return view('admin.zombie.form', compact('mode'));
     }
 
     public function postCreate(Request $request)
