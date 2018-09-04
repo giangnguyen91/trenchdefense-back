@@ -178,7 +178,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
-        App\Providers\ResponseMacroServiceProvider::class
+        App\Providers\ResponseMacroServiceProvider::class,
+        App\Providers\AdminServiceProvider::class
 
     ],
 

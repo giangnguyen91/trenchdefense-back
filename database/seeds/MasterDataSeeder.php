@@ -8,7 +8,8 @@ class MasterDataSeeder extends Seeder
      * @var array
      */
     private $eloquentClasses = [
-        \App\Weapon::class
+        \App\Weapon::class,
+        \App\Zombie::class
     ];
     /**
      * @var \Illuminate\Database\Connection
@@ -66,7 +67,7 @@ class MasterDataSeeder extends Seeder
         }
 
         $sheet = new \Google\Api\Sheet();
-        $items = $sheet->getData($sampleEloquent::GID_ID);
+        $items = $sheet->getData($sampleEloquent::GRID_ID);
         foreach ($items as $csv) {
             $eloquents = $sampleEloquent::fromCsvArray($csv);
             $eloquents->each(function (\Illuminate\Database\Eloquent\Model $eloquent) {

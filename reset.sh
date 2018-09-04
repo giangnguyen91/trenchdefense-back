@@ -24,7 +24,7 @@ php artisan app:reset $1 $2 || exit 1
 php artisan migrate:refresh
 
 #install laravel passport
-#php artisan passport:install --force
+php artisan passport:install --force
 
 #Seed master data
 php artisan db:seed --class=MasterDataSeeder
