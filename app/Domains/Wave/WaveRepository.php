@@ -75,5 +75,7 @@ class WaveRepository
     public function remove(Wave $wave)
     {
         \App\Wave::destroy($wave->getID()->getValue());
+
+        \App\Wave::query()->where('wave_id', $wave->getID()->getValue())->delete();
     }
 }
