@@ -43,8 +43,8 @@ class WaveRepository
         Wave $wave
     ): WaveID
     {
-        $eloquent = \App\Zombie::unguarded(function () use ($wave) {
-            return \App\Zombie::query()->updateOrCreate(
+        $eloquent = \App\Wave::unguarded(function () use ($wave) {
+            return \App\Wave::query()->updateOrCreate(
                 [
                     'id' => !is_null($wave->getId()->getValue()) ? $wave->getId()->getValue() : null
                 ],
