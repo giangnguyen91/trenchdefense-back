@@ -8,7 +8,8 @@ class MasterDataSeeder extends Seeder
      * @var array
      */
     private $eloquentClasses = [
-        \App\Weapon::class
+        \App\Weapon::class,
+        \App\Zombie::class
     ];
     /**
      * @var \Illuminate\Database\Connection
