@@ -22,51 +22,62 @@ class ZombieRepository
     }
 
     /**
-     * @param WeaponId $weaponId
-     * @return Weapon | null
+     * @param ZombieID $zombieID
+     * @return Zombie | null
      */
     public function find(
-        WeaponId $weaponId
-    ): ?Weapon
+        ZombieID $zombieID
+    ): ?Zombie
     {
-        $weaponEloquent = \App\Weapon::query()->find($weaponId->getValue())->first();
-        if (is_null($weaponEloquent)) return null;
-        return $this->weaponFactory->makeByEloquent($weaponEloquent);
+        $zombieEloquent = \App\Zombie::query()->where('id', $zombieID->getValue())->first();
+
+        if (is_null($zombieEloquent)) return null;
+        return $this->zombieFactory->makeByEloquent($zombieEloquent);
     }
 
     /**
-     * @param Weapon $weapon
-     * @return WeaponId
+     * @param Zombie $zombie
+     * @return ZombieID
      */
     public function persist(
-        Weapon $weapon
-    ): WeaponId
+        Zombie $zombie
+    ): ZombieID
     {
-        $eloquent = \App\Weapon::unguarded(function () use ($weapon){
-            return \App\Weapon::query()->updateOrCreate(
+        $eloquent = \App\Zombie::unguarded(function () use ($zombie) {
+            return \App\Zombie::query()->updateOrCreate(
                 [
-                    'id' => !is_null($weapon->getId()->getValue()) ? $weapon->getId()->getValue() : null
+                    'id' => !is_null($zombie->getId()->getValue()) ? $zombie->getId()->getValue() : null
                 ],
                 [
-                    'damage' => $weapon->getDamage()->getValue(),
-                    'reload_speed' => $weapon->getReloadSpeed()->getValue(),
-                    'shot_speed' => $weapon->getShotSpeed()->getValue(),
-                    'delay_time' => $weapon->getDelayTime()->getValue()
+                    'name' => $zombie->getName()->getValue(),
+                    'damage' => $zombie->getDamage()->getValue(),
+                    'hp' => $zombie->getHp()->getValue(),
+                    'speed' => $zombie->getSpeed()->getValue(),
+                    'attack' => $zombie->getAttack()->getValue()
                 ]
             );
         });
 
-        return new WeaponId($eloquent->id);
+        return new ZombieID($eloquent->id);
     }
 
     /**
-     * @return Weapon[] | Collection
+     * @return Zombie[] | Collection
      */
     public function all(): Collection
     {
-        $weaponEloquent = \App\Weapon::query()->get();
-        return collect($weaponEloquent)->map(function (\App\Weapon $eloquent){
-            return $this->weaponFactory->makeByEloquent($eloquent);
+        $zombieEloquents = \App\Zombie::query()->get();
+        return collect($zombieEloquents)->map(function (\App\Zombie $eloquent) {
+            return $this->zombieFactory->makeByEloquent($eloquent);
         });
+    }
+
+    /**
+     * @param Zombie $zombie
+     * @return mixed
+     */
+    public function remove(Zombie $zombie)
+    {
+        \App\Zombie::destroy($zombie->getID()->getValue());
     }
 }

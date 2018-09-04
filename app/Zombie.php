@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 class Zombie extends Model
 {
-    const GID_ID = 1833784483;
+    const GRID_ID = 1833784483;
 
     /**
      * @param array $json
@@ -36,7 +36,7 @@ class Zombie extends Model
         }
 
         if (isset($json['4'])) {
-            $json['armor'] = $json['4'];
+            $json['attack'] = $json['4'];
             unset($json[4]);
         }
         if (isset($json['5'])) {

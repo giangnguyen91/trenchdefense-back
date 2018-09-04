@@ -10,9 +10,9 @@ class Zombie
     private $damage;
 
     /**
-     * @var Armor
+     * @var Attack
      */
-    private $armor;
+    private $attack;
 
     /**
      * @var Hp
@@ -42,7 +42,7 @@ class Zombie
     /***/
     public function __construct(
         Damage $damage,
-        Armor $armor,
+        Attack $attack,
         Hp $hp,
         Name $name,
         ResourceID $resourceID,
@@ -51,7 +51,7 @@ class Zombie
     )
     {
         $this->damage = $damage;
-        $this->armor = $armor;
+        $this->attack = $attack;
         $this->hp = $hp;
         $this->name = $name;
         $this->resourceID = $resourceID;
@@ -68,11 +68,11 @@ class Zombie
     }
 
     /**
-     * @return Armor
+     * @return Attack
      */
-    public function getArmor(): Armor
+    public function getAttack(): Attack
     {
-        return $this->armor;
+        return $this->attack;
     }
 
 
@@ -106,5 +106,29 @@ class Zombie
     public function getSpeed(): Speed
     {
         return $this->speed;
+    }
+
+    /**
+     * @return ZombieID
+     */
+    public function getID(): ZombieID
+    {
+        return $this->zombieID;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return array(
+            'damage' => $this->getDamage()->getValue(),
+            'attack' => $this->getAttack()->getValue(),
+            'hp' => $this->getHp()->getValue(),
+            'name' => $this->getName()->getValue(),
+            'speed' => $this->getSpeed()->getValue(),
+            'resource_id' => $this->getResourceID()->getValue(),
+        );
     }
 }

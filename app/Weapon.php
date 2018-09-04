@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 class Weapon extends Model
 {
-    const GID_ID = 1055890663;
+    const GRID_ID = 1055890663;
 
     /**
      * @param array $json

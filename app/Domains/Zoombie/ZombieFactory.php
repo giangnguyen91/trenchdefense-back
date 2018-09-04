@@ -5,7 +5,7 @@ class ZombieFactory
 {
     /**
      * @param Damage $damage
-     * @param Armor $armor
+     * @param Attack $attack
      * @param Hp $hp
      * @param Name $name
      * @param ResourceID $resourceID
@@ -15,7 +15,7 @@ class ZombieFactory
      */
     public function make(
         Damage $damage,
-        Armor $armor,
+        Attack $attack,
         Hp $hp,
         Name $name,
         ResourceID $resourceID,
@@ -25,7 +25,7 @@ class ZombieFactory
     {
         return new Zombie(
             $damage,
-            $armor,
+            $attack,
             $hp,
             $name,
             $resourceID,
@@ -42,14 +42,33 @@ class ZombieFactory
         \App\Zombie $eloquent
     ): Zombie
     {
-        return new Zombie(
+        return $this->make(
             new Damage($eloquent->damage),
-            new Armor($eloquent->armor),
+            new Attack($eloquent->attack),
             new Hp($eloquent->hp),
             new Name($eloquent->name),
             new ResourceID($eloquent->resource_id),
             new Speed($eloquent->speed),
             new ZombieID($eloquent->id)
+        );
+    }
+
+    /**
+     * @param array $array
+     * @return Zombie
+     */
+    public function makeByArray(array $array)
+    {
+        $zombieID = !empty($array['id']) ? new ZombieID($array['id']) : new ZombieID(null);
+
+        return $this->make(
+            new Damage($array['damage']),
+            new Attack($array['attack']),
+            new Hp($array['hp']),
+            new Name($array['name']),
+            new ResourceID($array['resource_id']),
+            new Speed($array['speed']),
+            $zombieID
         );
     }
 }
