@@ -2,10 +2,16 @@
 
 namespace App\Domains\Wave;
 
+use App\Domains\Wave\Zombie\WaveZombieRepository;
 use Illuminate\Support\Collection;
 
 class WaveRepository
 {
+    /**
+     * @var WaveZombieRepository
+     */
+    private $waveZombieRepository;
+
     /**
      * @var WaveFactory
      */
@@ -15,10 +21,12 @@ class WaveRepository
      * @param WaveFactory $waveFactory
      */
     public function __construct(
-        WaveFactory $waveFactory
+        WaveFactory $waveFactory,
+        WaveZombieRepository $waveZombieRepository
     )
     {
         $this->waveFactory = $waveFactory;
+        $this->waveZombieRepository = $waveZombieRepository;
     }
 
     /**

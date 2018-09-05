@@ -3,6 +3,7 @@
 namespace App\Domains\Wave;
 
 use App\Domains\Base\ResourceID;
+use App\Domains\Wave\Zombie\WaveZombie;
 use Illuminate\Support\Collection;
 
 class Wave
@@ -23,19 +24,27 @@ class Wave
     private $resourceID;
 
     /**
+     * @var Collection | WaveZombie[]
+     */
+    private $waveZombies;
+
+    /**
      * @param Name $name
      * @param WaveID $waveID
      * @param ResourceID $resourceID
+     * @param Collection | WaveZombie[] $waveZombies
      */
     public function __construct(
         Name $name,
         WaveID $waveID,
-        ResourceID $resourceID
+        ResourceID $resourceID,
+        Collection $waveZombies = null
     )
     {
         $this->name = $name;
         $this->waveID = $waveID;
         $this->resourceID = $resourceID;
+        $this->waveZombies = $waveZombies;
     }
 
     /**
@@ -72,5 +81,27 @@ class Wave
             'name' => $this->getName()->getValue(),
             'resource_id' => $this->getResourceID()->getValue(),
         );
+    }
+
+    /**
+     * @return \App\Proto\Wave
+     */
+    public function toProtobuf(): \App\Proto\Wave
+    {
+        $proto = new \App\Proto\Wave();
+        $proto->name = $this->getName()->getValue();
+        $proto->zombies = $this->waveZombies->map(function (WaveZombie $waveZombie) {
+            return $waveZombie->getZombie()->toProtobuf();
+        })->toArray();
+        $proto->resourceID = $this->getResourceID()->getValue();
+        return $proto;
+    }
+
+    /**
+     * @return Collection | WaveZombie[] | null
+     */
+    public function getWaveZombies(): ?Collection
+    {
+        return $this->waveZombies;
     }
 }
