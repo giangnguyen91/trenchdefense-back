@@ -49,7 +49,8 @@ class WaveRepository
                     'id' => !is_null($wave->getId()->getValue()) ? $wave->getId()->getValue() : null
                 ],
                 [
-                    'name' => $wave->getName()->getValue()
+                    'name' => $wave->getName()->getValue(),
+                    'resource_id' => $wave->getResourceID()->getValue()
                 ]
             );
         });
@@ -76,6 +77,6 @@ class WaveRepository
     {
         \App\Wave::destroy($wave->getID()->getValue());
 
-        \App\Wave::query()->where('wave_id', $wave->getID()->getValue())->delete();
+        \App\WaveZombie::query()->where('wave_id', $wave->getID()->getValue())->delete();
     }
 }

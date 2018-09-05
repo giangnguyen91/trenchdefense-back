@@ -13,6 +13,7 @@
 	<meta content="" name="author"/>
 
 	<link rel="stylesheet" href="{{ asset("assets/stylesheets/styles.css") }}" />
+	<script src="{{ asset("assets/scripts/jquery-3.3.1.min.js") }}" type="text/javascript"></script>
 </head>
 <body>
 	@yield('body')
