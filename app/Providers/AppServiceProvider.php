@@ -31,7 +31,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(AuthComponent::class);
         $this->app->bind(IWeaponRepository::class, WeaponRepository::class);
         $this->app->bind(IWeaponComponent::class, WeaponComponent::class);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function provides()
+    {
+        return [
+            AuthComponent::class
+        ];
     }
 }

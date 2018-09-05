@@ -28,3 +28,6 @@ php artisan passport:install --force
 
 #Seed master data
 php artisan db:seed --class=MasterDataSeeder
+
+#Create debug user
+php artisan app:create-user --id=1 --name=Zombie_Debug
