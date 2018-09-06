@@ -43,9 +43,9 @@ class CharacterComponent
 
     /**
      * @param CharacterID $characterID
-     * @return Character
+     * @return Character | null
      */
-    public function get(CharacterID $characterID): Character
+    public function get(CharacterID $characterID): ?Character
     {
         return $this->characterRepository->find($characterID);
     }

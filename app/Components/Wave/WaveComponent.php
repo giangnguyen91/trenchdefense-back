@@ -46,9 +46,9 @@ class WaveComponent
 
     /**
      * @param WaveID $waveID
-     * @return Wave
+     * @return Wave | null
      */
-    public function get(WaveID $waveID): Wave
+    public function get(WaveID $waveID): ?Wave
     {
         return $this->waveRepository->find($waveID);
     }

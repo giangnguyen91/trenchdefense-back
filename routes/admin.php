@@ -27,4 +27,7 @@ $router->group(['prefix'=> 'characters'], function (Router $router) {
     $router->get('/{characterID}/update', 'CharacterController@getUpdate')->name('admin.character.get.update');
     $router->post('/{characterID}/update', 'CharacterController@postUpdate')->name('admin.character.post.update');
     $router->get('/{characterID}/delete', 'CharacterController@delete')->name('admin.character.delete');
+
+    $router->get('/having', 'HavingCharacterController@index')->name('admin.having_character.list');
+    $router->post('/having', 'HavingCharacterController@addNew')->name('admin.having_character.add');
 });

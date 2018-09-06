@@ -42,9 +42,9 @@ class ZombieComponent
 
     /**
      * @param ZombieID $zombieID
-     * @return Zombie
+     * @return Zombie | null
      */
-    public function get(ZombieID $zombieID): Zombie
+    public function get(ZombieID $zombieID): ?Zombie
     {
         return $this->zombieRepository->find($zombieID);
     }
