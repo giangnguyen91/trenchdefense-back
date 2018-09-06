@@ -20,11 +20,11 @@ namespace App\Proto {
     {
       $descriptor = new \DrSlump\Protobuf\Descriptor(__CLASS__, 'App.Proto.ProtobufMessage');
 
-      // REQUIRED INT32 type = 1
+      // REQUIRED UINT32 type = 1
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 1;
       $f->name      = "type";
-      $f->type      = \DrSlump\Protobuf::TYPE_INT32;
+      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
