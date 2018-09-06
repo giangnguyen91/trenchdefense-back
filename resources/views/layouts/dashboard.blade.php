@@ -28,6 +28,10 @@
                         <li {{ (Request::is('*characters') ? 'class="active"' : '') }}>
                             <a href="{{ url ('admin/characters') }}"><i class="fa fa-table fa-fw"></i> Characters</a>
                         </li>
+
+                        <li {{ (Request::is('*having_characters') ? 'class="active"' : '') }}>
+                            <a href="{{ url ('admin/characters/having') }}"><i class="fa fa-table fa-fw"></i> Having Characters</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
