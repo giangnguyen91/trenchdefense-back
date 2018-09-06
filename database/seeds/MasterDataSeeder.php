@@ -12,6 +12,7 @@ class MasterDataSeeder extends Seeder
         \App\Zombie::class,
         \App\Wave::class,
         \App\WaveZombie::class,
+        \App\Character::class
     ];
     /**
      * @var \Illuminate\Database\Connection

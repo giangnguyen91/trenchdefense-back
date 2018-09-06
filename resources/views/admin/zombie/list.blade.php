@@ -16,6 +16,7 @@
                         <th>Speed</th>
                         <th>Attack</th>
                         <th>Drop Gold</th>
+                        <th>Resource ID</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -28,6 +29,7 @@
                             <td>{{$zombie->getSpeed()->getValue()}}</td>
                             <td>{{$zombie->getAttack()->getValue()}}</td>
                             <td>{{$zombie->getDropGold()->getValue()}}</td>
+                            <td>{{$zombie->getResourceID()->getValue()}}</td>
                             <td><a href="{{ route('admin.zombie.get.update', ['zombieID' => $zombie->getID()->getValue()]) }}"
                                    class="btn btn-primary btn-sm">Update</a>
                                 <a href="{{ route('admin.zombie.delete', ['zombieID' => $zombie->getID()->getValue()]) }}"
