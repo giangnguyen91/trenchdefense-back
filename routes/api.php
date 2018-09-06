@@ -18,8 +18,8 @@ Route::group(['middleware' => ['auth:api'],'prefix' => 'waves'], function (Route
 });
 
 
-Route::group(['middleware' => ['auth:api'],'prefix' => 'having_character'], function (Router $router) {
-    Route::get('/', 'HavingCharacterController@getByGameUserID');
+Route::group(['middleware' => ['auth:api'],'prefix' => 'characters'], function (Router $router) {
+    Route::get('/having', 'HavingCharacterController@getByGameUserID');
 });
 
 
