@@ -9,8 +9,8 @@ namespace App\Proto {
     /**  @var string */
     public $name = null;
     
-    /**  @var \App\Proto\Zombie[]  */
-    public $zombies = array();
+    /**  @var \App\Proto\WaveZombie[]  */
+    public $waveZombies = array();
     
     /**  @var string */
     public $resourceID = null;
@@ -31,13 +31,13 @@ namespace App\Proto {
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
-      // REPEATED MESSAGE zombies = 2
+      // REPEATED MESSAGE waveZombies = 2
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 2;
-      $f->name      = "zombies";
+      $f->name      = "waveZombies";
       $f->type      = \DrSlump\Protobuf::TYPE_MESSAGE;
       $f->rule      = \DrSlump\Protobuf::RULE_REPEATED;
-      $f->reference = '\App\Proto\Zombie';
+      $f->reference = '\App\Proto\WaveZombie';
       $descriptor->addField($f);
 
       // REQUIRED STRING resourceID = 3
@@ -93,59 +93,59 @@ namespace App\Proto {
     }
     
     /**
-     * Check if <zombies> has a value
+     * Check if <waveZombies> has a value
      *
      * @return boolean
      */
-    public function hasZombies(){
+    public function hasWaveZombies(){
       return $this->_has(2);
     }
     
     /**
-     * Clear <zombies> value
+     * Clear <waveZombies> value
      *
      * @return \App\Proto\Wave
      */
-    public function clearZombies(){
+    public function clearWaveZombies(){
       return $this->_clear(2);
     }
     
     /**
-     * Get <zombies> value
+     * Get <waveZombies> value
      *
      * @param int $idx
-     * @return \App\Proto\Zombie
+     * @return \App\Proto\WaveZombie
      */
-    public function getZombies($idx = NULL){
+    public function getWaveZombies($idx = NULL){
       return $this->_get(2, $idx);
     }
     
     /**
-     * Set <zombies> value
+     * Set <waveZombies> value
      *
-     * @param \App\Proto\Zombie $value
+     * @param \App\Proto\WaveZombie $value
      * @return \App\Proto\Wave
      */
-    public function setZombies(\App\Proto\Zombie $value, $idx = NULL){
+    public function setWaveZombies(\App\Proto\WaveZombie $value, $idx = NULL){
       return $this->_set(2, $value, $idx);
     }
     
     /**
-     * Get all elements of <zombies>
+     * Get all elements of <waveZombies>
      *
-     * @return \App\Proto\Zombie[]
+     * @return \App\Proto\WaveZombie[]
      */
-    public function getZombiesList(){
+    public function getWaveZombiesList(){
      return $this->_get(2);
     }
     
     /**
-     * Add a new element to <zombies>
+     * Add a new element to <waveZombies>
      *
-     * @param \App\Proto\Zombie $value
+     * @param \App\Proto\WaveZombie $value
      * @return \App\Proto\Wave
      */
-    public function addZombies(\App\Proto\Zombie $value){
+    public function addWaveZombies(\App\Proto\WaveZombie $value){
      return $this->_add(2, $value);
     }
     

@@ -12,10 +12,9 @@ use Illuminate\Routing\Router;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/access_token', 'AuthenticateController@grantAccessToken');
 
 Route::group(['middleware' => ['auth:api'],'prefix' => 'waves'], function (Router $router) {
-    $router->get('/', "UserController@getMySelf");
+    Route::get('/{page}', 'WaveController@get');
 });
 
 

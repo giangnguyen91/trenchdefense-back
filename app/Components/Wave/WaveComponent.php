@@ -4,11 +4,14 @@ namespace App\Components\Wave;
 
 use App\Domains\Wave\Wave;
 use App\Domains\Wave\WaveID;
+use App\Domains\Wave\WaveListResult;
 use App\Domains\Wave\WaveRepository;
 use Illuminate\Support\Collection;
 
 class WaveComponent
 {
+    const LIMIT = 10;
+
     /**
      * @var WaveRepository
      */
@@ -58,4 +61,17 @@ class WaveComponent
     {
         return $this->waveRepository->remove($wave);
     }
+
+    /**
+     * @param int $page
+     * @param int $limit
+     * @return WaveListResult
+     */
+    public function listWaves(int $page, int $limit = self::LIMIT) : WaveListResult
+    {
+        $paginate = $this->waveRepository->paginate($page, $limit);
+        $presentation = $paginate->toPresentation();
+        return new WaveListResult($presentation->lastPage(), collect($presentation->items()));
+    }
+
 }

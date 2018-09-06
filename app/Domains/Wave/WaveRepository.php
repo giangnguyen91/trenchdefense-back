@@ -2,16 +2,12 @@
 
 namespace App\Domains\Wave;
 
-use App\Domains\Wave\Zombie\WaveZombieRepository;
+use App\Domains\Wave\Zombie\WaveZombie;
+use App\Utils\Paginator;
 use Illuminate\Support\Collection;
 
 class WaveRepository
 {
-    /**
-     * @var WaveZombieRepository
-     */
-    private $waveZombieRepository;
-
     /**
      * @var WaveFactory
      */
@@ -21,12 +17,10 @@ class WaveRepository
      * @param WaveFactory $waveFactory
      */
     public function __construct(
-        WaveFactory $waveFactory,
-        WaveZombieRepository $waveZombieRepository
+        WaveFactory $waveFactory
     )
     {
         $this->waveFactory = $waveFactory;
-        $this->waveZombieRepository = $waveZombieRepository;
     }
 
     /**
@@ -63,7 +57,30 @@ class WaveRepository
             );
         });
 
+        if ($wave->getID()->getValue()) {
+            $this->removeWaveZombie($wave);
+        }
+
+        $waveZombies = $wave->getWaveZombies();
+
+        foreach ($waveZombies as $waveZombie){
+            $this->persistWaveZombie($waveZombie);
+        }
+
         return new WaveID($eloquent->id);
+    }
+
+    public function persistWaveZombie(WaveZombie $waveZombie)
+    {
+        \App\WaveZombie::unguarded(function () use ($waveZombie) {
+            return \App\WaveZombie::query()->updateOrCreate(
+                [
+                    'wave_id' => $waveZombie->getWaveID()->getValue(),
+                    'zombie_id' => $waveZombie->getZombie()->getID()->getValue(),
+                    'quantity' => $waveZombie->getQuantity()->getValue()
+                ]
+            );
+        });
     }
 
     /**
@@ -84,7 +101,34 @@ class WaveRepository
     public function remove(Wave $wave)
     {
         \App\Wave::destroy($wave->getID()->getValue());
+        $this->removeWaveZombie($wave);
+    }
 
+    /**
+     * @param Wave $wave
+     * @return mixed
+     */
+    public function removeWaveZombie(Wave $wave)
+    {
         \App\WaveZombie::query()->where('wave_id', $wave->getID()->getValue())->delete();
+    }
+
+    /**
+     * @param int $page
+     * @param int $perPage
+     * @return Paginator
+     */
+    public function paginate(
+        int $page,
+        int $perPage
+    ): Paginator
+    {
+        $eloquent = \App\Wave::query();
+
+        $pagination = Paginator::fromQueryBuilder($eloquent, $perPage, $page);
+
+        return $pagination->map(function (\App\Wave $eloquent) {
+            return $this->waveFactory->makeByEloquent($eloquent);
+        });
     }
 }

@@ -63,7 +63,6 @@ class Handler extends ExceptionHandler
             return response('Whoops, looks like something went wrong.');
         } else {
             $error = $this->toProtobufError($exception);
-
             return response()->protobuf([
                 $error->toProtobufModel()
             ], $error->getHttpStatusCode());

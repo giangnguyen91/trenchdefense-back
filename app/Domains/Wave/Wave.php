@@ -32,7 +32,7 @@ class Wave
      * @param Name $name
      * @param WaveID $waveID
      * @param ResourceID $resourceID
-     * @param Collection | WaveZombie[] $waveZombies
+     * @param Collection|WaveZombie[] $waveZombies | null
      */
     public function __construct(
         Name $name,
@@ -90,10 +90,10 @@ class Wave
     {
         $proto = new \App\Proto\Wave();
         $proto->name = $this->getName()->getValue();
-        $proto->zombies = $this->waveZombies->map(function (WaveZombie $waveZombie) {
-            return $waveZombie->getZombie()->toProtobuf();
-        })->toArray();
         $proto->resourceID = $this->getResourceID()->getValue();
+        $proto->waveZombies = $this->waveZombies->map(function (WaveZombie $waveZombie) {
+            return $waveZombie->toProtobuf();
+        })->toArray();
         return $proto;
     }
 

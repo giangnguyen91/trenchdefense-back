@@ -3,76 +3,78 @@
 namespace App\Domains\Wave\Zombie;
 
 use App\Domains\Wave\Wave;
+use App\Domains\Wave\WaveFactory;
 use App\Domains\Wave\WaveID;
 use App\Domains\Wave\WaveRepository;
 use App\Domains\Zombie\Zombie;
+use App\Domains\Zombie\ZombieFactory;
 use App\Domains\Zombie\ZombieID;
 use App\Domains\Zombie\ZombieRepository;
-use Illuminate\Support\Collection;
 
 class WaveZombieFactory
 {
+    private $zombieFactory;
+
+    public function __construct(
+        ZombieFactory $zombieFactory
+    )
+    {
+        $this->zombieFactory = $zombieFactory;
+    }
+
     /**
-     * @param Wave $wave
      * @param Zombie $zombie
      * @param Quantity $quantity
+     * @param WaveID $waveID
      * @return WaveZombie
      */
     public function make(
-        Wave $wave,
         Zombie $zombie,
-        Quantity $quantity
+        Quantity $quantity,
+        WaveID $waveID
     )
     {
         return new WaveZombie(
-            $wave,
             $zombie,
-            $quantity
+            $quantity,
+            $waveID
         );
     }
 
 
     /**
      * @param \App\WaveZombie $eloquent
-     * @param ZombieRepository $zombieRepository
-     * @param WaveRepository $waveRepository
      * @return WaveZombie
      */
     public function makeByEloquent(
-        \App\WaveZombie $eloquent,
-        ZombieRepository $zombieRepository,
-        WaveRepository $waveRepository
+        \App\WaveZombie $eloquent
     )
     {
-        $wave = $waveRepository->find(new WaveID($eloquent->wave_id));
-        $zombie = $zombieRepository->find(new ZombieID($eloquent->zombie_id));
+        $zombie = $this->zombieFactory->makeByEloquent($eloquent->zombie);
 
-        return new WaveZombie(
-            $wave,
+        return $this->make(
             $zombie,
-            new Quantity($eloquent->quantity)
+            new Quantity($eloquent->quantity),
+            new WaveID($eloquent->wave_id)
         );
     }
 
     /**
      * @param array $array
      * @param ZombieRepository $zombieRepository
-     * @param WaveRepository $waveRepository
      * @return WaveZombie
      */
     public function makeByArray(
         array $array,
-        ZombieRepository $zombieRepository,
-        WaveRepository $waveRepository
+        ZombieRepository $zombieRepository
     )
     {
-        $wave = $waveRepository->find(new WaveID($array['wave_id']));
         $zombie = $zombieRepository->find(new ZombieID($array['zombie_id']));
 
-        return new WaveZombie(
-            $wave,
+        return $this->make(
             $zombie,
-            new Quantity($array['quantity'])
+            new Quantity($array['quantity']),
+            $array['wave_id']
         );
     }
 }

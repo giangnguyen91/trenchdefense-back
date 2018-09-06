@@ -3,15 +3,11 @@
 namespace App\Domains\Wave\Zombie;
 
 use App\Domains\Wave\Wave;
+use App\Domains\Wave\WaveID;
 use App\Domains\Zombie\Zombie;
 
 class WaveZombie
 {
-    /**
-     * @var Wave
-     */
-    private $wave;
-
     /**
      * @var Zombie
      */
@@ -23,27 +19,24 @@ class WaveZombie
     private $quantity;
 
     /**
-     * @param Wave $wave
-     * @param Zombie $zombie
-     * @param Quantity $quantity
+     * @var WaveID
      */
-    public function __construct(
-        Wave $wave,
-        Zombie $zombie,
-        Quantity $quantity
-    )
-    {
-        $this->wave = $wave;
-        $this->zombie = $zombie;
-        $this->quantity = $quantity;
-    }
+    private $waveID;
 
     /**
-     * @return Wave
+     * @param Zombie $zombie
+     * @param Quantity $quantity
+     * @param WaveID $waveID
      */
-    public function getWave()
+    public function __construct(
+        Zombie $zombie,
+        Quantity $quantity,
+        WaveID $waveID
+    )
     {
-        return $this->wave;
+        $this->zombie = $zombie;
+        $this->quantity = $quantity;
+        $this->waveID = $waveID;
     }
 
     /**
@@ -60,5 +53,24 @@ class WaveZombie
     public function getQuantity(): Quantity
     {
         return $this->quantity;
+    }
+
+    /**
+     * @return WaveID
+     */
+    public function getWaveID(): WaveID
+    {
+        return $this->waveID;
+    }
+
+    /**
+     * @return \App\Proto\WaveZombie
+     */
+    public function toProtobuf(): \App\Proto\WaveZombie
+    {
+        $proto = new \App\Proto\WaveZombie();
+        $proto->zombie = $this->zombie->toProtobuf();
+        $proto->quantity = $this->quantity->getValue();
+        return $proto;
     }
 }

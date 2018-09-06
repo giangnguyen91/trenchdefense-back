@@ -2,36 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Components\Weapon\IWeaponComponent;
-use App\Domains\Weapon\Master\Weapon;
-use Illuminate\Http\Request;
+use App\Components\Wave\WaveComponent;
+use App\Domains\Wave\Wave;
 
 class WaveController extends Controller
 {
     /**
-     * @var IWeaponComponent
+     * @var WaveComponent
      */
-    private $weaponComponent;
+    private $waveComponent;
 
     /**
-     * @var IWeaponComponent $weaponComponent
+     * @var WaveComponent $waveComponent
      */
     public function __construct(
-        IWeaponComponent $weaponComponent
+        WaveComponent $waveComponent
     )
     {
-        $this->weaponComponent = $weaponComponent;
+        $this->waveComponent = $waveComponent;
     }
 
-    public function getAll()
+    public function get(int $page)
     {
-        $weapons = $this->weaponComponent->getAllWeapon();
-
-        $weapons = $weapons->map(function (Weapon $weapon) {
-            return $weapon->toProtobuf();
-        })->toArray();
-
-        return response()->protobuf($weapons);
+        $waves = $this->waveComponent->listWaves($page);
+        return response()->protobuf([$waves->toProtobuf()]);
     }
 
 }

@@ -11,7 +11,7 @@ exit_finally() {
 trap exit_finally EXIT
 
 # install dependencies
-composer install || exit 1
+composer install --prefer-dist || exit 1
 
 # clear
 php artisan config:clear || exit 1

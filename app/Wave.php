@@ -32,4 +32,12 @@ class Wave extends Model
 
         return collect([(new static())->forceFill($json)]);
     }
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function waveZombies()
+    {
+        return $this->hasMany('App\WaveZombie', 'wave_id');
+    }
 }

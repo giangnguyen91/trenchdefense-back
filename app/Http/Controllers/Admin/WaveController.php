@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Components\Wave\WaveComponent;
-use App\Components\Wave\WaveZombieComponent;
 use App\Components\Zombie\ZombieComponent;
 use App\Domains\Wave\WaveFactory;
 use App\Domains\Wave\WaveID;
@@ -48,18 +47,12 @@ class WaveController extends Controller
     private $waveZombieFactory;
 
     /**
-     * @var WaveZombieComponent
-     */
-    private $waveZombieComponent;
-
-    /**
      * @param WaveComponent $waveComponent
      * @param ZombieComponent $zombieComponent
      * @param WaveFactory $waveFactory
      * @param WaveZombieFactory $waveZombieFactory
      * @param WaveRepository $waveRepository
      * @param ZombieRepository $zombieRepository
-     * @param WaveZombieComponent $waveZombieComponent
      */
     public function __construct(
         WaveComponent $waveComponent,
@@ -67,8 +60,7 @@ class WaveController extends Controller
         WaveFactory $waveFactory,
         WaveZombieFactory $waveZombieFactory,
         WaveRepository $waveRepository,
-        ZombieRepository $zombieRepository,
-        WaveZombieComponent $waveZombieComponent
+        ZombieRepository $zombieRepository
     )
     {
         $this->waveComponent = $waveComponent;
@@ -77,7 +69,6 @@ class WaveController extends Controller
         $this->waveZombieFactory = $waveZombieFactory;
         $this->waveRepository = $waveRepository;
         $this->zombieRepository = $zombieRepository;
-        $this->waveZombieComponent = $waveZombieComponent;
     }
 
     public function index()
@@ -96,24 +87,8 @@ class WaveController extends Controller
     public function postCreate(Request $request)
     {
         $params = $request->input();
-        $wave = $this->waveFactory->makeByArray($params);
-        $waveId = $this->waveComponent->addNewWave($wave);
-
-        $zombieIDs = isset($params['wave_zombie']['zombie_id']) ? $params['wave_zombie']['zombie_id'] : array();
-
-        $quantities = isset($params['wave_zombie']['quantity']) ? $params['wave_zombie']['quantity'] : array();
-
-        foreach ($zombieIDs as $index => $zombieID) {
-            $data = array(
-                'wave_id' => $waveId->getValue(),
-                'zombie_id' => $zombieID,
-                'quantity' => isset($quantities[$index]) ? $quantities[$index] : 0
-            );
-
-            $waveZombie = $this->waveZombieFactory->makeByArray($data, $this->zombieRepository, $this->waveRepository);
-
-            $this->waveZombieComponent->persist($waveZombie);
-        }
+        $wave = $this->waveFactory->makeByArray($params, $this->zombieRepository);
+        $this->waveComponent->addNewWave($wave);
 
         return redirect()->route('admin.wave.index');
     }
@@ -127,7 +102,7 @@ class WaveController extends Controller
         $default = $wave->toArray();
         $mode = 'update';
 
-        $waveZombies = $this->waveZombieComponent->getByWave($wave);
+        $waveZombies = $wave->getWaveZombies();
 
         $zombies = $this->zombieComponent->getAllZombie();
         return view('admin.wave.form', compact('default', 'mode', 'waveZombies', 'zombies'));
@@ -142,28 +117,9 @@ class WaveController extends Controller
 
         $params = $request->input();
         $params['id'] = $waveID;
+        $wave = $this->waveFactory->makeByArray($params, $this->zombieRepository);
 
-        $data = $this->waveFactory->makeByArray($params);
-
-        $this->waveComponent->addNewWave($data);
-
-        $this->waveZombieComponent->removeByWave($wave);
-
-        $zombieIDs = isset($params['wave_zombie']['zombie_id']) ? $params['wave_zombie']['zombie_id'] : array();
-
-        $quantities = isset($params['wave_zombie']['quantity']) ? $params['wave_zombie']['quantity'] : array();
-
-        foreach ($zombieIDs as $index => $zombieID) {
-            $data = array(
-                'wave_id' => $waveID,
-                'zombie_id' => $zombieID,
-                'quantity' => isset($quantities[$index]) ? $quantities[$index] : 0
-            );
-
-            $waveZombie = $this->waveZombieFactory->makeByArray($data, $this->zombieRepository, $this->waveRepository);
-
-            $this->waveZombieComponent->persist($waveZombie);
-        }
+        $this->waveComponent->addNewWave($wave);
 
         return redirect()->route('admin.wave.index');
     }

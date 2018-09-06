@@ -32,4 +32,20 @@ class WaveZombie extends Model
 
         return collect([(new static())->forceFill($json)]);
     }
+
+    /**
+     * Get the user that owns the phone.
+     */
+    public function wave()
+    {
+        return $this->belongsTo('App\Wave', 'wave_id');
+    }
+
+    /**
+     * Get the user that owns the phone.
+     */
+    public function zombie()
+    {
+        return $this->belongsTo('App\Zombie', 'zombie_id');
+    }
 }
