@@ -146,4 +146,21 @@ class Zombie
             'drop_gold' => $this->getDropGold()->getValue(),
         );
     }
+
+
+    /**
+     * @return \App\Proto\Zombie
+     */
+    public function toProtobuf(): \App\Proto\Zombie
+    {
+        $proto = new \App\Proto\Zombie();
+        $proto->name = $this->getName()->getValue();
+        $proto->damage = $this->getDamage()->getValue();
+        $proto->attack = $this->getAttack()->getValue();
+        $proto->hp = $this->getHp()->getValue();
+        $proto->speed = $this->getSpeed()->getValue();
+        $proto->resourceID = $this->getResourceID()->getValue();
+        $proto->dropGold = $this->getDropGold()->getValue();
+        return $proto;
+    }
 }

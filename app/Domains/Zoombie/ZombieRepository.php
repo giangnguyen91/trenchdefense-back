@@ -81,4 +81,19 @@ class ZombieRepository
     {
         \App\Zombie::destroy($zombie->getID()->getValue());
     }
+
+    /**
+     * @param Collection $zombieIDs
+     * @return Collection
+     */
+    public function findByZombieIDs(
+        Collection $zombieIDs
+    ): ?Collection
+    {
+        $zombiesEloquent = \App\Zombie::query()->whereIn('id', $zombieIDs->toArray())->get();
+
+        return collect($zombiesEloquent)->map(function (\App\Zombie $eloquent) {
+            return $this->zombieFactory->makeByEloquent($eloquent);
+        });
+    }
 }

@@ -12,5 +12,9 @@ use Illuminate\Routing\Router;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/weapons', 'WeaponController@getAll');
+
+Route::group(['middleware' => ['auth:api'],'prefix' => 'waves'], function (Router $router) {
+    Route::get('/{page}', 'WaveController@get');
+});
+
 
