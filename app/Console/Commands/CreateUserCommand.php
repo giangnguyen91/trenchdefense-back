@@ -2,6 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Components\Character\HavingCharacterComponent;
+use App\Domains\Character\CharacterID;
+use App\Domains\User\GameUserID;
 use App\User;
 use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
@@ -28,13 +31,23 @@ class CreateUserCommand extends Command
     private $conn;
 
     /**
+     * @var HavingCharacterComponent
+     */
+    private $havingCharacterComponent;
+
+    /**
      * Create a new command instance.
      *
      * @param Connection $conn
+     * @param HavingCharacterComponent $havingCharacterComponent
      */
-    public function __construct(Connection $conn)
+    public function __construct(
+        Connection $conn,
+        HavingCharacterComponent $havingCharacterComponent
+    )
     {
         $this->conn = $conn;
+        $this->havingCharacterComponent = $havingCharacterComponent;
         parent::__construct();
     }
 
@@ -72,6 +85,8 @@ class CreateUserCommand extends Command
                     ]
                 );
             });
+
+            $this->havingCharacterComponent->addNew(new GameUserID($userID), new CharacterID(1));
 
             $token = $user->createToken(config('app.name'))->accessToken;
 

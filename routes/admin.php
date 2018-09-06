@@ -19,3 +19,12 @@ $router->group(['prefix'=> 'waves'], function (Router $router) {
     $router->post('{waveID}/update', 'WaveController@postUpdate')->name('admin.wave.post.update');
     $router->get('{waveID}/delete', 'WaveController@delete')->name('admin.wave.delete');
 });
+
+$router->group(['prefix'=> 'characters'], function (Router $router) {
+    $router->get('/', 'CharacterController@index')->name('admin.character.list');
+    $router->get('/create', 'CharacterController@getCreate')->name('admin.character.create');
+    $router->post('/create', 'CharacterController@postCreate')->name('admin.character.post.create');
+    $router->get('/{characterID}/update', 'CharacterController@getUpdate')->name('admin.character.get.update');
+    $router->post('/{characterID}/update', 'CharacterController@postUpdate')->name('admin.character.post.update');
+    $router->get('/{characterID}/delete', 'CharacterController@delete')->name('admin.character.delete');
+});

@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
+use App\Components\Character\CharacterComponent;
+use App\Components\Character\HavingCharacterComponent;
 use App\Components\Wave\WaveComponent;
 use App\Components\Zombie\ZombieComponent;
+use App\Domains\Character\CharacterFactory;
+use App\Domains\Character\CharacterRepository;
+use App\Domains\Character\Having\HavingCharacterFactory;
+use App\Domains\Character\Having\HavingCharacterRepository;
 use App\Domains\Wave\WaveFactory;
 use App\Domains\Wave\WaveRepository;
 use App\Domains\Wave\Zombie\WaveZombieFactory;
@@ -27,6 +33,12 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->singleton(WaveZombieFactory::class);
         $this->app->singleton(WaveFactory::class);
         $this->app->singleton(WaveRepository::class);
+        $this->app->singleton(CharacterFactory::class);
+        $this->app->singleton(CharacterRepository::class);
+        $this->app->singleton(CharacterComponent::class);
+        $this->app->singleton(HavingCharacterFactory::class);
+        $this->app->singleton(HavingCharacterRepository::class);
+        $this->app->singleton(HavingCharacterComponent::class);
     }
 
     /**
@@ -39,11 +51,15 @@ class AdminServiceProvider extends ServiceProvider
             ZombieRepository::class,
             ZombieComponent::class,
             WaveZombieFactory::class,
-            WaveZombieRepository::class,
             WaveFactory::class,
             WaveRepository::class,
-            WaveZombieComponent::class,
-            WaveComponent::class
+            WaveComponent::class,
+            CharacterFactory::class,
+            CharacterRepository::class,
+            CharacterComponent::class,
+            HavingCharacterFactory::class,
+            HavingCharacterRepository::class,
+            HavingCharacterComponent::class
         ];
     }
 }
