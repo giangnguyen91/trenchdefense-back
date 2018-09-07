@@ -29,7 +29,7 @@ class WeaponRepository implements IWeaponRepository
         WeaponId $weaponId
     ): ?Weapon
     {
-        $weaponEloquent = \App\Weapon::query()->find($weaponId->getValue())->first();
+        $weaponEloquent = \App\Weapon::query()->find($weaponId->getValue());
         if (is_null($weaponEloquent)) return null;
         return $this->weaponFactory->makeByEloquent($weaponEloquent);
     }
@@ -48,10 +48,10 @@ class WeaponRepository implements IWeaponRepository
                     'id' => !is_null($weapon->getId()->getValue()) ? $weapon->getId()->getValue() : null
                 ],
                 [
+                    'name' => $weapon->getWeaponName()->getValue(),
                     'damage' => $weapon->getDamage()->getValue(),
-                    'reload_speed' => $weapon->getReloadSpeed()->getValue(),
-                    'shot_speed' => $weapon->getShotSpeed()->getValue(),
-                    'delay_time' => $weapon->getDelayTime()->getValue()
+                    'weapon_group_id' => $weapon->getWeaponGroup()->getID()->getValue(),
+                    'resource_id' => $weapon->getResourceID()->getValue()
                 ]
             );
         });
@@ -68,5 +68,14 @@ class WeaponRepository implements IWeaponRepository
         return collect($weaponEloquent)->map(function (\App\Weapon $eloquent){
             return $this->weaponFactory->makeByEloquent($eloquent);
         });
+    }
+
+    /**
+     * @param Weapon $weapon
+     * @return mixed
+     */
+    public function delete(Weapon $weapon)
+    {
+        return \App\Weapon::destroy($weapon->getID()->getValue());
     }
 }

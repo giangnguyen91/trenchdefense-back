@@ -5,7 +5,9 @@ namespace App\Providers;
 use App\Components\Auth\AuthComponent;
 use App\Components\Weapon\IWeaponComponent;
 use App\Components\Weapon\WeaponComponent;
+use App\Domains\Weapon\Master\IWeaponGroupRepository;
 use App\Domains\Weapon\Master\IWeaponRepository;
+use App\Domains\Weapon\Master\WeaponGroupRepository;
 use App\Domains\Weapon\Master\WeaponRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(AuthComponent::class);
+        $this->app->bind(IWeaponGroupRepository::class, WeaponGroupRepository::class);
         $this->app->bind(IWeaponRepository::class, WeaponRepository::class);
         $this->app->bind(IWeaponComponent::class, WeaponComponent::class);
     }

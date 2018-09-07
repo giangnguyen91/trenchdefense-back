@@ -32,6 +32,14 @@
                         <li {{ (Request::is('*having_characters') ? 'class="active"' : '') }}>
                             <a href="{{ url ('admin/characters/having') }}"><i class="fa fa-table fa-fw"></i> Having Characters</a>
                         </li>
+
+                        <li {{ (Request::is('*weapons') ? 'class="active"' : '') }}>
+                            <a href="{{ url ('admin/weapons/group') }}"><i class="fa fa-table fa-fw"></i> Weapon Groups</a>
+                        </li>
+
+                        <li {{ (Request::is('*weapons') ? 'class="active"' : '') }}>
+                            <a href="{{ url ('admin/weapons') }}"><i class="fa fa-table fa-fw"></i> Weapons</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
