@@ -61,21 +61,23 @@ class WaveRepository
             $this->removeWaveZombie($wave);
         }
 
+        $waveIdNew = new WaveID($eloquent->id);
+
         $waveZombies = $wave->getWaveZombies();
 
         foreach ($waveZombies as $waveZombie){
-            $this->persistWaveZombie($waveZombie);
+            $this->persistWaveZombie($waveZombie, $waveIdNew);
         }
 
-        return new WaveID($eloquent->id);
+        return $waveIdNew;
     }
 
-    public function persistWaveZombie(WaveZombie $waveZombie)
+    public function persistWaveZombie(WaveZombie $waveZombie, WaveID $waveID)
     {
-        \App\WaveZombie::unguarded(function () use ($waveZombie) {
+        \App\WaveZombie::unguarded(function () use ($waveZombie, $waveID) {
             return \App\WaveZombie::query()->updateOrCreate(
                 [
-                    'wave_id' => $waveZombie->getWaveID()->getValue(),
+                    'wave_id' => !is_null($waveZombie->getWaveID()->getValue()) ? $waveZombie->getWaveID()->getValue(): $waveID->getValue(),
                     'zombie_id' => $waveZombie->getZombie()->getID()->getValue(),
                     'quantity' => $waveZombie->getQuantity()->getValue()
                 ]
