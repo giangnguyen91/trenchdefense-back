@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
 
-# cd to script path
-cd "$(dirname "$0")"
-
-exit_finally() {
-    # return to original path
-    cd --
-}
-
-trap exit_finally EXIT
-
 # install dependencies
 composer install --prefer-dist || exit 1
 
