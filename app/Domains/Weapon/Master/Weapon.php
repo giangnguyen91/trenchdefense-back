@@ -2,77 +2,54 @@
 
 namespace App\Domains\Weapon\Master;
 
+
 class Weapon
 {
-    /**
-     * @var Damage
-     */
-    private $damage;
-
-    /**
-     * @var ReloadSpeed
-     */
-    private $reloadSpeed;
-
-    /**
-     * @var ShotSpeed
-     */
-    private $shotSpeed;
-
     /**
      * @var WeaponId
      */
     private $weaponId;
 
     /**
-     * @var DelayTime
+     * @var WeaponName
      */
-    private $delayTime;
+    private $weaponName;
+
+    /**
+     * @var WeaponGroup
+     */
+    private $weaponGroup;
+
+    /**
+     * @var Damage
+     */
+    private $damage;
+
+    /**
+     * @var ResourceID
+     */
+    private $resourceID;
 
     /**
      * @param WeaponId $weaponId
+     * @param WeaponName $weaponName
+     * @param WeaponGroup $weaponGroup
      * @param Damage $damage
-     * @param ReloadSpeed $reloadSpeed
-     * @param ShotSpeed $shotSpeed
-     * @param DelayTime $delayTime
+     * @param ResourceID $resourceID
      */
     public function __construct(
         WeaponId $weaponId,
+        WeaponName $weaponName,
+        WeaponGroup $weaponGroup,
         Damage $damage,
-        ReloadSpeed $reloadSpeed,
-        ShotSpeed $shotSpeed,
-        DelayTime $delayTime
+        ResourceID $resourceID
     )
     {
         $this->weaponId = $weaponId;
+        $this->weaponGroup = $weaponGroup;
         $this->damage = $damage;
-        $this->reloadSpeed = $reloadSpeed;
-        $this->shotSpeed = $shotSpeed;
-        $this->delayTime = $delayTime;
-    }
-
-    /**
-     * @return Damage
-     */
-    public function getDamage(): Damage
-    {
-        return $this->damage;
-    }
-
-    /**
-     * @return ReloadSpeed
-     */
-    public function getReloadSpeed(): ReloadSpeed
-    {
-        return $this->reloadSpeed;
-    }
-
-    /**
-     * @return ShotSpeed
-     */
-    public function getShotSpeed(): ShotSpeed
-    {
-        return $this->shotSpeed;
+        $this->weaponName = $weaponName;
+        $this->resourceID = $resourceID;
     }
 
     /**
@@ -84,11 +61,46 @@ class Weapon
     }
 
     /**
-     * @return DelayTime
+     * @return WeaponName
      */
-    public function getDelayTime(): DelayTime
+    public function getWeaponName(): WeaponName
     {
-        return $this->delayTime;
+        return $this->weaponName;
+    }
+
+    /**
+     * @return WeaponGroup
+     */
+    public function getWeaponGroup(): WeaponGroup
+    {
+        return $this->weaponGroup;
+    }
+
+    /**
+     * @return Damage
+     */
+    public function getDamage(): Damage
+    {
+        return $this->damage;
+    }
+
+    public function getResourceID(): ResourceID
+    {
+        return $this->resourceID;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'id' => $this->weaponId->getValue(),
+            'name' => $this->weaponName->getValue(),
+            'weapon_group_id' => $this->weaponGroup->getID()->getValue(),
+            'damage' => $this->damage->getValue(),
+            'resource_id' => $this->resourceID->getValue()
+        ];
     }
 
     /**
@@ -98,10 +110,9 @@ class Weapon
     {
         $model = new \App\Proto\Weapon();
         $model->id = $this->getId()->getValue();
+        $model->name = $this->getWeaponName()->getValue();
         $model->damage = $this->getDamage()->getValue();
-        $model->reloadSpeed = $this->getReloadSpeed()->getValue();
-        $model->shotSpeed = $this->getShotSpeed()->getValue();
-        $model->delayTime = $this->getDelayTime()->getValue();
+        $model->group = $this->weaponGroup->toProtobuf();
         return $model;
     }
 }

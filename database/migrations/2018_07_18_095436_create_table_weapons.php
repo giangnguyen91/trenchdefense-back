@@ -13,15 +13,24 @@ class CreateTableWeapons extends Migration
      */
     public function up()
     {
+        Schema::create('weapon_groups', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('ammo_type');
+            $table->timestamps();
+        });
+
         Schema::create('weapons', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('name');
-            $table->bigInteger('damage');
-            $table->bigInteger('reload_speed');
-            $table->bigInteger('shot_speed');
-            $table->bigInteger('delay_time');
-            $table->text('resource_id')->nullable();
+            $table->string('name');
+            $table->integer('weapon_group_id')->unsigned();
+            $table->integer('damage');
+            $table->string('resource_id');
             $table->timestamps();
+        });
+
+        Schema::table('weapons', function (Blueprint $table){
+            $table->foreign('weapon_group_id')->references('id')->on('weapon_groups');
         });
     }
 
@@ -33,5 +42,6 @@ class CreateTableWeapons extends Migration
     public function down()
     {
         Schema::dropIfExists('weapons');
+        Schema::dropIfExists('weapon_groups');
     }
 }

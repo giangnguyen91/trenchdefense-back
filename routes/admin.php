@@ -31,3 +31,21 @@ $router->group(['prefix'=> 'characters'], function (Router $router) {
     $router->get('/having', 'HavingCharacterController@index')->name('admin.having_character.list');
     $router->post('/having', 'HavingCharacterController@addNew')->name('admin.having_character.add');
 });
+
+$router->group(['prefix'=> 'weapons'], function (Router $router) {
+    $router->group(['prefix'=> 'group'], function (Router $router) {
+        $router->get('/', 'WeaponGroupController@index')->name('admin.weapon.group.list');
+        $router->get('/create', 'WeaponGroupController@getCreate')->name('admin.weapon.group.create');
+        $router->post('/create', 'WeaponGroupController@postCreate')->name('admin.weapon.group.post.create');
+        $router->get('/{weaponGroupID}/update', 'WeaponGroupController@getUpdate')->name('admin.weapon.group.get.update');
+        $router->post('/{weaponGroupID}/update', 'WeaponGroupController@postUpdate')->name('admin.weapon.group.post.update');
+        $router->get('/{weaponGroupID}/delete', 'WeaponGroupController@delete')->name('admin.weapon.group.delete');
+    });
+
+    $router->get('/', 'WeaponController@index')->name('admin.weapon.list');
+    $router->get('/create', 'WeaponController@getCreate')->name('admin.weapon.create');
+    $router->post('/create', 'WeaponController@postCreate')->name('admin.weapon.post.create');
+    $router->get('/{weaponID}/update', 'WeaponController@getUpdate')->name('admin.weapon.get.update');
+    $router->post('/{weaponID}/update', 'WeaponController@postUpdate')->name('admin.weapon.post.update');
+    $router->get('/{weaponID}/delete', 'WeaponController@delete')->name('admin.weapon.delete');
+});
