@@ -8,6 +8,7 @@ use App\Domains\User\GameUserID;
 use App\User;
 use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\Hash;
 
 class CreateUserCommand extends Command
 {
@@ -75,13 +76,15 @@ class CreateUserCommand extends Command
             }
 
             $user = \App\User::unguarded(function () use ($userID, $name) {
+                $randomImei = rand(100000000000000, 999999999999999);
                 return \App\User::query()->updateOrCreate(
                     [
                         'id' => $userID
                     ],
                     [
-                        'name' => $name,
-                        'imei' => rand(1000000, 999999)
+                        'name' => $randomImei,
+                        'imei' => $randomImei,
+                        'password' => Hash::make($randomImei)
                     ]
                 );
             });

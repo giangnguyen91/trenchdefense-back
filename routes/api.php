@@ -13,6 +13,10 @@ use Illuminate\Routing\Router;
 |
 */
 
+Route::post('/create-access-token', 'GameUserController@createAccessToken');
+
+Route::get('/user', 'GameUserController@getInfo')->middleware('auth:api');
+
 Route::group(['middleware' => ['auth:api'],'prefix' => 'waves'], function (Router $router) {
     Route::get('/{page}', 'WaveController@get');
 });
