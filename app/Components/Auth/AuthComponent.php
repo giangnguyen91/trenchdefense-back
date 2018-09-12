@@ -27,9 +27,4 @@ class AuthComponent
         }
         return new GameUserID($this->guard->id());
     }
-
-    public function createAccessToken(GameUser $gameUser):
-    {
-
-    }
 }
