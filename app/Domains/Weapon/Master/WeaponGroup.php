@@ -64,4 +64,16 @@ class WeaponGroup
             'ammo_type' => $this->ammoType->getValue()
         );
     }
+
+    /**
+     * @return \App\Proto\WeaponGroup
+     */
+    public function toProtobuf(): \App\Proto\WeaponGroup
+    {
+        $model = new \App\Proto\WeaponGroup();
+        $model->id = $this->weaponGroupID->getValue();
+        $model->name = $this->weaponGroupName->getValue();
+        $model->ammoType = $this->ammoType->getValue();
+        return $model;
+    }
 }
