@@ -23,7 +23,7 @@ class WeaponController extends Controller
         $this->weaponComponent = $weaponComponent;
     }
 
-    public function getAll()
+    public function get()
     {
         $weapons = $this->weaponComponent->getAllWeapon();
 
