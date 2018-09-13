@@ -109,9 +109,10 @@ class Weapon
     public function toProtobuf(): \App\Proto\Weapon
     {
         $model = new \App\Proto\Weapon();
-        $model->id = $this->getId()->getValue();
-        $model->name = $this->getWeaponName()->getValue();
-        $model->damage = $this->getDamage()->getValue();
+        $model->id = $this->weaponId->getValue();
+        $model->name = $this->weaponName->getValue();
+        $model->damage = $this->damage->getValue();
+        $model->resourceId = $this->resourceID->getValue();
         $model->group = $this->weaponGroup->toProtobuf();
         return $model;
     }

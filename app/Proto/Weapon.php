@@ -9,17 +9,17 @@ namespace App\Proto {
     /**  @var int */
     public $id = null;
     
+    /**  @var string */
+    public $name = null;
+    
+    /**  @var \App\Proto\WeaponGroup */
+    public $group = null;
+    
     /**  @var int */
     public $damage = null;
     
-    /**  @var int */
-    public $reloadSpeed = null;
-    
-    /**  @var int */
-    public $shotSpeed = null;
-    
-    /**  @var int */
-    public $delayTime = null;
+    /**  @var string */
+    public $resourceId = null;
     
 
     /** @var \Closure[] */
@@ -37,35 +37,36 @@ namespace App\Proto {
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
-      // REQUIRED UINT32 damage = 2
+      // REQUIRED STRING name = 2
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 2;
+      $f->name      = "name";
+      $f->type      = \DrSlump\Protobuf::TYPE_STRING;
+      $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
+      $descriptor->addField($f);
+
+      // REQUIRED MESSAGE group = 3
+      $f = new \DrSlump\Protobuf\Field();
+      $f->number    = 3;
+      $f->name      = "group";
+      $f->type      = \DrSlump\Protobuf::TYPE_MESSAGE;
+      $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
+      $f->reference = '\App\Proto\WeaponGroup';
+      $descriptor->addField($f);
+
+      // REQUIRED UINT32 damage = 4
+      $f = new \DrSlump\Protobuf\Field();
+      $f->number    = 4;
       $f->name      = "damage";
       $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
-      // REQUIRED UINT32 reloadSpeed = 3
-      $f = new \DrSlump\Protobuf\Field();
-      $f->number    = 3;
-      $f->name      = "reloadSpeed";
-      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
-      $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
-      $descriptor->addField($f);
-
-      // REQUIRED UINT32 shotSpeed = 4
-      $f = new \DrSlump\Protobuf\Field();
-      $f->number    = 4;
-      $f->name      = "shotSpeed";
-      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
-      $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
-      $descriptor->addField($f);
-
-      // REQUIRED UINT32 delayTime = 5
+      // REQUIRED STRING resourceId = 5
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 5;
-      $f->name      = "delayTime";
-      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
+      $f->name      = "resourceId";
+      $f->type      = \DrSlump\Protobuf::TYPE_STRING;
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
@@ -114,12 +115,86 @@ namespace App\Proto {
     }
     
     /**
+     * Check if <name> has a value
+     *
+     * @return boolean
+     */
+    public function hasName(){
+      return $this->_has(2);
+    }
+    
+    /**
+     * Clear <name> value
+     *
+     * @return \App\Proto\Weapon
+     */
+    public function clearName(){
+      return $this->_clear(2);
+    }
+    
+    /**
+     * Get <name> value
+     *
+     * @return string
+     */
+    public function getName(){
+      return $this->_get(2);
+    }
+    
+    /**
+     * Set <name> value
+     *
+     * @param string $value
+     * @return \App\Proto\Weapon
+     */
+    public function setName( $value){
+      return $this->_set(2, $value);
+    }
+    
+    /**
+     * Check if <group> has a value
+     *
+     * @return boolean
+     */
+    public function hasGroup(){
+      return $this->_has(3);
+    }
+    
+    /**
+     * Clear <group> value
+     *
+     * @return \App\Proto\Weapon
+     */
+    public function clearGroup(){
+      return $this->_clear(3);
+    }
+    
+    /**
+     * Get <group> value
+     *
+     * @return \App\Proto\WeaponGroup
+     */
+    public function getGroup(){
+      return $this->_get(3);
+    }
+    
+    /**
+     * Set <group> value
+     *
+     * @param \App\Proto\WeaponGroup $value
+     * @return \App\Proto\Weapon
+     */
+    public function setGroup(\App\Proto\WeaponGroup $value){
+      return $this->_set(3, $value);
+    }
+    
+    /**
      * Check if <damage> has a value
      *
      * @return boolean
      */
     public function hasDamage(){
-      return $this->_has(2);
+      return $this->_has(4);
     }
     
     /**
@@ -128,7 +203,7 @@ namespace App\Proto {
      * @return \App\Proto\Weapon
      */
     public function clearDamage(){
-      return $this->_clear(2);
+      return $this->_clear(4);
     }
     
     /**
@@ -137,7 +212,7 @@ namespace App\Proto {
      * @return int
      */
     public function getDamage(){
-      return $this->_get(2);
+      return $this->_get(4);
     }
     
     /**
@@ -147,117 +222,43 @@ namespace App\Proto {
      * @return \App\Proto\Weapon
      */
     public function setDamage( $value){
-      return $this->_set(2, $value);
-    }
-    
-    /**
-     * Check if <reloadSpeed> has a value
-     *
-     * @return boolean
-     */
-    public function hasReloadSpeed(){
-      return $this->_has(3);
-    }
-    
-    /**
-     * Clear <reloadSpeed> value
-     *
-     * @return \App\Proto\Weapon
-     */
-    public function clearReloadSpeed(){
-      return $this->_clear(3);
-    }
-    
-    /**
-     * Get <reloadSpeed> value
-     *
-     * @return int
-     */
-    public function getReloadSpeed(){
-      return $this->_get(3);
-    }
-    
-    /**
-     * Set <reloadSpeed> value
-     *
-     * @param int $value
-     * @return \App\Proto\Weapon
-     */
-    public function setReloadSpeed( $value){
-      return $this->_set(3, $value);
-    }
-    
-    /**
-     * Check if <shotSpeed> has a value
-     *
-     * @return boolean
-     */
-    public function hasShotSpeed(){
-      return $this->_has(4);
-    }
-    
-    /**
-     * Clear <shotSpeed> value
-     *
-     * @return \App\Proto\Weapon
-     */
-    public function clearShotSpeed(){
-      return $this->_clear(4);
-    }
-    
-    /**
-     * Get <shotSpeed> value
-     *
-     * @return int
-     */
-    public function getShotSpeed(){
-      return $this->_get(4);
-    }
-    
-    /**
-     * Set <shotSpeed> value
-     *
-     * @param int $value
-     * @return \App\Proto\Weapon
-     */
-    public function setShotSpeed( $value){
       return $this->_set(4, $value);
     }
     
     /**
-     * Check if <delayTime> has a value
+     * Check if <resourceId> has a value
      *
      * @return boolean
      */
-    public function hasDelayTime(){
+    public function hasResourceId(){
       return $this->_has(5);
     }
     
     /**
-     * Clear <delayTime> value
+     * Clear <resourceId> value
      *
      * @return \App\Proto\Weapon
      */
-    public function clearDelayTime(){
+    public function clearResourceId(){
       return $this->_clear(5);
     }
     
     /**
-     * Get <delayTime> value
+     * Get <resourceId> value
      *
-     * @return int
+     * @return string
      */
-    public function getDelayTime(){
+    public function getResourceId(){
       return $this->_get(5);
     }
     
     /**
-     * Set <delayTime> value
+     * Set <resourceId> value
      *
-     * @param int $value
+     * @param string $value
      * @return \App\Proto\Weapon
      */
-    public function setDelayTime( $value){
+    public function setResourceId( $value){
       return $this->_set(5, $value);
     }
   }

@@ -11,6 +11,7 @@ use App\Proto\Wave;
 use App\Proto\WaveListResult;
 use App\Proto\WaveZombie;
 use App\Proto\Weapon;
+use App\Proto\WeaponGroup;
 use App\Proto\Zombie;
 
 class ProtobufObject
@@ -32,6 +33,7 @@ class ProtobufObject
             case $object instanceof WaveListResult: return 0xb4930e0b;
             case $object instanceof WaveZombie: return 0x2e2083f;
             case $object instanceof Weapon: return 0xead53368;
+            case $object instanceof WeaponGroup: return 0x804a2603;
             case $object instanceof Zombie: return 0x490b3246;
         }
         throw new \Exception("unknown object type");
@@ -54,6 +56,7 @@ class ProtobufObject
             case 0xb4930e0b: return new WaveListResult();
             case 0x2e2083f: return new WaveZombie();
             case 0xead53368: return new Weapon();
+            case 0x804a2603: return new WeaponGroup();
             case 0x490b3246: return new Zombie();
         }
         throw new \Exception("unknown type id");
