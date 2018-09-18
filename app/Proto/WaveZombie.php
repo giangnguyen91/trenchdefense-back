@@ -12,6 +12,9 @@ namespace App\Proto {
     /**  @var int */
     public $quantity = null;
     
+    /**  @var int[]  */
+    public $position = array();
+    
 
     /** @var \Closure[] */
     protected static $__extensions = array();
@@ -35,6 +38,14 @@ namespace App\Proto {
       $f->name      = "quantity";
       $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
+      $descriptor->addField($f);
+
+      // REPEATED UINT32 position = 3
+      $f = new \DrSlump\Protobuf\Field();
+      $f->number    = 3;
+      $f->name      = "position";
+      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
+      $f->rule      = \DrSlump\Protobuf::RULE_REPEATED;
       $descriptor->addField($f);
 
       foreach (self::$__extensions as $cb) {
@@ -136,6 +147,63 @@ namespace App\Proto {
      */
     public function setQuantity( $value){
       return $this->_set(2, $value);
+    }
+    
+    /**
+     * Check if <position> has a value
+     *
+     * @return boolean
+     */
+    public function hasPosition(){
+      return $this->_has(3);
+    }
+    
+    /**
+     * Clear <position> value
+     *
+     * @return \App\Proto\WaveZombie
+     */
+    public function clearPosition(){
+      return $this->_clear(3);
+    }
+    
+    /**
+     * Get <position> value
+     *
+     * @param int $idx
+     * @return int
+     */
+    public function getPosition($idx = NULL){
+      return $this->_get(3, $idx);
+    }
+    
+    /**
+     * Set <position> value
+     *
+     * @param int $value
+     * @return \App\Proto\WaveZombie
+     */
+    public function setPosition( $value, $idx = NULL){
+      return $this->_set(3, $value, $idx);
+    }
+    
+    /**
+     * Get all elements of <position>
+     *
+     * @return int[]
+     */
+    public function getPositionList(){
+     return $this->_get(3);
+    }
+    
+    /**
+     * Add a new element to <position>
+     *
+     * @param int $value
+     * @return \App\Proto\WaveZombie
+     */
+    public function addPosition( $value){
+     return $this->_add(3, $value);
     }
   }
 }

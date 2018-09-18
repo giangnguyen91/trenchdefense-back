@@ -2,12 +2,14 @@
 
 namespace App\Domains\Wave\Zombie;
 
-use App\Domains\Wave\Wave;
 use App\Domains\Wave\WaveID;
 use App\Domains\Zombie\Zombie;
+use App\Utils\Util;
 
 class WaveZombie
 {
+    const MAX_POSITION = 8;
+
     /**
      * @var Zombie
      */
@@ -71,6 +73,7 @@ class WaveZombie
         $proto = new \App\Proto\WaveZombie();
         $proto->zombie = $this->zombie->toProtobuf();
         $proto->quantity = $this->quantity->getValue();
+        $proto->position = Util::randomValueArray($this->quantity->getValue(), self::MAX_POSITION);
         return $proto;
     }
 }
