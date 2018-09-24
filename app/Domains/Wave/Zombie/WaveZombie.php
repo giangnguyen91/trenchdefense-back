@@ -8,8 +8,6 @@ use App\Utils\Util;
 
 class WaveZombie
 {
-    const MAX_POSITION = 8;
-
     /**
      * @var Zombie
      */
@@ -73,7 +71,6 @@ class WaveZombie
         $proto = new \App\Proto\WaveZombie();
         $proto->zombie = $this->zombie->toProtobuf();
         $proto->quantity = $this->quantity->getValue();
-        $proto->position = Util::randomValueArray($this->quantity->getValue(), self::MAX_POSITION);
         return $proto;
     }
 }
