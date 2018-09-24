@@ -29,3 +29,4 @@ Route::group(['prefix' => 'characters'], function (Router $router) {
 Route::group(['prefix' => 'weapons'], function (Router $router) {
     $router->get('/all', 'WeaponController@get');
 });
+ 

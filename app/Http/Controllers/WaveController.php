@@ -28,4 +28,8 @@ class WaveController extends Controller
         return response()->protobuf([$waves->toProtobuf()]);
     }
 
+    public function endWave()
+    {
+
+    }
 }
