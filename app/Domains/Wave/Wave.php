@@ -120,7 +120,10 @@ class Wave
         return $this->waveZombies;
     }
 
-
+    /**
+     * @param Collection $zombies
+     * @return array
+     */
     private function generatePosition(Collection $zombies): array
     {
         $start = 0;
