@@ -12,7 +12,7 @@ namespace App\Proto {
     /**  @var int */
     public $quantity = null;
     
-    /**  @var int[]  */
+    /**  @var \App\Proto\ZombiePosition[]  */
     public $position = array();
     
 
@@ -40,12 +40,13 @@ namespace App\Proto {
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
-      // REPEATED UINT32 position = 3
+      // REPEATED MESSAGE position = 3
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 3;
       $f->name      = "position";
-      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
+      $f->type      = \DrSlump\Protobuf::TYPE_MESSAGE;
       $f->rule      = \DrSlump\Protobuf::RULE_REPEATED;
+      $f->reference = '\App\Proto\ZombiePosition';
       $descriptor->addField($f);
 
       foreach (self::$__extensions as $cb) {
@@ -171,7 +172,7 @@ namespace App\Proto {
      * Get <position> value
      *
      * @param int $idx
-     * @return int
+     * @return \App\Proto\ZombiePosition
      */
     public function getPosition($idx = NULL){
       return $this->_get(3, $idx);
@@ -180,17 +181,17 @@ namespace App\Proto {
     /**
      * Set <position> value
      *
-     * @param int $value
+     * @param \App\Proto\ZombiePosition $value
      * @return \App\Proto\WaveZombie
      */
-    public function setPosition( $value, $idx = NULL){
+    public function setPosition(\App\Proto\ZombiePosition $value, $idx = NULL){
       return $this->_set(3, $value, $idx);
     }
     
     /**
      * Get all elements of <position>
      *
-     * @return int[]
+     * @return \App\Proto\ZombiePosition[]
      */
     public function getPositionList(){
      return $this->_get(3);
@@ -199,10 +200,10 @@ namespace App\Proto {
     /**
      * Add a new element to <position>
      *
-     * @param int $value
+     * @param \App\Proto\ZombiePosition $value
      * @return \App\Proto\WaveZombie
      */
-    public function addPosition( $value){
+    public function addPosition(\App\Proto\ZombiePosition $value){
      return $this->_add(3, $value);
     }
   }
