@@ -9,12 +9,15 @@
 namespace App\Http\Controllers;
 
 
+use App\Components\Auth\AuthComponent;
 use App\Domains\Auth\TokenRepository;
 use App\Domains\User\GameUser;
 use App\Domains\User\GameUserFactory;
 use App\Domains\User\GameUserRepository;
 use App\Domains\User\Imei;
+use App\Proto\AccessCode;
 use Illuminate\Http\Request;
+use App\Proto\RequestAccessTokenParameter;
 
 class GameUserController extends Controller
 {
@@ -33,6 +36,11 @@ class GameUserController extends Controller
      */
     private $tokenRepository;
 
+    /**
+     * @var AuthComponent
+     */
+    private $authComponent;
+
     public function __construct(
         GameUserRepository $gameUserRepository,
         GameUserFactory $gameUserFactory,
@@ -46,19 +54,19 @@ class GameUserController extends Controller
 
     public function createAccessToken(Request $request)
     {
-        $imei = $request->get('imei');
-        $gameUser =  $this->gameUserRepository->findByIMEI(new Imei($imei));
+        $requestAccessTokenParameter = $request->get(RequestAccessTokenParameter::class);
+        $gameUser =  $this->gameUserRepository->findByIMEI(new Imei($requestAccessTokenParameter->imei));
         if(is_null($gameUser)){
-            $gameUser = $this->createNewGameUser($imei);
+            $gameUser = $this->createNewGameUser($requestAccessTokenParameter->imei);
         }
         $token = $this->tokenRepository->createTokenForGameUser($gameUser);
-        $data = [
-            'id' => $token->getTokenID()->getValue(),
-            'game_user_id' => $token->getGameUserID()->getValue(),
-            'access_token' => $token->getAccessToken()->getValue()
 
-        ];
-        return response()->json($data);
+        $accessCode = new AccessCode();
+        $accessCode->tokenID = $token->getTokenID()->getValue();
+        $accessCode->gameUserID = $token->getGameUserID()->getValue();
+        $accessCode->token = $token->getAccessToken()->getValue();
+
+        return response()->protobuf([$accessCode]);
     }
 
     private function createNewGameUser(string $imei): GameUser
@@ -70,8 +78,9 @@ class GameUserController extends Controller
 
     public function getInfo(Request $request)
     {
-        $loggedInUser = app('auth')->guard()->user();
-        return response()->json(['loggedinuserid' => "xxx"]);
+        $loggedInUserID = $this->authComponent->getGameUserId();
+        $gameUser = $this->gameUserRepository->findByID($loggedInUserID);
+        return response()->protobuf([$gameUser->toProtobuf()]);
     }
 
 }
