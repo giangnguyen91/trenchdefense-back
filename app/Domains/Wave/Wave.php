@@ -126,57 +126,56 @@ class Wave
      */
     private function generatePosition(Collection $zombies): array
     {
-        $start = 0;
-
         $positionBase = range(1, self::MAX_POSITION);
-        $randomNumber = rand(self::MIN_ZOMBIE, self::MAX_POSITION);
         $zombieCount = $zombies->count();
 
         $data = [];
-        while ($zombieCount > 0) {
+        $time = 0;
+        while ($zombieCount) {
+            $zombies = $zombies->shuffle();
+
+            if ($zombies->count() >= self::MIN_ZOMBIE) {
+                $zombieList = $zombies->slice(0, self::MIN_ZOMBIE);
+            } else {
+                $zombieList = $zombies->slice(0, $zombies->count() - 1);
+            }
+
+            $zombies = $zombies->diffKeys($zombieList);
+
+            $randomNumber = rand(self::MIN_ZOMBIE, self::MAX_POSITION);
             $randomPositions = array_rand($positionBase, $randomNumber);
 
-            if (!$zombies->count()) {
-                $zombieCount = 0;
-            } else {
-                if ($zombies->count() > self::MAX_POSITION) {
-                    $zombieList = $zombies->random($randomNumber)->unique();
-                } else {
-                    $zombieList = $zombies->random(1);
-                }
-
-                $arr = [];
-                foreach ($zombieList as $item) {
-                    $total = isset($arr[$item]) ? $arr[$item] + 1 : 1;
-                    $arr[$item] = $total;
-                    $indexRemove = $zombies->search($item);
-                    $zombies = $zombies->forget($indexRemove);
-                }
-
-                $position = [];
-
-                foreach ($arr as $id => $count) {
-                    $waveZombieInfo = $this->waveZombies->filter(function (WaveZombie $waveZombie) use ($id) {
-                        return $waveZombie->getZombie()->getID()->getValue() == $id;
-                    })->first();
-                    $positionModel = new Position();
-                    $positionModel->zombieID = $id;
-                    $positionModel->zombieName = $waveZombieInfo->getZombie()->getName()->getValue();
-                    $positionModel->total = $count;
-                    $randPosition = $randomPositions[mt_rand(0, count($randomPositions) - 1)];
-                    $position[$randPosition] = $positionModel;
-                    $zombieCount = $zombieCount - $count;
-                }
-
-                if (!empty($position)) {
-                    $zombiePosition = new ZombiePosition();
-                    $zombiePosition->position = $position;
-                    $zombiePosition->time = $start;
-                    $data[] = $zombiePosition;
-                    $start = $start + config('game.increaseTime');
-                }
+            $position = [];
+            while ($randomNumber) {
+                $this->shuffleRandomize($zombieList, $randomNumber, $position, $randomPositions);
             }
+
+            $increaseTime = config('game.increaseTime');
+
+            $newZombiePosition = new ZombiePosition();
+            $newZombiePosition->position = $position;
+            $newZombiePosition->time = $time;
+            $data[$time] = $newZombiePosition;
+            $time = $time + $increaseTime;
+            $zombieCount = $zombies->count();
+
         }
         return $data;
+    }
+
+    private function shuffleRandomize(Collection $zombieList, &$randomNumber, &$position, &$randomPositions)
+    {
+        $zombieList = $zombieList->shuffle();
+        $zombieDetail = $zombieList->shift();
+
+        shuffle($randomPositions);
+        $positionRandom = array_shift($randomPositions);
+
+        $modelPosition = new Position();
+        $modelPosition->zombieID = $zombieDetail;
+        $modelPosition->zombieName = 'sss';
+        $modelPosition->total = 1;
+        $position[$positionRandom] = $modelPosition;
+        $randomNumber--;
     }
 }
