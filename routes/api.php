@@ -31,6 +31,6 @@ Route::group(['prefix' => 'weapons', 'middleware' => 'auth:api'], function (Rout
 });
 
 Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function (Router $router) {
-    $router->get('/setting', 'SettingController@get');
+    $router->get('/', 'SettingController@get');
     $router->post('/setting', 'SettingController@update');
 });
