@@ -91,6 +91,19 @@ class CreateUserCommand extends Command
 
             $this->havingCharacterComponent->addNew(new GameUserID($userID), new CharacterID(1));
 
+            \App\GameSetting::unguarded(function () use ($userID, $name) {
+                return \App\GameSetting::query()->updateOrCreate(
+                    [
+                        'game_user_id' => $userID
+                    ],
+                    [
+                        'volume' => 50,
+                        'sfx' => true,
+                        'bgm' => true
+                    ]
+                );
+            });
+
             $token = $user->createToken(config('app.name'))->accessToken;
 
             logger()->info('token '.$token);

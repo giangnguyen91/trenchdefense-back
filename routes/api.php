@@ -17,15 +17,20 @@ Route::post('/create-access-token', 'GameUserController@createAccessToken');
 
 Route::get('/user', 'GameUserController@getInfo')->middleware('auth:api');
 
-Route::group(['prefix' => 'waves'], function (Router $router) {
+Route::group(['prefix' => 'waves', 'middleware' => 'auth:api'], function (Router $router) {
     $router->get('/{page}', 'WaveController@get');
 });
 
-Route::group(['prefix' => 'characters'], function (Router $router) {
-    $router->get('/having', 'HavingCharacterController@getByGameUserID')->middleware('auth:api');
+Route::group(['prefix' => 'characters', 'middleware' => 'auth:api'], function (Router $router) {
+    $router->get('/having', 'HavingCharacterController@getByGameUserID');
     $router->get('/all', 'CharacterController@get');
 });
 
-Route::group(['prefix' => 'weapons'], function (Router $router) {
+Route::group(['prefix' => 'weapons', 'middleware' => 'auth:api'], function (Router $router) {
     $router->get('/all', 'WeaponController@get');
+});
+
+Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function (Router $router) {
+    $router->get('/setting', 'SettingController@get');
+    $router->post('/setting', 'SettingController@update');
 });

@@ -7,6 +7,8 @@ use App\Proto\ProtobufMessage;
 use App\Proto\ProtobufMessages;
 use App\Proto\Character;
 use App\Proto\HavingCharacter;
+use App\Proto\UpdateSettingParameter;
+use App\Proto\User;
 use App\Proto\Wave;
 use App\Proto\WaveListResult;
 use App\Proto\WaveZombie;
@@ -29,6 +31,8 @@ class ProtobufObject
             case $object instanceof ProtobufMessages: return 0xfb72b96d;
             case $object instanceof Character: return 0xee9946c8;
             case $object instanceof HavingCharacter: return 0xecb02e52;
+            case $object instanceof UpdateSettingParameter: return 0x4cbf68cf;
+            case $object instanceof User: return 0x9f8a2389;
             case $object instanceof Wave: return 0xa24d6011;
             case $object instanceof WaveListResult: return 0xb4930e0b;
             case $object instanceof WaveZombie: return 0x2e2083f;
@@ -52,6 +56,8 @@ class ProtobufObject
             case 0xfb72b96d: return new ProtobufMessages();
             case 0xee9946c8: return new Character();
             case 0xecb02e52: return new HavingCharacter();
+            case 0x4cbf68cf: return new UpdateSettingParameter();
+            case 0x9f8a2389: return new User();
             case 0xa24d6011: return new Wave();
             case 0xb4930e0b: return new WaveListResult();
             case 0x2e2083f: return new WaveZombie();
