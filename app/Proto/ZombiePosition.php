@@ -6,8 +6,11 @@ namespace App\Proto {
 
   class ZombiePosition extends \DrSlump\Protobuf\Message {
 
-    /**  @var \App\Proto\Position[]  */
-    public $position = array();
+    /**  @var int */
+    public $position = null;
+    
+    /**  @var \App\Proto\Zombie */
+    public $zombie = null;
     
     /**  @var int */
     public $time = null;
@@ -20,18 +23,26 @@ namespace App\Proto {
     {
       $descriptor = new \DrSlump\Protobuf\Descriptor(__CLASS__, 'App.Proto.ZombiePosition');
 
-      // REPEATED MESSAGE position = 1
+      // REQUIRED UINT32 position = 1
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 1;
       $f->name      = "position";
-      $f->type      = \DrSlump\Protobuf::TYPE_MESSAGE;
-      $f->rule      = \DrSlump\Protobuf::RULE_REPEATED;
-      $f->reference = '\App\Proto\Position';
+      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
+      $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
-      // REQUIRED UINT32 time = 2
+      // REQUIRED MESSAGE zombie = 2
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 2;
+      $f->name      = "zombie";
+      $f->type      = \DrSlump\Protobuf::TYPE_MESSAGE;
+      $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
+      $f->reference = '\App\Proto\Zombie';
+      $descriptor->addField($f);
+
+      // REQUIRED UINT32 time = 3
+      $f = new \DrSlump\Protobuf\Field();
+      $f->number    = 3;
       $f->name      = "time";
       $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
@@ -65,40 +76,57 @@ namespace App\Proto {
     /**
      * Get <position> value
      *
-     * @param int $idx
-     * @return \App\Proto\Position
+     * @return int
      */
-    public function getPosition($idx = NULL){
-      return $this->_get(1, $idx);
+    public function getPosition(){
+      return $this->_get(1);
     }
     
     /**
      * Set <position> value
      *
-     * @param \App\Proto\Position $value
+     * @param int $value
      * @return \App\Proto\ZombiePosition
      */
-    public function setPosition(\App\Proto\Position $value, $idx = NULL){
-      return $this->_set(1, $value, $idx);
+    public function setPosition( $value){
+      return $this->_set(1, $value);
     }
     
     /**
-     * Get all elements of <position>
+     * Check if <zombie> has a value
      *
-     * @return \App\Proto\Position[]
+     * @return boolean
      */
-    public function getPositionList(){
-     return $this->_get(1);
+    public function hasZombie(){
+      return $this->_has(2);
     }
     
     /**
-     * Add a new element to <position>
+     * Clear <zombie> value
      *
-     * @param \App\Proto\Position $value
      * @return \App\Proto\ZombiePosition
      */
-    public function addPosition(\App\Proto\Position $value){
-     return $this->_add(1, $value);
+    public function clearZombie(){
+      return $this->_clear(2);
+    }
+    
+    /**
+     * Get <zombie> value
+     *
+     * @return \App\Proto\Zombie
+     */
+    public function getZombie(){
+      return $this->_get(2);
+    }
+    
+    /**
+     * Set <zombie> value
+     *
+     * @param \App\Proto\Zombie $value
+     * @return \App\Proto\ZombiePosition
+     */
+    public function setZombie(\App\Proto\Zombie $value){
+      return $this->_set(2, $value);
     }
     
     /**
@@ -107,7 +135,7 @@ namespace App\Proto {
      * @return boolean
      */
     public function hasTime(){
-      return $this->_has(2);
+      return $this->_has(3);
     }
     
     /**
@@ -116,7 +144,7 @@ namespace App\Proto {
      * @return \App\Proto\ZombiePosition
      */
     public function clearTime(){
-      return $this->_clear(2);
+      return $this->_clear(3);
     }
     
     /**
@@ -125,7 +153,7 @@ namespace App\Proto {
      * @return int
      */
     public function getTime(){
-      return $this->_get(2);
+      return $this->_get(3);
     }
     
     /**
@@ -135,7 +163,7 @@ namespace App\Proto {
      * @return \App\Proto\ZombiePosition
      */
     public function setTime( $value){
-      return $this->_set(2, $value);
+      return $this->_set(3, $value);
     }
   }
 }

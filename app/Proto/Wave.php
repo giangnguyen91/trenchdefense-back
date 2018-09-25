@@ -16,7 +16,7 @@ namespace App\Proto {
     public $resourceID = null;
     
     /**  @var \App\Proto\ZombiePosition[]  */
-    public $zombiePosition = array();
+    public $zombiePositions = array();
     
 
     /** @var \Closure[] */
@@ -51,10 +51,10 @@ namespace App\Proto {
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
-      // REPEATED MESSAGE zombiePosition = 4
+      // REPEATED MESSAGE zombiePositions = 4
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 4;
-      $f->name      = "zombiePosition";
+      $f->name      = "zombiePositions";
       $f->type      = \DrSlump\Protobuf::TYPE_MESSAGE;
       $f->rule      = \DrSlump\Protobuf::RULE_REPEATED;
       $f->reference = '\App\Proto\ZombiePosition';
@@ -199,59 +199,59 @@ namespace App\Proto {
     }
     
     /**
-     * Check if <zombiePosition> has a value
+     * Check if <zombiePositions> has a value
      *
      * @return boolean
      */
-    public function hasZombiePosition(){
+    public function hasZombiePositions(){
       return $this->_has(4);
     }
     
     /**
-     * Clear <zombiePosition> value
+     * Clear <zombiePositions> value
      *
      * @return \App\Proto\Wave
      */
-    public function clearZombiePosition(){
+    public function clearZombiePositions(){
       return $this->_clear(4);
     }
     
     /**
-     * Get <zombiePosition> value
+     * Get <zombiePositions> value
      *
      * @param int $idx
      * @return \App\Proto\ZombiePosition
      */
-    public function getZombiePosition($idx = NULL){
+    public function getZombiePositions($idx = NULL){
       return $this->_get(4, $idx);
     }
     
     /**
-     * Set <zombiePosition> value
+     * Set <zombiePositions> value
      *
      * @param \App\Proto\ZombiePosition $value
      * @return \App\Proto\Wave
      */
-    public function setZombiePosition(\App\Proto\ZombiePosition $value, $idx = NULL){
+    public function setZombiePositions(\App\Proto\ZombiePosition $value, $idx = NULL){
       return $this->_set(4, $value, $idx);
     }
     
     /**
-     * Get all elements of <zombiePosition>
+     * Get all elements of <zombiePositions>
      *
      * @return \App\Proto\ZombiePosition[]
      */
-    public function getZombiePositionList(){
+    public function getZombiePositionsList(){
      return $this->_get(4);
     }
     
     /**
-     * Add a new element to <zombiePosition>
+     * Add a new element to <zombiePositions>
      *
      * @param \App\Proto\ZombiePosition $value
      * @return \App\Proto\Wave
      */
-    public function addZombiePosition(\App\Proto\ZombiePosition $value){
+    public function addZombiePositions(\App\Proto\ZombiePosition $value){
      return $this->_add(4, $value);
     }
   }

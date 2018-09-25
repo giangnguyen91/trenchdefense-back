@@ -25,8 +25,6 @@ class WaveController extends Controller
     public function get(int $page)
     {
         $waves = $this->waveComponent->listWaves($page);
-        dd($waves->toProtobuf());
         return response()->protobuf([$waves->toProtobuf()]);
     }
-
 }

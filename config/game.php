@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'increaseTime' => env('INCREASE_TIME', 2)
+    'increaseTime' => env('INCREASE_TIME', 4)
 ];

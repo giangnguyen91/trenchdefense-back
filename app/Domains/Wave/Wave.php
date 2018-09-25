@@ -4,7 +4,7 @@ namespace App\Domains\Wave;
 
 use App\Domains\Base\ResourceID;
 use App\Domains\Wave\Zombie\WaveZombie;
-use App\Proto\Position;
+use App\Proto\WaveZombie as WaveZombieProto;
 use App\Proto\ZombiePosition;
 use Illuminate\Support\Collection;
 
@@ -13,6 +13,8 @@ class Wave
     const MAX_POSITION = 8;
 
     const MIN_ZOMBIE = 4;
+
+    const MAX_ZOMBIE = 8;
 
     /**
      * @var Name
@@ -103,11 +105,13 @@ class Wave
             $quatity = $waveZombie->getQuantity()->getValue();
 
             for ($i = 1; $i <= $quatity; $i++) {
-                $zombies->push($waveZombie->getZombie()->getID()->getValue());
+                $zombies->push($waveZombie->getZombie());
             }
+
             return $waveZombie->toProtobuf();
         })->toArray();
-        $proto->zombiePosition = $this->generatePosition($zombies);
+
+        $proto->zombiePositions = $this->generatePosition($zombies)->toArray();
 
         return $proto;
     }
@@ -121,61 +125,58 @@ class Wave
     }
 
     /**
-     * @param Collection $zombies
-     * @return array
+     * Get locations in random orders
+     * @return Collection
      */
-    private function generatePosition(Collection $zombies): array
+    private function getRandomPositions(): Collection
     {
-        $positionBase = range(1, self::MAX_POSITION);
-        $zombieCount = $zombies->count();
-
-        $data = [];
-        $time = 0;
-        while ($zombieCount) {
-            $zombies = $zombies->shuffle();
-
-            if ($zombies->count() >= self::MIN_ZOMBIE) {
-                $zombieList = $zombies->slice(0, self::MIN_ZOMBIE);
-            } else {
-                $zombieList = $zombies->slice(0, $zombies->count() - 1);
-            }
-
-            $zombies = $zombies->diffKeys($zombieList);
-
-            $randomNumber = rand(self::MIN_ZOMBIE, self::MAX_POSITION);
-            $randomPositions = array_rand($positionBase, $randomNumber);
-
-            $position = [];
-            while ($randomNumber) {
-                $this->shuffleRandomize($zombieList, $randomNumber, $position, $randomPositions);
-            }
-
-            $increaseTime = config('game.increaseTime');
-
-            $newZombiePosition = new ZombiePosition();
-            $newZombiePosition->position = $position;
-            $newZombiePosition->time = $time;
-            $data[$time] = $newZombiePosition;
-            $time = $time + $increaseTime;
-            $zombieCount = $zombies->count();
-
-        }
-        return $data;
+        return collect(range(1, self::MAX_POSITION))->shuffle();
     }
 
-    private function shuffleRandomize(Collection $zombieList, &$randomNumber, &$position, &$randomPositions)
+    /**
+     * Pop random zombies from zombie list of wave
+     * @param Collection $zombies
+     * @param int $time
+     * @param int $outputQuantity
+     * @return Collection
+     */
+    private function randomZombies(Collection &$zombies, int $time, int $outputQuantity): Collection
     {
-        $zombieList = $zombieList->shuffle();
-        $zombieDetail = $zombieList->shift();
+        $zombies = $zombies->shuffle();
+        $positions = $this->getRandomPositions();
+        $zombiePositions = collect();
+        for($i = 0; $i < $outputQuantity; $i++){
+            $zombie = $zombies->shift();
 
-        shuffle($randomPositions);
-        $positionRandom = array_shift($randomPositions);
+            if(!is_null($zombie)){
+                $zombiePosition = new ZombiePosition();
+                $zombiePosition->time = $time;
+                $zombiePosition->position = $positions[$i];
+                $zombiePosition->zombie = $zombie;
 
-        $modelPosition = new Position();
-        $modelPosition->zombieID = $zombieDetail;
-        $modelPosition->zombieName = 'sss';
-        $modelPosition->total = 1;
-        $position[$positionRandom] = $modelPosition;
-        $randomNumber--;
+                $zombiePositions->push($zombiePosition);
+            }
+        }
+
+        return $zombiePositions;
+    }
+
+    /**
+     * @param Collection $zombies
+     * @param int $time
+     * @return Collection
+     */
+    private function generatePosition(Collection &$zombies, int $time = 0): Collection
+    {
+        $zombiePositions = collect();
+        $outputQuantity = mt_rand(self::MIN_ZOMBIE, self::MAX_ZOMBIE);
+        $randomZombies = $this->randomZombies($zombies, $time, $outputQuantity);
+        $zombiePositions = $zombiePositions->merge($randomZombies);
+
+        if($zombies->isNotEmpty()){
+            $zombiePositions = $zombiePositions->merge($this->generatePosition($zombies, $time + config('game.increaseTime')));
+        }
+
+        return $zombiePositions;
     }
 }
