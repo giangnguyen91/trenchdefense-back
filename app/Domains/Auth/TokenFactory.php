@@ -35,12 +35,4 @@ class TokenFactory
         $gameUserID = new GameUserID($newTokenResult->token->user->user_id);
         return new Token($tokenID, $accessToken, $gameUserID);
     }
-
-    public function makeByEloquent(TokenEloquent $token): Token
-    {
-        $tokenID = new TokenID($token->id);
-        $accessToken = new AccessToken("");
-        $gameUserID = new GameUserID($token->user_id);
-        return new Token($tokenID, $accessToken, $gameUserID);
-    }
 }

@@ -30,10 +30,7 @@ class TokenRepository
             ->where("expires_at", ">", Carbon::now())
             ->first();
 
-        if(is_null($token)){
-            return $this->createToken($gameUser);
-        }
-        return $this->tokenFactory->makeByEloquent($token);
+        return $this->createToken($gameUser);
     }
 
     /**
