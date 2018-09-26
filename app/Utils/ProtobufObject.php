@@ -6,7 +6,7 @@ use App\Proto\Error;
 use App\Proto\ProtobufMessage;
 use App\Proto\ProtobufMessages;
 use App\Proto\AccessCode;
-use App\Proto\Imei;
+use App\Proto\RequestAccessTokenParameter;
 use App\Proto\Character;
 use App\Proto\HavingCharacter;
 use App\Proto\UpdateSettingParameter;
@@ -33,7 +33,7 @@ class ProtobufObject
             case $object instanceof ProtobufMessage: return 0xe5bba9f8;
             case $object instanceof ProtobufMessages: return 0xfb72b96d;
             case $object instanceof AccessCode: return 0xebb88223;
-            case $object instanceof Imei: return 0xb4589e46;
+            case $object instanceof RequestAccessTokenParameter: return 0x582ede3d;
             case $object instanceof Character: return 0xee9946c8;
             case $object instanceof HavingCharacter: return 0xecb02e52;
             case $object instanceof UpdateSettingParameter: return 0x4cbf68cf;
@@ -61,7 +61,7 @@ class ProtobufObject
             case 0xe5bba9f8: return new ProtobufMessage();
             case 0xfb72b96d: return new ProtobufMessages();
             case 0xebb88223: return new AccessCode();
-            case 0xb4589e46: return new Imei();
+            case 0x582ede3d: return new RequestAccessTokenParameter();
             case 0xee9946c8: return new Character();
             case 0xecb02e52: return new HavingCharacter();
             case 0x4cbf68cf: return new UpdateSettingParameter();
