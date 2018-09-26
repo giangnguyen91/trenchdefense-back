@@ -23,7 +23,7 @@ class GameSettingRepository
      * @param GameUserID $gameUserID
      * @return GameSetting|null
      */
-    public function findByID(GameUserID $gameUserID): GameSetting
+    public function findByID(GameUserID $gameUserID): ?GameSetting
     {
         $gameSettingEloquent = \App\GameSetting::query()->where('game_user_id', $gameUserID->getValue())->first();
         if (is_null($gameSettingEloquent)) return null;
