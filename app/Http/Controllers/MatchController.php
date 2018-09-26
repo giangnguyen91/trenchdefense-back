@@ -43,4 +43,16 @@ class MatchController extends Controller
             ]
         );
     }
+
+    public function start()
+    {
+        $gameUserID = $this->authComponent->getGameUserId();
+        $result = $this->matchComponent->getCharacterStatus($gameUserID);
+
+        return response()->protobuf(
+            [
+                $result->toProtobuf()
+            ]
+        );
+    }
 }

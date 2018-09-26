@@ -72,4 +72,15 @@ class MatchComponent
 
         return $characterStatus;
     }
+
+    /**
+     * @param GameUserID $gameUserID
+     * @return CharacterStatus
+     */
+    public function getCharacterStatus(
+        GameUserID $gameUserID
+    ): CharacterStatus
+    {
+        return $this->characterStatusRepository->findByGameUserID($gameUserID);
+    }
 }
