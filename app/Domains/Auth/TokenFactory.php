@@ -32,7 +32,7 @@ class TokenFactory
     {
         $tokenID = new TokenID($newTokenResult->token->id);
         $accessToken = new AccessToken($newTokenResult->accessToken);
-        $gameUserID = new GameUserID($newTokenResult->token->user->user_id);
+        $gameUserID = new GameUserID($newTokenResult->token->user_id);
         return new Token($tokenID, $accessToken, $gameUserID);
     }
 }
