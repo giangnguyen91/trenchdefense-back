@@ -73,5 +73,4 @@ class WaveComponent
         $presentation = $paginate->toPresentation();
         return new WaveListResult($presentation->lastPage(), collect($presentation->items()));
     }
-
 }

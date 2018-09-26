@@ -34,3 +34,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function (Router 
     $router->get('/', 'SettingController@get');
     $router->post('/setting', 'SettingController@update');
 });
+
+Route::group(['prefix' => 'match', 'middleware' => 'auth:api'], function (Router $router) {
+    $router->post('/begin', 'MatchController@begin');
+});
