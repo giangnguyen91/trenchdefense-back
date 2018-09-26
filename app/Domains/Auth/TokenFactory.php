@@ -32,15 +32,7 @@ class TokenFactory
     {
         $tokenID = new TokenID($newTokenResult->token->id);
         $accessToken = new AccessToken($newTokenResult->accessToken);
-        $gameUserID = new GameUserID($newTokenResult->token->user->user_id);
-        return new Token($tokenID, $accessToken, $gameUserID);
-    }
-
-    public function makeByEloquent(TokenEloquent $token): Token
-    {
-        $tokenID = new TokenID($token->id);
-        $accessToken = new AccessToken("");
-        $gameUserID = new GameUserID($token->user_id);
+        $gameUserID = new GameUserID($newTokenResult->token->user_id);
         return new Token($tokenID, $accessToken, $gameUserID);
     }
 }
