@@ -78,6 +78,7 @@ class WeaponRepository implements IWeaponRepository
     {
         return \App\Weapon::destroy($weapon->getID()->getValue());
     }
+
     /**
      * @param Collection $weaponIds
      * @return Collection

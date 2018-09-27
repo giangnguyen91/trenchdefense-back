@@ -2,42 +2,47 @@
 
 namespace App\Components\Match;
 
-use App\Domains\Character\CharacterID;
+use App\Components\Character\CharacterProfileComponent;
+use App\Components\Wave\WaveComponent;
+use App\Components\Weapon\WeaponComponent;
 use App\Domains\Character\Having\Status\CharacterStatus;
 use App\Domains\Character\Having\Status\CharacterStatusFactory;
 use App\Domains\Character\Having\Status\CharacterStatusRepository;
-use App\Domains\Character\Having\Status\DropGold;
+use App\Domains\Match\Action\EndMatchParameterBuilder;
 use App\Domains\User\GameUserID;
 use App\Domains\Wave\WaveID;
-use App\Domains\Wave\WaveRepository;
-use App\Domains\Weapon\Master\WeaponRepository;
 
 class MatchComponent
 {
     /**
-     * @var CharacterStatusRepository
+     * @var CharacterProfileComponent
      */
-    private $characterStatusRepository;
+    private $characterProfileComponent;
 
     /**
-     * @var CharacterStatusFactory
+     * @var WeaponComponent
      */
-    private $characterStatusFactory;
+    private $weaponComponent;
 
     /**
-     * @param CharacterStatusRepository $characterStatusRepository
-     * @param CharacterStatusFactory $characterStatusFactory
-     * @param WeaponRepository $weaponRepository
+     * @var WaveComponent
+     */
+    private $waveComponent;
+
+    /**
+     * @param CharacterProfileComponent $characterProfileComponent
+     * @param WeaponComponent $weaponComponent
+     * @param WaveComponent $waveComponent
      */
     public function __construct(
-        CharacterStatusRepository $characterStatusRepository,
-        CharacterStatusFactory $characterStatusFactory,
-        WeaponRepository $weaponRepository
+        CharacterProfileComponent $characterProfileComponent,
+        WeaponComponent $weaponComponent,
+        WaveComponent $waveComponent
     )
     {
-        $this->characterStatusRepository = $characterStatusRepository;
-        $this->characterStatusFactory = $characterStatusFactory;
-        $this->weaponRepository = $weaponRepository;
+        $this->characterProfileComponent = $characterProfileComponent;
+        $this->weaponComponent = $weaponComponent;
+        $this->waveComponent = $waveComponent;
     }
 
     /**
@@ -50,37 +55,40 @@ class MatchComponent
         WaveID $waveID
     ): CharacterStatus
     {
-        $characterStatus = $this->characterStatusRepository->findByGameUserID($gameUserID);
-        if (!is_null($characterStatus)) {
-            $this->characterStatusRepository->removeByGameUserID($gameUserID);
-        }
-
-        //Init
-        $weapons = config('game.init_weapon');
-        $weapons = json_decode($weapons, true);
-
-
-        $characterStatus = $this->characterStatusFactory->init(
-            new CharacterID(1),
-            collect($weapons),
-            $waveID,
-            new DropGold(0),
-            $gameUserID
-        );
-
-        $this->characterStatusRepository->persist($characterStatus);
-
-        return $characterStatus;
+        return $this->characterProfileComponent->initCharacterProfile($gameUserID, $waveID);
     }
 
+
     /**
-     * @param GameUserID $gameUserID
+     * @param EndMatchParameterBuilder $parameter
      * @return CharacterStatus
      */
-    public function getCharacterStatus(
-        GameUserID $gameUserID
+    public function end(
+        EndMatchParameterBuilder $parameter
     ): CharacterStatus
     {
-        return $this->characterStatusRepository->findByGameUserID($gameUserID);
+        $characterProfile = $this->characterProfileComponent->getCharacterProfile($parameter->getGameUserID());
+        $wave = $this->waveComponent->get($parameter->getWaveID());
+
+        $characterWeapon = $characterProfile->getWeapons();
+
+        $availableWeapon = config('game.weapon_available');
+
+        $nextWaveID = new WaveID($parameter->getWaveID()->getValue() + 1);
+
+        $weaponIDs = isset($availableWeapon[$nextWaveID->getValue()]) ?
+            $availableWeapon[$nextWaveID->getValue()] : array();
+
+        $availableWeapons = $this->weaponComponent->findByWeaponIDs(collect($weaponIDs));
+        $weapons = $characterWeapon->merge($availableWeapons);
+
+        $newProfile = $characterProfile->addGold($parameter->getDropGold())
+            ->setHp($parameter->getHp())
+            ->setWeapons($weapons)
+            ->setWave($wave);
+
+        $this->characterProfileComponent->persist($newProfile);
+
+        return $newProfile;
     }
 }

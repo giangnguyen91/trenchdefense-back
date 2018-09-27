@@ -112,7 +112,9 @@ class CharacterStatusFactory
     public function makeByEloquent(\App\CharacterStatus $eloquent): CharacterStatus
     {
         $character = $this->characterRepository->find(new CharacterID($eloquent->character_id));
-        $weapons = $this->weaponRepository->findByWeaponIDs(collect($eloquent->weapons));
+        $weapons = !is_null($eloquent->weapons) ? json_decode($eloquent->weapons, true) : array();
+
+        $weapons = $this->weaponRepository->findByWeaponIDs(collect($weapons));
         $wave = $this->waveRepository->find(new WaveID($eloquent->wave_id));
 
         return $this->make(

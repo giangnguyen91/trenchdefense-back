@@ -118,11 +118,54 @@ class CharacterStatus
     }
 
     /**
+     * @param DropGold $dropGold
+     * @return CharacterStatus
+     */
+    public function addGold(DropGold $dropGold) : CharacterStatus
+    {
+        $this->dropGold =  new DropGold(
+            $this->dropGold->renew(
+                max($this->dropGold->getValue() + $dropGold->getValue(), 0)
+            )->getValue()
+        );
+        return $this;
+    }
+
+    /**
      * @return Hp
      */
     public function getHp() : Hp
     {
         return $this->hp;
+    }
+
+    /**
+     * @param Hp $hp
+     * @return CharacterStatus
+     */
+    public function setHp(Hp $hp) : CharacterStatus
+    {
+        $this->hp = $hp;
+        return $this;
+    }
+
+    /**
+     * @param Collection $weapons
+     * @return CharacterStatus
+     */
+    public function setWeapons(Collection $weapons): CharacterStatus
+    {
+        $this->weapons = $weapons;
+        return $this;
+    }
+
+    /**
+     * @return CharacterStatus
+     */
+    public function setWave(Wave $wave) : CharacterStatus
+    {
+        $this->wave = $wave;
+        return $this;
     }
 
     /**

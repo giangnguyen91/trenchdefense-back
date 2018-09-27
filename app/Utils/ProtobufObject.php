@@ -10,6 +10,8 @@ use App\Proto\RequestAccessTokenParameter;
 use App\Proto\Character;
 use App\Proto\CharacterStatus;
 use App\Proto\HavingCharacter;
+use App\Proto\BeginMatchParameter;
+use App\Proto\EndMatchParameter;
 use App\Proto\UpdateSettingParameter;
 use App\Proto\User;
 use App\Proto\Wave;
@@ -38,6 +40,8 @@ class ProtobufObject
             case $object instanceof Character: return 0xee9946c8;
             case $object instanceof CharacterStatus: return 0x65d5ca17;
             case $object instanceof HavingCharacter: return 0xecb02e52;
+            case $object instanceof BeginMatchParameter: return 0xd7fa908b;
+            case $object instanceof EndMatchParameter: return 0x88c562a8;
             case $object instanceof UpdateSettingParameter: return 0x4cbf68cf;
             case $object instanceof User: return 0x9f8a2389;
             case $object instanceof Wave: return 0xa24d6011;
@@ -67,6 +71,8 @@ class ProtobufObject
             case 0xee9946c8: return new Character();
             case 0x65d5ca17: return new CharacterStatus();
             case 0xecb02e52: return new HavingCharacter();
+            case 0xd7fa908b: return new BeginMatchParameter();
+            case 0x88c562a8: return new EndMatchParameter();
             case 0x4cbf68cf: return new UpdateSettingParameter();
             case 0x9f8a2389: return new User();
             case 0xa24d6011: return new Wave();
