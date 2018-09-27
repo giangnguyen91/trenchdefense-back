@@ -152,7 +152,7 @@ class Wave
                 $zombiePosition = new ZombiePosition();
                 $zombiePosition->time = $time;
                 $zombiePosition->position = $positions[$i];
-                $zombiePosition->zombie = $zombie;
+                $zombiePosition->zombie = $zombie->toProtobuf();
 
                 $zombiePositions->push($zombiePosition);
             }
