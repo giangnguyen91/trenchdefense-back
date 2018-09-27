@@ -34,6 +34,17 @@ jobs:
         key: v1-dependencies-{{ checksum "package.json" }}
 
     # run tests!
-    - run: yarn test
-
-
+    - run:
+        name: show php extensions
+        command: php -m
+        - save_cache:
+            name: save composer cache
+            key: composer-{{ checksum "composer.lock" }}
+            paths:
+            - ~/.composer/cache
+        - run:
+            name: refresh migration
+            command: php artisan migrate:refresh
+        - run:
+            name: show all routes
+            command: php artisan route:list || exit 1
