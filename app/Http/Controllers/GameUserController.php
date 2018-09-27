@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 
 use App\Components\Auth\AuthComponent;
+use App\Components\User\UserComponent;
 use App\Domains\Auth\TokenRepository;
 use App\Domains\User\GameUser;
 use App\Domains\User\GameUserFactory;
@@ -41,22 +42,29 @@ class GameUserController extends Controller
      */
     private $authComponent;
 
+    /**
+     * @var UserComponent
+     */
+    private $userComponent;
+
     public function __construct(
         GameUserRepository $gameUserRepository,
         GameUserFactory $gameUserFactory,
-        TokenRepository $tokenRepository
+        TokenRepository $tokenRepository,
+        UserComponent $userComponent
     )
     {
         $this->gameUserRepository = $gameUserRepository;
         $this->gameUserFactory = $gameUserFactory;
         $this->tokenRepository = $tokenRepository;
+        $this->userComponent = $userComponent;
     }
 
     public function createAccessToken(Request $request)
     {
         $requestAccessTokenParameter = $request->get(RequestAccessTokenParameter::class);
-        $gameUser =  $this->gameUserRepository->findByIMEI(new Imei($requestAccessTokenParameter->imei));
-        if(is_null($gameUser)){
+        $gameUser = $this->gameUserRepository->findByIMEI(new Imei($requestAccessTokenParameter->imei));
+        if (is_null($gameUser)) {
             $gameUser = $this->createNewGameUser($requestAccessTokenParameter->imei);
         }
         $token = $this->tokenRepository->createTokenForGameUser($gameUser);
@@ -73,6 +81,7 @@ class GameUserController extends Controller
     {
         $gameUser = $this->gameUserFactory->initialize(new Imei($imei));
         $gameUserID = $this->gameUserRepository->persist($gameUser);
+        $this->userComponent->initGameSetting($gameUserID);
         return $this->gameUserRepository->findByID($gameUserID);
     }
 
