@@ -28,6 +28,29 @@ class GameSettingFactory
         );
     }
 
+
+    /**
+     * @param GameUserID $gameUserID
+     * @param Volume $volume
+     * @param Sfx $sfx
+     * @param Bgm $bgm
+     * @return GameSetting
+     */
+    public function init(
+        GameUserID $gameUserID,
+        Volume $volume,
+        Sfx $sfx,
+        Bgm $bgm
+    ): GameSetting
+    {
+        return $this->make(
+            $gameUserID,
+            $bgm,
+            $sfx,
+            $volume
+        );
+    }
+
     /**
      * @param \App\GameSetting $eloquent
      * @return GameSetting
