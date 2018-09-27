@@ -15,8 +15,6 @@ use Illuminate\Routing\Router;
 
 Route::post('/create-access-token', 'GameUserController@createAccessToken');
 
-Route::get('/user', 'GameUserController@getInfo')->middleware('auth:api');
-
 Route::group(['prefix' => 'waves', 'middleware' => 'auth:api'], function (Router $router) {
     $router->get('/{page}', 'WaveController@get');
 });
@@ -36,7 +34,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function (Router 
     $router->post('/setting', 'SettingController@update');
 });
 
-Route::group(['prefix' => 'match'], function (Router $router) {
+Route::group(['prefix' => 'match', 'middleware' => 'auth:api'], function (Router $router) {
     $router->get('/begin', 'MatchController@begin');
     $router->get('/end', 'MatchController@end');
 });
