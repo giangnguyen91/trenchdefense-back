@@ -59,4 +59,9 @@ class WeaponComponent implements IWeaponComponent
     {
         return $this->weaponRepository->delete($weapon);
     }
+
+    public function findByWeaponIDs(Collection $weaponIDs)
+    {
+        return $this->weaponRepository->findByWeaponIDs($weaponIDs);
+    }
 }

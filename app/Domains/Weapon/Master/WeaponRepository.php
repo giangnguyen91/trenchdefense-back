@@ -78,4 +78,20 @@ class WeaponRepository implements IWeaponRepository
     {
         return \App\Weapon::destroy($weapon->getID()->getValue());
     }
+
+    /**
+     * @param Collection $weaponIds
+     * @return Collection
+     */
+    public function findByWeaponIDs(
+        Collection $weaponIds
+    ): Collection
+    {
+        $weaponEloquents = \App\Weapon::query()->whereIn('id', $weaponIds->toArray())->get();
+        return collect($weaponEloquents)->map(function(\App\Weapon $weaponEloquent){
+            return $this->weaponFactory->makeByEloquent($weaponEloquent);
+        });
+
+    }
+
 }

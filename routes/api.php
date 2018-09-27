@@ -24,6 +24,7 @@ Route::group(['prefix' => 'waves', 'middleware' => 'auth:api'], function (Router
 Route::group(['prefix' => 'characters', 'middleware' => 'auth:api'], function (Router $router) {
     $router->get('/having', 'HavingCharacterController@getByGameUserID');
     $router->get('/all', 'CharacterController@get');
+    $router->get('/profile', 'CharacterProfileController@getCharacterProfile');
 });
 
 Route::group(['prefix' => 'weapons', 'middleware' => 'auth:api'], function (Router $router) {
@@ -33,4 +34,9 @@ Route::group(['prefix' => 'weapons', 'middleware' => 'auth:api'], function (Rout
 Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function (Router $router) {
     $router->get('/', 'SettingController@get');
     $router->post('/setting', 'SettingController@update');
+});
+
+Route::group(['prefix' => 'match'], function (Router $router) {
+    $router->get('/begin', 'MatchController@begin');
+    $router->get('/end', 'MatchController@end');
 });

@@ -26,4 +26,12 @@ interface IWeaponRepository
      * @return Weapon[] | Collection
      */
     public function all(): Collection;
+
+    /**
+     * @param Collection $weaponIds
+     * @return Collection
+     */
+    public function findByWeaponIDs(
+        Collection $weaponIds
+    ): Collection;
 }
