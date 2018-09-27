@@ -53,7 +53,7 @@ class SettingController extends Controller
         $parameter = $request->get(\App\Proto\UpdateSettingParameter::class);
         $gameUserID = $this->authComponent->getGameUserId();
 
-        $beginBattleParameter = (new UpdateSettingParameter())
+        $updateSettingParameter = (new UpdateSettingParameter())
             ->withName(new GameUserName($parameter->name))
             ->withVolume(new Volume($parameter->volume))
             ->withSfx(new Sfx($parameter->sfx))
@@ -61,7 +61,7 @@ class SettingController extends Controller
             ->withGameUserID($gameUserID)
             ->build();
 
-        $this->userComponent->updateSetting($beginBattleParameter);
+        $this->userComponent->updateSetting($updateSettingParameter);
 
         return response()->protobuf([]);
     }

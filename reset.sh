@@ -9,6 +9,9 @@ php artisan route:clear || exit 1
 php artisan view:clear || exit 1
 php artisan cache:clear || exit 1
 
+#Start redis
+sudo systemctl restart redis
+
 # provision
 php artisan app:reset $1 $2 || exit 1
 php artisan migrate:refresh
