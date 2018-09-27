@@ -6,7 +6,7 @@ namespace App\Proto {
 
   class AccessCode extends \DrSlump\Protobuf\Message {
 
-    /**  @var int */
+    /**  @var string */
     public $tokenID = null;
     
     /**  @var int */
@@ -23,11 +23,11 @@ namespace App\Proto {
     {
       $descriptor = new \DrSlump\Protobuf\Descriptor(__CLASS__, 'App.Proto.AccessCode');
 
-      // REQUIRED UINT32 tokenID = 1
+      // REQUIRED STRING tokenID = 1
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 1;
       $f->name      = "tokenID";
-      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
+      $f->type      = \DrSlump\Protobuf::TYPE_STRING;
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
@@ -75,7 +75,7 @@ namespace App\Proto {
     /**
      * Get <tokenID> value
      *
-     * @return int
+     * @return string
      */
     public function getTokenID(){
       return $this->_get(1);
@@ -84,7 +84,7 @@ namespace App\Proto {
     /**
      * Set <tokenID> value
      *
-     * @param int $value
+     * @param string $value
      * @return \App\Proto\AccessCode
      */
     public function setTokenID( $value){

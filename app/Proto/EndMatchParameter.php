@@ -6,7 +6,7 @@ namespace App\Proto {
 
   class EndMatchParameter extends \DrSlump\Protobuf\Message {
 
-    /**  @var string */
+    /**  @var int */
     public $dropGold = null;
     
     /**  @var int */
@@ -23,11 +23,11 @@ namespace App\Proto {
     {
       $descriptor = new \DrSlump\Protobuf\Descriptor(__CLASS__, 'App.Proto.EndMatchParameter');
 
-      // REQUIRED STRING dropGold = 1
+      // REQUIRED UINT32 dropGold = 1
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 1;
       $f->name      = "dropGold";
-      $f->type      = \DrSlump\Protobuf::TYPE_STRING;
+      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
@@ -75,7 +75,7 @@ namespace App\Proto {
     /**
      * Get <dropGold> value
      *
-     * @return string
+     * @return int
      */
     public function getDropGold(){
       return $this->_get(1);
@@ -84,7 +84,7 @@ namespace App\Proto {
     /**
      * Set <dropGold> value
      *
-     * @param string $value
+     * @param int $value
      * @return \App\Proto\EndMatchParameter
      */
     public function setDropGold( $value){
