@@ -17,7 +17,6 @@ jobs:
     - run: sudo apt install -y libsqlite3-dev zlib1g-dev
     - run: apt -yqq update
     - run: apt -yqq install libxml2-dev
-    - run: sudo docker-php-ext-install zip
     - run: sudo composer self-update
     - run: mysql -h 127.0.0.1 -u root -e "create database trenchdefense"
     - restore_cache: # special step to restore the dependency cache if `composer.lock` does not change
