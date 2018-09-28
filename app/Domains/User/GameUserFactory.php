@@ -86,7 +86,7 @@ class GameUserFactory
         $id = new GameUserID();
         $email = null;
         if (is_null($name)) {
-            $name = new GameUserName("USER-".strval(time()));
+            $name = new GameUserName("Guest");
         }
 
         return $this->make(
