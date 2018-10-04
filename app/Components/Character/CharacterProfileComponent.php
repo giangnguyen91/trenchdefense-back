@@ -11,6 +11,7 @@ use App\Domains\Character\Having\Status\CharacterStatusRepository;
 use App\Domains\Character\Having\Status\DropGold;
 use App\Domains\User\GameUserID;
 use App\Domains\Wave\WaveID;
+use App\Domains\Weapon\Master\Weapon;
 use Illuminate\Support\Collection;
 
 class CharacterProfileComponent
@@ -46,23 +47,34 @@ class CharacterProfileComponent
     public function initCharacterProfile(
         GameUserID $gameUserID,
         WaveID $waveID
-    ) : CharacterStatus
+    ): CharacterStatus
     {
         $characterStatus = $this->characterStatusRepository->findByGameUserID($gameUserID);
         if (!is_null($characterStatus)) {
             $this->characterStatusRepository->removeByGameUserID($gameUserID);
-        }
 
-        //Init
-        $weapons = config('game.init_weapon');
-        $weapons = json_decode($weapons, true);
+            if ($waveID->getValue() != 1) {
+                $weaponIDs = $characterStatus->getWeapons()->map(function (Weapon $weapon) {
+                    return $weapon->getId()->getValue();
+                });
+                $weapons = $weaponIDs->toArray();
+                $dropGold = $characterStatus->getDropGold();
+                $characterID = $characterStatus->getCharacter()->getId();
+            }
+        } else {
+            //Init
+            $weapons = config('game.init_weapon');
+            $weapons = json_decode($weapons, true);
+            $dropGold = new DropGold(0);
+            $characterID = new CharacterID(1);
+        }
 
 
         $characterStatus = $this->characterStatusFactory->init(
-            new CharacterID(1),
+            $characterID,
             collect($weapons),
             $waveID,
-            new DropGold(0),
+            $dropGold,
             $gameUserID
         );
 
@@ -70,7 +82,6 @@ class CharacterProfileComponent
 
         return $characterStatus;
     }
-
 
 
     /**
@@ -95,7 +106,7 @@ class CharacterProfileComponent
         $this->characterStatusRepository->persist($characterStatus);
         $waveID = $this->characterStatusRepository->getToRedis($characterStatus);
 
-        if($waveID != $characterStatus->getWave()->getID()->getValue() && $waveID < $characterStatus->getWave()->getID()->getValue()){
+        if ($waveID != $characterStatus->getWave()->getID()->getValue() && $waveID < $characterStatus->getWave()->getID()->getValue()) {
             $this->persistRedis($characterStatus);
         }
 
