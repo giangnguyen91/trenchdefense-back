@@ -9,6 +9,7 @@ use App\Domains\Character\Having\Status\CharacterStatus;
 use App\Domains\Character\Having\Status\CharacterStatusFactory;
 use App\Domains\Character\Having\Status\CharacterStatusRepository;
 use App\Domains\Match\Action\EndMatchParameterBuilder;
+use App\Domains\Match\ResultType;
 use App\Domains\User\GameUserID;
 use App\Domains\Wave\WaveID;
 
@@ -83,9 +84,12 @@ class MatchComponent
         $weapons = $characterWeapon->merge($availableWeapons);
 
         $newProfile = $characterProfile->addGold($parameter->getDropGold())
-            ->setHp($parameter->getHp())
-            ->setWeapons($weapons)
-            ->setWave($wave);
+            ->setHp($parameter->getHp());
+
+        if ($parameter->getResultType() != ResultType::FAILURE) {
+            $newProfile = $newProfile->setWave($wave)
+                ->setWeapons($weapons);
+        }
 
         $this->characterProfileComponent->persist($newProfile);
 

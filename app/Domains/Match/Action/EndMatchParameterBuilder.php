@@ -4,6 +4,7 @@ namespace App\Domains\Match\Action;
 
 use App\Domains\Character\Having\Status\DropGold;
 use App\Domains\Character\Hp;
+use App\Domains\Match\ResultType;
 use App\Domains\User\GameUserID;
 use App\Domains\Wave\WaveID;
 
@@ -30,6 +31,11 @@ class EndMatchParameterBuilder
     private $gameUserID;
 
     /**
+     * @var ResultType
+     */
+    private $resultType;
+
+    /**
      * @param  Hp $hp
      * @param  DropGold $dropGold
      * @param  WaveID $waveID
@@ -39,13 +45,15 @@ class EndMatchParameterBuilder
         Hp $hp,
         DropGold $dropGold,
         WaveID $waveID,
-        GameUserID $gameUserID
+        GameUserID $gameUserID,
+        ResultType $resultType
     )
     {
         $this->hp = $hp;
         $this->dropGold = $dropGold;
         $this->waveID = $waveID;
         $this->gameUserID = $gameUserID;
+        $this->resultType = $resultType;
     }
 
     /**
@@ -78,5 +86,13 @@ class EndMatchParameterBuilder
     public function getDropGold()
     {
         return $this->dropGold;
+    }
+
+    /**
+     * @return ResultType
+     */
+    public function getResultType()
+    {
+        return $this->resultType;
     }
 }

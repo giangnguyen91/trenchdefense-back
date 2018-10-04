@@ -7,6 +7,7 @@ use App\Domains\Character\Having\Status\DropGold;
 use App\Domains\Character\Hp;
 use App\Domains\Match\Action\EndMatchParameter as EndMatchParameterAction;
 use App\Components\Match\MatchComponent;
+use App\Domains\Match\ResultType;
 use App\Domains\User\GameUserID;
 use App\Domains\Wave\WaveID;
 use App\Proto\BeginMatchParameter;
@@ -61,6 +62,7 @@ class MatchController extends Controller
             ->withDropGold(new DropGold($parameter->dropGold))
             ->withHp(new Hp($parameter->hp))
             ->withWaveID(new WaveID($parameter->waveID))
+            ->withResultType(new ResultType($parameter->matchResult))
             ->build();
 
         $result = $this->matchComponent->end($endMatchParameter);

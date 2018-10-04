@@ -6,8 +6,6 @@ use App\Domains\User\GameUserID;
 
 class CharacterStatusRepository
 {
-    const REDIS_WAVE_LEADER_BOARD = 'wave_leader_board';
-
     /**
      * @var CharacterStatusFactory
      */
@@ -26,7 +24,6 @@ class CharacterStatusRepository
     )
     {
         $this->characterStatusFactory = $characterStatusFactory;
-        $this->redis = \AppRedis::connection('waveRedis');
     }
 
     /**
@@ -76,27 +73,4 @@ class CharacterStatusRepository
     {
         \App\CharacterStatus::query()->where('game_user_id', $gameUserID->getValue())->delete();
     }
-
-    /**
-     * @param CharacterStatus $characterStatus
-     * @return void
-     */
-    public function persistToRedis(
-        CharacterStatus $characterStatus
-    )
-    {
-        $this->redis->zadd(self::REDIS_WAVE_LEADER_BOARD, [$characterStatus->getGameUserID()->getValue() => $characterStatus->getWave()->getID()->getValue()]);
-    }
-
-    /**
-     * @param CharacterStatus $characterStatus
-     * @return int
-     */
-    public function getToRedis(
-        CharacterStatus $characterStatus
-    )
-    {
-        return $this->redis->zscore(self::REDIS_WAVE_LEADER_BOARD, $characterStatus->getGameUserID()->getValue());
-    }
-
 }

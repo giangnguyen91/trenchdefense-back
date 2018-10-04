@@ -93,23 +93,5 @@ class CharacterProfileComponent
     )
     {
         $this->characterStatusRepository->persist($characterStatus);
-        $waveID = $this->characterStatusRepository->getToRedis($characterStatus);
-
-        if($waveID != $characterStatus->getWave()->getID()->getValue() && $waveID < $characterStatus->getWave()->getID()->getValue()){
-            $this->persistRedis($characterStatus);
-        }
-
     }
-
-    /**
-     * @param CharacterStatus $characterStatus
-     * @return void
-     */
-    public function persistRedis(
-        CharacterStatus $characterStatus
-    )
-    {
-        $this->characterStatusRepository->persistToRedis($characterStatus);
-    }
-
 }
