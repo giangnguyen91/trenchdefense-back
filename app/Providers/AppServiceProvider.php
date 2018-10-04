@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Components\Auth\AuthComponent;
 use App\Components\Character\CharacterProfileComponent;
+use App\Components\Match\LeaderBoardComponent;
 use App\Components\Match\MatchComponent;
 use App\Components\Weapon\IWeaponComponent;
 use App\Components\Weapon\WeaponComponent;
@@ -35,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(AuthComponent::class);
         $this->app->singleton(MatchComponent::class);
         $this->app->singleton(CharacterProfileComponent::class);
+        $this->app->singleton(LeaderBoardComponent::class);
         $this->app->bind(IWeaponGroupRepository::class, WeaponGroupRepository::class);
         $this->app->bind(IWeaponRepository::class, WeaponRepository::class);
         $this->app->bind(IWeaponComponent::class, WeaponComponent::class);
@@ -48,7 +50,8 @@ class AppServiceProvider extends ServiceProvider
         return [
             AuthComponent::class,
             MatchComponent::class,
-            CharacterProfileComponent::class
+            CharacterProfileComponent::class,
+            LeaderBoardComponent::class
         ];
     }
 }

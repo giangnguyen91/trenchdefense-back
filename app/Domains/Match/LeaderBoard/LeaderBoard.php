@@ -45,4 +45,24 @@ class LeaderBoard
     {
         return $this->wave;
     }
+
+    /**
+     * @param Wave $wave
+     * @return LeaderBoard
+     */
+    public function setWave(Wave $wave): LeaderBoard
+    {
+         $this->wave = $wave;
+         return $this;
+    }
+
+    /**
+     */
+    public function toProtobuf(): \App\Proto\LeaderBoard
+    {
+        $model = new \App\Proto\LeaderBoard();
+        $model->user = $this->getGameUser()->toProtobuf();
+        $model->wave = $this->getWave()->toProtobuf();
+        return $model;
+    }
 }

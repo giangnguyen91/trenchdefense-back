@@ -31,19 +31,27 @@ class MatchComponent
     private $waveComponent;
 
     /**
+     * @var LeaderBoardComponent
+     */
+    private $leaderBoardComponent;
+
+    /**
      * @param CharacterProfileComponent $characterProfileComponent
      * @param WeaponComponent $weaponComponent
      * @param WaveComponent $waveComponent
+     * @param LeaderBoardComponent $leaderBoardComponent
      */
     public function __construct(
         CharacterProfileComponent $characterProfileComponent,
         WeaponComponent $weaponComponent,
-        WaveComponent $waveComponent
+        WaveComponent $waveComponent,
+        LeaderBoardComponent $leaderBoardComponent
     )
     {
         $this->characterProfileComponent = $characterProfileComponent;
         $this->weaponComponent = $weaponComponent;
         $this->waveComponent = $waveComponent;
+        $this->leaderBoardComponent = $leaderBoardComponent;
     }
 
     /**
@@ -90,6 +98,8 @@ class MatchComponent
         if ($parameter->getResultType() != ResultType::FAILURE) {
             $newProfile = $newProfile->setWave($wave)
                 ->setWeapons($weapons);
+
+            $this->leaderBoardComponent->persistLeaderBoard($parameter->getGameUserID(), $parameter->getWaveID());
         }
 
         $this->characterProfileComponent->persist($newProfile);
