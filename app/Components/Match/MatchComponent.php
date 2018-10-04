@@ -75,11 +75,12 @@ class MatchComponent
 
         $availableWeapon = config('game.weapon_available');
 
+        $availableWeapon = json_decode($availableWeapon, true);
+
         $nextWaveID = new WaveID($parameter->getWaveID()->getValue() + 1);
 
         $weaponIDs = isset($availableWeapon[$nextWaveID->getValue()]) ?
             $availableWeapon[$nextWaveID->getValue()] : array();
-
         $availableWeapons = $this->weaponComponent->findByWeaponIDs(collect($weaponIDs));
         $weapons = $characterWeapon->merge($availableWeapons);
 
