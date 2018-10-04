@@ -10,7 +10,10 @@ namespace App\Proto {
     public $dropGold = null;
     
     /**  @var int */
-    public $hp = null;
+    public $currentHp = null;
+    
+    /**  @var \App\Proto\Character */
+    public $character = null;
     
     /**  @var \App\Proto\Weapon[]  */
     public $weapons = array();
@@ -31,17 +34,26 @@ namespace App\Proto {
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
-      // REQUIRED UINT32 hp = 2
+      // REQUIRED UINT32 currentHp = 2
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 2;
-      $f->name      = "hp";
+      $f->name      = "currentHp";
       $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
-      // REPEATED MESSAGE weapons = 3
+      // REQUIRED MESSAGE character = 3
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 3;
+      $f->name      = "character";
+      $f->type      = \DrSlump\Protobuf::TYPE_MESSAGE;
+      $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
+      $f->reference = '\App\Proto\Character';
+      $descriptor->addField($f);
+
+      // REPEATED MESSAGE weapons = 4
+      $f = new \DrSlump\Protobuf\Field();
+      $f->number    = 4;
       $f->name      = "weapons";
       $f->type      = \DrSlump\Protobuf::TYPE_MESSAGE;
       $f->rule      = \DrSlump\Protobuf::RULE_REPEATED;
@@ -93,40 +105,77 @@ namespace App\Proto {
     }
     
     /**
-     * Check if <hp> has a value
+     * Check if <currentHp> has a value
      *
      * @return boolean
      */
-    public function hasHp(){
+    public function hasCurrentHp(){
       return $this->_has(2);
     }
     
     /**
-     * Clear <hp> value
+     * Clear <currentHp> value
      *
      * @return \App\Proto\CharacterStatus
      */
-    public function clearHp(){
+    public function clearCurrentHp(){
       return $this->_clear(2);
     }
     
     /**
-     * Get <hp> value
+     * Get <currentHp> value
      *
      * @return int
      */
-    public function getHp(){
+    public function getCurrentHp(){
       return $this->_get(2);
     }
     
     /**
-     * Set <hp> value
+     * Set <currentHp> value
      *
      * @param int $value
      * @return \App\Proto\CharacterStatus
      */
-    public function setHp( $value){
+    public function setCurrentHp( $value){
       return $this->_set(2, $value);
+    }
+    
+    /**
+     * Check if <character> has a value
+     *
+     * @return boolean
+     */
+    public function hasCharacter(){
+      return $this->_has(3);
+    }
+    
+    /**
+     * Clear <character> value
+     *
+     * @return \App\Proto\CharacterStatus
+     */
+    public function clearCharacter(){
+      return $this->_clear(3);
+    }
+    
+    /**
+     * Get <character> value
+     *
+     * @return \App\Proto\Character
+     */
+    public function getCharacter(){
+      return $this->_get(3);
+    }
+    
+    /**
+     * Set <character> value
+     *
+     * @param \App\Proto\Character $value
+     * @return \App\Proto\CharacterStatus
+     */
+    public function setCharacter(\App\Proto\Character $value){
+      return $this->_set(3, $value);
     }
     
     /**
@@ -135,7 +184,7 @@ namespace App\Proto {
      * @return boolean
      */
     public function hasWeapons(){
-      return $this->_has(3);
+      return $this->_has(4);
     }
     
     /**
@@ -144,7 +193,7 @@ namespace App\Proto {
      * @return \App\Proto\CharacterStatus
      */
     public function clearWeapons(){
-      return $this->_clear(3);
+      return $this->_clear(4);
     }
     
     /**
@@ -154,7 +203,7 @@ namespace App\Proto {
      * @return \App\Proto\Weapon
      */
     public function getWeapons($idx = NULL){
-      return $this->_get(3, $idx);
+      return $this->_get(4, $idx);
     }
     
     /**
@@ -164,7 +213,7 @@ namespace App\Proto {
      * @return \App\Proto\CharacterStatus
      */
     public function setWeapons(\App\Proto\Weapon $value, $idx = NULL){
-      return $this->_set(3, $value, $idx);
+      return $this->_set(4, $value, $idx);
     }
     
     /**
@@ -173,7 +222,7 @@ namespace App\Proto {
      * @return \App\Proto\Weapon[]
      */
     public function getWeaponsList(){
-     return $this->_get(3);
+     return $this->_get(4);
     }
     
     /**
@@ -183,7 +232,7 @@ namespace App\Proto {
      * @return \App\Proto\CharacterStatus
      */
     public function addWeapons(\App\Proto\Weapon $value){
-     return $this->_add(3, $value);
+     return $this->_add(4, $value);
     }
   }
 }

@@ -174,12 +174,12 @@ class CharacterStatus
     public function toProtobuf() : \App\Proto\CharacterStatus
     {
         $model = new \App\Proto\CharacterStatus();
-        $model->hp = $this->getHp()->getValue();
+        $model->currentHp = $this->getHp()->getValue();
         $model->dropGold = $this->getDropGold()->getValue();
         $model->weapons = $this->getWeapons()->map(function(Weapon $weapon){
             return $weapon->toProtobuf();
         })->toArray();
-
+        $model->character = $this->character->toProtobuf();
         return $model;
     }
 
