@@ -37,4 +37,5 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function (Router 
 Route::group(['prefix' => 'match', 'middleware' => 'auth:api'], function (Router $router) {
     $router->post('/begin', 'MatchController@begin');
     $router->post('/end', 'MatchController@end');
+    $router->get('/leader_board', 'LeaderBoardController@get');
 });

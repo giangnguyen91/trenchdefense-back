@@ -15,6 +15,9 @@ namespace App\Proto {
     /**  @var int */
     public $waveID = null;
     
+    /**  @var string */
+    public $matchResult = null;
+    
 
     /** @var \Closure[] */
     protected static $__extensions = array();
@@ -44,6 +47,14 @@ namespace App\Proto {
       $f->number    = 4;
       $f->name      = "waveID";
       $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
+      $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
+      $descriptor->addField($f);
+
+      // REQUIRED STRING matchResult = 5
+      $f = new \DrSlump\Protobuf\Field();
+      $f->number    = 5;
+      $f->name      = "matchResult";
+      $f->type      = \DrSlump\Protobuf::TYPE_STRING;
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
@@ -163,6 +174,43 @@ namespace App\Proto {
      */
     public function setWaveID( $value){
       return $this->_set(4, $value);
+    }
+    
+    /**
+     * Check if <matchResult> has a value
+     *
+     * @return boolean
+     */
+    public function hasMatchResult(){
+      return $this->_has(5);
+    }
+    
+    /**
+     * Clear <matchResult> value
+     *
+     * @return \App\Proto\EndMatchParameter
+     */
+    public function clearMatchResult(){
+      return $this->_clear(5);
+    }
+    
+    /**
+     * Get <matchResult> value
+     *
+     * @return string
+     */
+    public function getMatchResult(){
+      return $this->_get(5);
+    }
+    
+    /**
+     * Set <matchResult> value
+     *
+     * @param string $value
+     * @return \App\Proto\EndMatchParameter
+     */
+    public function setMatchResult( $value){
+      return $this->_set(5, $value);
     }
   }
 }

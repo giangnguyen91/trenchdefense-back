@@ -12,6 +12,7 @@ use App\Proto\CharacterStatus;
 use App\Proto\HavingCharacter;
 use App\Proto\BeginMatchParameter;
 use App\Proto\EndMatchParameter;
+use App\Proto\LeaderBoard;
 use App\Proto\UpdateSettingParameter;
 use App\Proto\User;
 use App\Proto\Wave;
@@ -42,6 +43,7 @@ class ProtobufObject
             case $object instanceof HavingCharacter: return 0xecb02e52;
             case $object instanceof BeginMatchParameter: return 0xd7fa908b;
             case $object instanceof EndMatchParameter: return 0x88c562a8;
+            case $object instanceof LeaderBoard: return 0xaa82c608;
             case $object instanceof UpdateSettingParameter: return 0x4cbf68cf;
             case $object instanceof User: return 0x9f8a2389;
             case $object instanceof Wave: return 0xa24d6011;
@@ -73,6 +75,7 @@ class ProtobufObject
             case 0xecb02e52: return new HavingCharacter();
             case 0xd7fa908b: return new BeginMatchParameter();
             case 0x88c562a8: return new EndMatchParameter();
+            case 0xaa82c608: return new LeaderBoard();
             case 0x4cbf68cf: return new UpdateSettingParameter();
             case 0x9f8a2389: return new User();
             case 0xa24d6011: return new Wave();
