@@ -61,6 +61,13 @@ class CharacterProfileComponent
                 $dropGold = $characterStatus->getDropGold();
                 $characterID = $characterStatus->getCharacter()->getId();
             }
+            else{
+                //Init
+                $weapons = config('game.init_weapon');
+                $weapons = json_decode($weapons, true);
+                $dropGold = new DropGold(0);
+                $characterID = new CharacterID(1);
+            }
         } else {
             //Init
             $weapons = config('game.init_weapon');
