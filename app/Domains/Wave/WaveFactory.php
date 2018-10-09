@@ -3,6 +3,8 @@
 namespace App\Domains\Wave;
 
 use App\Domains\Base\ResourceID;
+use App\Domains\Wave\Item\WaveItem;
+use App\Domains\Wave\Item\WaveItemRepository;
 use App\Domains\Wave\Zombie\WaveZombie;
 use App\Domains\Wave\Zombie\WaveZombieFactory;
 use App\Domains\Zombie\ZombieRepository;
@@ -15,20 +17,31 @@ class WaveFactory
      */
     private $waveZombieFactory;
 
+
+    /**
+     * @var WaveItemRepository
+     */
+    private $waveItemRepository;
+
+
     /**
      * @param WaveZombieFactory $waveZombieFactory
+     * @param WaveItemRepository $waveItemRepository
      */
     public function __construct(
-        WaveZombieFactory $waveZombieFactory
+        WaveZombieFactory $waveZombieFactory,
+        WaveItemRepository $waveItemRepository
     )
     {
         $this->waveZombieFactory = $waveZombieFactory;
+        $this->waveItemRepository = $waveItemRepository;
     }
 
     /**
      * @param Name $name
      * @param WaveID $waveID
      * @param ResourceID $resourceID
+     * @param Collection | WaveItem[] $waveItems
      * @param Collection | WaveZombie[] $waveZombies
      * @return Wave
      */
@@ -36,6 +49,7 @@ class WaveFactory
         Name $name,
         WaveID $waveID,
         ResourceID $resourceID,
+        Collection $waveItems,
         Collection $waveZombies = null
     )
     {
@@ -43,6 +57,7 @@ class WaveFactory
             $name,
             $waveID,
             $resourceID,
+            $waveItems,
             $waveZombies
         );
     }
@@ -60,10 +75,13 @@ class WaveFactory
             return $this->waveZombieFactory->makeByEloquent($waveZombie);
         });
 
+        $waveItems = $this->waveItemRepository->findByWaveID(new WaveID($eloquent->id));
+
         return $this->make(
             new Name($eloquent->name),
             new WaveID($eloquent->id),
             new ResourceID($eloquent->resource_id),
+            $waveItems,
             $waveZombies
         );
     }
@@ -101,7 +119,8 @@ class WaveFactory
             new Name($array['name']),
             $waveId,
             new ResourceID($array['resource_id']),
-            $waveZombiesCollect
+            $waveZombiesCollect,
+            collect([])
         );
     }
 }

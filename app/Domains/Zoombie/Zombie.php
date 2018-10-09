@@ -2,6 +2,9 @@
 
 namespace App\Domains\Zombie;
 
+use App\Domains\Zoombie\DropItem\DropItem;
+use Illuminate\Support\Collection;
+
 class Zombie
 {
     /**
@@ -44,6 +47,12 @@ class Zombie
      */
     private $dropGold;
 
+    /**
+     * @var Collection | DropItem[]
+     */
+    private $dropItems;
+
+
     /***/
     public function __construct(
         Damage $damage,
@@ -53,7 +62,8 @@ class Zombie
         ResourceID $resourceID,
         Speed $speed,
         ZombieID $zombieID,
-        DropGold $dropGold
+        DropGold $dropGold,
+        Collection $dropItems
     )
     {
         $this->damage = $damage;
@@ -64,6 +74,7 @@ class Zombie
         $this->speed = $speed;
         $this->zombieID = $zombieID;
         $this->dropGold = $dropGold;
+        $this->dropItems = $dropItems;
     }
 
     /**
@@ -161,6 +172,9 @@ class Zombie
         $proto->speed = $this->getSpeed()->getValue();
         $proto->resourceID = $this->getResourceID()->getValue();
         $proto->dropGold = $this->getDropGold()->getValue();
+        $proto->dropItems = $this->dropItems->map(function (DropItem $dropItem) {
+            return $dropItem->toProtobuf();
+        })->toArray();
         return $proto;
     }
 }

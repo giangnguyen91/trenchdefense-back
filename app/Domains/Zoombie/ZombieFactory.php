@@ -1,8 +1,27 @@
 <?php
+
 namespace App\Domains\Zombie;
+
+use App\Domains\Zoombie\DropItem\DropItemRepository;
+use Illuminate\Support\Collection;
 
 class ZombieFactory
 {
+    /**
+     * @var DropItemRepository
+     */
+    private $dropItemRepository;
+
+    /**
+     * @param  DropItemRepository $dropItemRepository
+     */
+    public function __construct(
+        DropItemRepository $dropItemRepository
+    )
+    {
+        $this->dropItemRepository = $dropItemRepository;
+    }
+
     /**
      * @param Damage $damage
      * @param Attack $attack
@@ -11,6 +30,7 @@ class ZombieFactory
      * @param ResourceID $resourceID
      * @param Speed $speed
      * @param ZombieID $zombieID
+     * @param Collection $dropItems
      * @return Zombie
      */
     public function make(
@@ -21,7 +41,8 @@ class ZombieFactory
         ResourceID $resourceID,
         Speed $speed,
         ZombieID $zombieID,
-        DropGold $dropGold
+        DropGold $dropGold,
+        Collection $dropItems
     ): Zombie
     {
         return new Zombie(
@@ -32,7 +53,8 @@ class ZombieFactory
             $resourceID,
             $speed,
             $zombieID,
-            $dropGold
+            $dropGold,
+            $dropItems
         );
     }
 
@@ -44,6 +66,7 @@ class ZombieFactory
         \App\Zombie $eloquent
     ): Zombie
     {
+        $dropItems = $this->dropItemRepository->findByZombieID(new ZombieID($eloquent->id));
         return $this->make(
             new Damage($eloquent->damage),
             new Attack($eloquent->attack),
@@ -52,7 +75,8 @@ class ZombieFactory
             new ResourceID($eloquent->resource_id),
             new Speed($eloquent->speed),
             new ZombieID($eloquent->id),
-            new DropGold($eloquent->drop_gold)
+            new DropGold($eloquent->drop_gold),
+            $dropItems
         );
     }
 
@@ -63,7 +87,7 @@ class ZombieFactory
     public function makeByArray(array $array)
     {
         $zombieID = !empty($array['id']) ? new ZombieID($array['id']) : new ZombieID(null);
-
+        $dropItems = $this->dropItemRepository->findByZombieID($zombieID);
         return $this->make(
             new Damage($array['damage']),
             new Attack($array['attack']),
@@ -72,7 +96,8 @@ class ZombieFactory
             new ResourceID($array['resource_id']),
             new Speed($array['speed']),
             $zombieID,
-            new DropGold($array['drop_gold'])
+            new DropGold($array['drop_gold']),
+            $dropItems
         );
     }
 }
