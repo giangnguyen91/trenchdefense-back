@@ -15,7 +15,7 @@ namespace App\Proto {
     /**  @var string */
     public $type = null;
     
-    /**  @var string */
+    /**  @var int */
     public $count = null;
     
     /**  @var string */
@@ -53,11 +53,11 @@ namespace App\Proto {
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
-      // REQUIRED STRING count = 4
+      // REQUIRED UINT32 count = 4
       $f = new \DrSlump\Protobuf\Field();
       $f->number    = 4;
       $f->name      = "count";
-      $f->type      = \DrSlump\Protobuf::TYPE_STRING;
+      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
@@ -208,7 +208,7 @@ namespace App\Proto {
     /**
      * Get <count> value
      *
-     * @return string
+     * @return int
      */
     public function getCount(){
       return $this->_get(4);
@@ -217,7 +217,7 @@ namespace App\Proto {
     /**
      * Set <count> value
      *
-     * @param string $value
+     * @param int $value
      * @return \App\Proto\Item
      */
     public function setCount( $value){
