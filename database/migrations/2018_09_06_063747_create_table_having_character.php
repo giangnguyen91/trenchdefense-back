@@ -17,6 +17,8 @@ class CreateTableHavingCharacter extends Migration
             $table->increments('id');
             $table->bigInteger('game_user_id');
             $table->bigInteger('character_id');
+            $table->index(['game_user_id']);
+            $table->index(['character_id']);
             $table->timestamps();
         });
     }

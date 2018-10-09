@@ -18,6 +18,8 @@ class CreateTableWavesZoombies extends Migration
             $table->bigInteger('wave_id');
             $table->bigInteger('zombie_id');
             $table->bigInteger('quantity');
+            $table->index(['wave_id']);
+            $table->index(['zombie_id']);
             $table->timestamps();
         });
     }

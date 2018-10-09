@@ -21,6 +21,8 @@ class CreateTableCharacterStatuses extends Migration
             $table->integer('wave_id');
             $table->integer('drop_gold');
             $table->text('weapons');
+            $table->index(['game_user_id']);
+            $table->index(['character_id']);
             $table->timestamps();
         });
     }

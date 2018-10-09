@@ -19,6 +19,7 @@ class CreateTableGameSettings extends Migration
             $table->unsignedTinyInteger('volume');
             $table->integer('sfx');
             $table->integer('bgm');
+            $table->index(['game_user_id']);
             $table->timestamps();
         });
     }
