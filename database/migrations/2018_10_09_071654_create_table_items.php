@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableWavesZoombies extends Migration
+class CreateTableItems extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateTableWavesZoombies extends Migration
      */
     public function up()
     {
-        Schema::create('wave_zombies', function (Blueprint $table) {
+        Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('wave_id');
-            $table->bigInteger('zombie_id');
-            $table->bigInteger('quantity');
-            $table->index(['wave_id']);
-            $table->index(['zombie_id']);
+            $table->string('name');
+            $table->string('type');
+            $table->integer('count');
+            $table->string('resource_id');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateTableWavesZoombies extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wave_zombies');
+        Schema::dropIfExists('items');
     }
 }

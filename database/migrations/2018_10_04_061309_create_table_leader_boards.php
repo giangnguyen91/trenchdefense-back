@@ -17,6 +17,8 @@ class CreateTableLeaderBoards extends Migration
             $table->increments('id');
             $table->bigInteger('game_user_id');
             $table->bigInteger('wave_id');
+            $table->index(['game_user_id']);
+            $table->index(['wave_id']);
             $table->timestamps();
         });
     }

@@ -14,6 +14,9 @@ class MasterDataSeeder extends Seeder
         \App\Character::class,
         \App\WeaponGroup::class,
         \App\Weapon::class,
+        \App\Item::class,
+        \App\DropItem::class,
+        \App\WaveItem::class,
     ];
     /**
      * @var \Illuminate\Database\Connection

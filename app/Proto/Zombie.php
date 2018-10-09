@@ -27,6 +27,9 @@ namespace App\Proto {
     /**  @var string */
     public $resourceID = null;
     
+    /**  @var \App\Proto\DropItem[]  */
+    public $dropItems = array();
+    
 
     /** @var \Closure[] */
     protected static $__extensions = array();
@@ -89,6 +92,15 @@ namespace App\Proto {
       $f->name      = "resourceID";
       $f->type      = \DrSlump\Protobuf::TYPE_STRING;
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
+      $descriptor->addField($f);
+
+      // REPEATED MESSAGE dropItems = 8
+      $f = new \DrSlump\Protobuf\Field();
+      $f->number    = 8;
+      $f->name      = "dropItems";
+      $f->type      = \DrSlump\Protobuf::TYPE_MESSAGE;
+      $f->rule      = \DrSlump\Protobuf::RULE_REPEATED;
+      $f->reference = '\App\Proto\DropItem';
       $descriptor->addField($f);
 
       foreach (self::$__extensions as $cb) {
@@ -355,6 +367,63 @@ namespace App\Proto {
      */
     public function setResourceID( $value){
       return $this->_set(7, $value);
+    }
+    
+    /**
+     * Check if <dropItems> has a value
+     *
+     * @return boolean
+     */
+    public function hasDropItems(){
+      return $this->_has(8);
+    }
+    
+    /**
+     * Clear <dropItems> value
+     *
+     * @return \App\Proto\Zombie
+     */
+    public function clearDropItems(){
+      return $this->_clear(8);
+    }
+    
+    /**
+     * Get <dropItems> value
+     *
+     * @param int $idx
+     * @return \App\Proto\DropItem
+     */
+    public function getDropItems($idx = NULL){
+      return $this->_get(8, $idx);
+    }
+    
+    /**
+     * Set <dropItems> value
+     *
+     * @param \App\Proto\DropItem $value
+     * @return \App\Proto\Zombie
+     */
+    public function setDropItems(\App\Proto\DropItem $value, $idx = NULL){
+      return $this->_set(8, $value, $idx);
+    }
+    
+    /**
+     * Get all elements of <dropItems>
+     *
+     * @return \App\Proto\DropItem[]
+     */
+    public function getDropItemsList(){
+     return $this->_get(8);
+    }
+    
+    /**
+     * Add a new element to <dropItems>
+     *
+     * @param \App\Proto\DropItem $value
+     * @return \App\Proto\Zombie
+     */
+    public function addDropItems(\App\Proto\DropItem $value){
+     return $this->_add(8, $value);
     }
   }
 }

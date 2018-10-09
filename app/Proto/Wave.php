@@ -18,6 +18,9 @@ namespace App\Proto {
     /**  @var \App\Proto\ZombiePosition[]  */
     public $zombiePositions = array();
     
+    /**  @var \App\Proto\WaveItem[]  */
+    public $waveItems = array();
+    
 
     /** @var \Closure[] */
     protected static $__extensions = array();
@@ -58,6 +61,15 @@ namespace App\Proto {
       $f->type      = \DrSlump\Protobuf::TYPE_MESSAGE;
       $f->rule      = \DrSlump\Protobuf::RULE_REPEATED;
       $f->reference = '\App\Proto\ZombiePosition';
+      $descriptor->addField($f);
+
+      // REPEATED MESSAGE waveItems = 5
+      $f = new \DrSlump\Protobuf\Field();
+      $f->number    = 5;
+      $f->name      = "waveItems";
+      $f->type      = \DrSlump\Protobuf::TYPE_MESSAGE;
+      $f->rule      = \DrSlump\Protobuf::RULE_REPEATED;
+      $f->reference = '\App\Proto\WaveItem';
       $descriptor->addField($f);
 
       foreach (self::$__extensions as $cb) {
@@ -253,6 +265,63 @@ namespace App\Proto {
      */
     public function addZombiePositions(\App\Proto\ZombiePosition $value){
      return $this->_add(4, $value);
+    }
+    
+    /**
+     * Check if <waveItems> has a value
+     *
+     * @return boolean
+     */
+    public function hasWaveItems(){
+      return $this->_has(5);
+    }
+    
+    /**
+     * Clear <waveItems> value
+     *
+     * @return \App\Proto\Wave
+     */
+    public function clearWaveItems(){
+      return $this->_clear(5);
+    }
+    
+    /**
+     * Get <waveItems> value
+     *
+     * @param int $idx
+     * @return \App\Proto\WaveItem
+     */
+    public function getWaveItems($idx = NULL){
+      return $this->_get(5, $idx);
+    }
+    
+    /**
+     * Set <waveItems> value
+     *
+     * @param \App\Proto\WaveItem $value
+     * @return \App\Proto\Wave
+     */
+    public function setWaveItems(\App\Proto\WaveItem $value, $idx = NULL){
+      return $this->_set(5, $value, $idx);
+    }
+    
+    /**
+     * Get all elements of <waveItems>
+     *
+     * @return \App\Proto\WaveItem[]
+     */
+    public function getWaveItemsList(){
+     return $this->_get(5);
+    }
+    
+    /**
+     * Add a new element to <waveItems>
+     *
+     * @param \App\Proto\WaveItem $value
+     * @return \App\Proto\Wave
+     */
+    public function addWaveItems(\App\Proto\WaveItem $value){
+     return $this->_add(5, $value);
     }
   }
 }

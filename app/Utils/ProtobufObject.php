@@ -10,17 +10,20 @@ use App\Proto\RequestAccessTokenParameter;
 use App\Proto\Character;
 use App\Proto\CharacterStatus;
 use App\Proto\HavingCharacter;
+use App\Proto\Item;
 use App\Proto\BeginMatchParameter;
 use App\Proto\EndMatchParameter;
 use App\Proto\LeaderBoard;
 use App\Proto\UpdateSettingParameter;
 use App\Proto\User;
 use App\Proto\Wave;
+use App\Proto\WaveItem;
 use App\Proto\WaveListResult;
 use App\Proto\WaveZombie;
 use App\Proto\ZombiePosition;
 use App\Proto\Weapon;
 use App\Proto\WeaponGroup;
+use App\Proto\DropItem;
 use App\Proto\Zombie;
 
 class ProtobufObject
@@ -41,17 +44,20 @@ class ProtobufObject
             case $object instanceof Character: return 0xee9946c8;
             case $object instanceof CharacterStatus: return 0x65d5ca17;
             case $object instanceof HavingCharacter: return 0xecb02e52;
+            case $object instanceof Item: return 0xecdda59a;
             case $object instanceof BeginMatchParameter: return 0xd7fa908b;
             case $object instanceof EndMatchParameter: return 0x88c562a8;
             case $object instanceof LeaderBoard: return 0xaa82c608;
             case $object instanceof UpdateSettingParameter: return 0x4cbf68cf;
             case $object instanceof User: return 0x9f8a2389;
             case $object instanceof Wave: return 0xa24d6011;
+            case $object instanceof WaveItem: return 0x12e1389f;
             case $object instanceof WaveListResult: return 0xb4930e0b;
             case $object instanceof WaveZombie: return 0x2e2083f;
             case $object instanceof ZombiePosition: return 0x9aa9939c;
             case $object instanceof Weapon: return 0xead53368;
             case $object instanceof WeaponGroup: return 0x804a2603;
+            case $object instanceof DropItem: return 0x64fba99;
             case $object instanceof Zombie: return 0x490b3246;
         }
         throw new \Exception("unknown object type");
@@ -73,17 +79,20 @@ class ProtobufObject
             case 0xee9946c8: return new Character();
             case 0x65d5ca17: return new CharacterStatus();
             case 0xecb02e52: return new HavingCharacter();
+            case 0xecdda59a: return new Item();
             case 0xd7fa908b: return new BeginMatchParameter();
             case 0x88c562a8: return new EndMatchParameter();
             case 0xaa82c608: return new LeaderBoard();
             case 0x4cbf68cf: return new UpdateSettingParameter();
             case 0x9f8a2389: return new User();
             case 0xa24d6011: return new Wave();
+            case 0x12e1389f: return new WaveItem();
             case 0xb4930e0b: return new WaveListResult();
             case 0x2e2083f: return new WaveZombie();
             case 0x9aa9939c: return new ZombiePosition();
             case 0xead53368: return new Weapon();
             case 0x804a2603: return new WeaponGroup();
+            case 0x64fba99: return new DropItem();
             case 0x490b3246: return new Zombie();
         }
         throw new \Exception("unknown type id");

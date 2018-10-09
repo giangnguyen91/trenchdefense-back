@@ -3,6 +3,7 @@
 namespace App\Domains\Wave;
 
 use App\Domains\Base\ResourceID;
+use App\Domains\Wave\Item\WaveItem;
 use App\Domains\Wave\Zombie\WaveZombie;
 use App\Proto\WaveZombie as WaveZombieProto;
 use App\Proto\ZombiePosition;
@@ -37,15 +38,22 @@ class Wave
     private $waveZombies;
 
     /**
+     * @var Collection | WaveItem[]
+     */
+    private $waveItems;
+
+    /**
      * @param Name $name
      * @param WaveID $waveID
      * @param ResourceID $resourceID
+     * @param Collection|WaveItem[] $waveItems | null
      * @param Collection|WaveZombie[] $waveZombies | null
      */
     public function __construct(
         Name $name,
         WaveID $waveID,
         ResourceID $resourceID,
+        Collection $waveItems,
         Collection $waveZombies = null
     )
     {
@@ -53,6 +61,7 @@ class Wave
         $this->waveID = $waveID;
         $this->resourceID = $resourceID;
         $this->waveZombies = $waveZombies;
+        $this->waveItems = $waveItems;
     }
 
     /**
@@ -80,6 +89,14 @@ class Wave
     }
 
     /**
+     * @return Collection
+     */
+    public function getWaveItems(): Collection
+    {
+        return $this->waveItems;
+    }
+
+    /**
      * @return array
      */
     public function toArray(): array
@@ -99,6 +116,9 @@ class Wave
         $proto = new \App\Proto\Wave();
         $proto->name = $this->getName()->getValue();
         $proto->resourceID = $this->getResourceID()->getValue();
+        $proto->waveItems = $this->getWaveItems()->map(function(WaveItem $waveItem){
+            return $waveItem->toProtobuf();
+        })->toArray();
 
         $zombies = collect();
         $proto->waveZombies = $this->waveZombies->map(function (WaveZombie $waveZombie) use (&$zombies) {
