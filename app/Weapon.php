@@ -38,6 +38,22 @@ class Weapon extends Model
             $json['resource_id'] = $json['4'];
             unset($json[4]);
         }
+        if (isset($json['5'])) {
+            $json['mag_capacity'] = $json['5'];
+            unset($json[5]);
+        }
+        if (isset($json['6'])) {
+            $json['fire_speed'] = $json['6'];
+            unset($json[6]);
+        }
+        if (isset($json['7'])) {
+            $json['range'] = $json['7'];
+            unset($json[7]);
+        }
+        if (isset($json['8'])) {
+            $json['throwable'] = $json['8'];
+            unset($json[8]);
+        }
 
         return collect([(new static())->forceFill($json)]);
     }

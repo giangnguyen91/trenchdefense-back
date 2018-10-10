@@ -35,7 +35,6 @@ class WeaponGroup extends Model
             $json['ammo_type'] = $json['2'];
             unset($json[2]);
         }
-
         return collect([(new static())->forceFill($json)]);
     }
 
