@@ -2,6 +2,7 @@
 
 namespace App\Domains\Weapon\Master;
 
+use App\Domains\Weapon\ThrowableWeapon;
 use App\Weapon as WeaponEloquent;
 
 class WeaponFactory
@@ -22,6 +23,10 @@ class WeaponFactory
      * @param WeaponGroup $weaponGroup
      * @param Damage $damage
      * @param ResourceID $resourceID
+     * @param MagCapacity $magCapacity
+     * @param FireSpeed $fireSpeed
+     * @param Range|null $range
+     * @param ThrowableWeapon $throwableWeapon
      * @return Weapon
      */
     public function make(
@@ -29,7 +34,11 @@ class WeaponFactory
         WeaponName $weaponName,
         WeaponGroup $weaponGroup,
         Damage $damage,
-        ResourceID $resourceID
+        ResourceID $resourceID,
+        MagCapacity $magCapacity,
+        FireSpeed $fireSpeed,
+        Range $range,
+        ThrowableWeapon $throwableWeapon
     ): Weapon
     {
         return new Weapon(
@@ -37,7 +46,11 @@ class WeaponFactory
             $weaponName,
             $weaponGroup,
             $damage,
-            $resourceID
+            $resourceID,
+            $magCapacity,
+            $fireSpeed,
+            $range,
+            $throwableWeapon
         );
     }
 
@@ -52,12 +65,20 @@ class WeaponFactory
         $weaponGroup = $this->weaponGroupRepository->find(new WeaponGroupID($array['weapon_group_id']));
         $weaponDamage = new Damage($array['damage']);
         $resourceID = new ResourceID($array['resource_id']);
+        $magCapacity = new MagCapacity($array['mag_capacity']);
+        $fireSpeed = new FireSpeed($array['fire_speed']);
+        $range = new Range($array["range"]);
+        $throwable = new ThrowableWeapon(boolval($array["throwable"]));
         return $this->make(
             $weaponID,
             $weaponName,
             $weaponGroup,
             $weaponDamage,
-            $resourceID
+            $resourceID,
+            $magCapacity,
+            $fireSpeed,
+            $range,
+            $throwable
         );
     }
 
@@ -75,7 +96,11 @@ class WeaponFactory
             new WeaponName($weapon->name),
             $weaponGroup,
             new Damage($weapon->damage),
-            new ResourceID($weapon->resource_id)
+            new ResourceID($weapon->resource_id),
+            new MagCapacity($weapon->mag_capacity),
+            new FireSpeed($weapon->fire_speed),
+            new Range($weapon->range),
+            new ThrowableWeapon($weapon->range)
         );
     }
 }

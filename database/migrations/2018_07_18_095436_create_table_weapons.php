@@ -25,6 +25,10 @@ class CreateTableWeapons extends Migration
             $table->string('name');
             $table->integer('weapon_group_id')->unsigned();
             $table->integer('damage');
+            $table->integer('mag_capacity')->unsinged();
+            $table->integer('fire_speed')->unsinged();
+            $table->integer('range')->unsinged();
+            $table->boolean('throwable');
             $table->string('resource_id');
             $table->timestamps();
         });

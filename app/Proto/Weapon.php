@@ -21,6 +21,18 @@ namespace App\Proto {
     /**  @var string */
     public $resourceId = null;
     
+    /**  @var int */
+    public $magCapacity = null;
+    
+    /**  @var int */
+    public $fireSpeed = null;
+    
+    /**  @var int */
+    public $range = null;
+    
+    /**  @var boolean */
+    public $throwable = null;
+    
 
     /** @var \Closure[] */
     protected static $__extensions = array();
@@ -67,6 +79,38 @@ namespace App\Proto {
       $f->number    = 5;
       $f->name      = "resourceId";
       $f->type      = \DrSlump\Protobuf::TYPE_STRING;
+      $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
+      $descriptor->addField($f);
+
+      // REQUIRED UINT32 magCapacity = 6
+      $f = new \DrSlump\Protobuf\Field();
+      $f->number    = 6;
+      $f->name      = "magCapacity";
+      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
+      $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
+      $descriptor->addField($f);
+
+      // REQUIRED UINT32 fireSpeed = 7
+      $f = new \DrSlump\Protobuf\Field();
+      $f->number    = 7;
+      $f->name      = "fireSpeed";
+      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
+      $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
+      $descriptor->addField($f);
+
+      // REQUIRED UINT32 range = 8
+      $f = new \DrSlump\Protobuf\Field();
+      $f->number    = 8;
+      $f->name      = "range";
+      $f->type      = \DrSlump\Protobuf::TYPE_UINT32;
+      $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
+      $descriptor->addField($f);
+
+      // REQUIRED BOOL throwable = 9
+      $f = new \DrSlump\Protobuf\Field();
+      $f->number    = 9;
+      $f->name      = "throwable";
+      $f->type      = \DrSlump\Protobuf::TYPE_BOOL;
       $f->rule      = \DrSlump\Protobuf::RULE_REQUIRED;
       $descriptor->addField($f);
 
@@ -260,6 +304,154 @@ namespace App\Proto {
      */
     public function setResourceId( $value){
       return $this->_set(5, $value);
+    }
+    
+    /**
+     * Check if <magCapacity> has a value
+     *
+     * @return boolean
+     */
+    public function hasMagCapacity(){
+      return $this->_has(6);
+    }
+    
+    /**
+     * Clear <magCapacity> value
+     *
+     * @return \App\Proto\Weapon
+     */
+    public function clearMagCapacity(){
+      return $this->_clear(6);
+    }
+    
+    /**
+     * Get <magCapacity> value
+     *
+     * @return int
+     */
+    public function getMagCapacity(){
+      return $this->_get(6);
+    }
+    
+    /**
+     * Set <magCapacity> value
+     *
+     * @param int $value
+     * @return \App\Proto\Weapon
+     */
+    public function setMagCapacity( $value){
+      return $this->_set(6, $value);
+    }
+    
+    /**
+     * Check if <fireSpeed> has a value
+     *
+     * @return boolean
+     */
+    public function hasFireSpeed(){
+      return $this->_has(7);
+    }
+    
+    /**
+     * Clear <fireSpeed> value
+     *
+     * @return \App\Proto\Weapon
+     */
+    public function clearFireSpeed(){
+      return $this->_clear(7);
+    }
+    
+    /**
+     * Get <fireSpeed> value
+     *
+     * @return int
+     */
+    public function getFireSpeed(){
+      return $this->_get(7);
+    }
+    
+    /**
+     * Set <fireSpeed> value
+     *
+     * @param int $value
+     * @return \App\Proto\Weapon
+     */
+    public function setFireSpeed( $value){
+      return $this->_set(7, $value);
+    }
+    
+    /**
+     * Check if <range> has a value
+     *
+     * @return boolean
+     */
+    public function hasRange(){
+      return $this->_has(8);
+    }
+    
+    /**
+     * Clear <range> value
+     *
+     * @return \App\Proto\Weapon
+     */
+    public function clearRange(){
+      return $this->_clear(8);
+    }
+    
+    /**
+     * Get <range> value
+     *
+     * @return int
+     */
+    public function getRange(){
+      return $this->_get(8);
+    }
+    
+    /**
+     * Set <range> value
+     *
+     * @param int $value
+     * @return \App\Proto\Weapon
+     */
+    public function setRange( $value){
+      return $this->_set(8, $value);
+    }
+    
+    /**
+     * Check if <throwable> has a value
+     *
+     * @return boolean
+     */
+    public function hasThrowable(){
+      return $this->_has(9);
+    }
+    
+    /**
+     * Clear <throwable> value
+     *
+     * @return \App\Proto\Weapon
+     */
+    public function clearThrowable(){
+      return $this->_clear(9);
+    }
+    
+    /**
+     * Get <throwable> value
+     *
+     * @return boolean
+     */
+    public function getThrowable(){
+      return $this->_get(9);
+    }
+    
+    /**
+     * Set <throwable> value
+     *
+     * @param boolean $value
+     * @return \App\Proto\Weapon
+     */
+    public function setThrowable( $value){
+      return $this->_set(9, $value);
     }
   }
 }
