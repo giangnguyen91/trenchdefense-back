@@ -51,7 +51,11 @@ class WeaponRepository implements IWeaponRepository
                     'name' => $weapon->getWeaponName()->getValue(),
                     'damage' => $weapon->getDamage()->getValue(),
                     'weapon_group_id' => $weapon->getWeaponGroup()->getID()->getValue(),
-                    'resource_id' => $weapon->getResourceID()->getValue()
+                    'resource_id' => $weapon->getResourceID()->getValue(),
+                    'mag_capacity' => $weapon->getMagCapacity()->getValue(),
+                    'fire_speed' => $weapon->getFireSpeed()->getValue(),
+                    'range' => $weapon->getRange()->getValue(),
+                    'throwable' => $weapon->isThrowable()
                 ]
             );
         });

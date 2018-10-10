@@ -39,6 +39,32 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Mag Capacity</label>
+                        <input type="number" class="form-control" name="mag_capacity"
+                               value="@if(isset($default['mag_capacity'])){{$default['mag_capacity']}}@endif" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fire speed</label>
+                        <input type="number" class="form-control" name="fire_speed"
+                               value="@if(isset($default['fire_speed'])){{$default['fire_speed']}}@endif" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Explosion range</label>
+                        <input type="number" class="form-control" name="range"
+                               value="@if(isset($default['range'])){{$default['range']}}@endif" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Is throwable weapon</label>
+                        <select class="form-control" name="throwable">
+                            <option @if(isset($default['throwable']) && !boolval($default['throwable']))"selected"@endif value="0">Normal weapon</option>
+                            <option @if(isset($default['throwable']) && boolval($default['throwable']))selected="selected"@endif value="1">Throwable weapon</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label>Resource ID</label>
                         <input type="text" class="form-control" name="resource_id"
                                value="@if(isset($default['resource_id'])){{$default['resource_id']}}@endif" required/>
