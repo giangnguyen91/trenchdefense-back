@@ -13,8 +13,8 @@ use App\Domains\Base\Enum;
 
 class AmmoType extends Enum
 {
-    const AMMO308 = "308";
-    const AMMO10 = "10mm";
+    const AMMO308 = "ammo308";
+    const AMMO10 = "ammo10mm";
     const GRENADE1 = "grenade";
     const ROCKET = "rocket";
 }
