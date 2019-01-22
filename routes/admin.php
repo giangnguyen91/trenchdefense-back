@@ -2,6 +2,15 @@
 use Illuminate\Routing\Router;
 
 /** @var Router $router */
+$router->get('/', 'AdminController@index')->name('admin.index');
+
+
+$router->group(['prefix' => 'reset'], function (Router $router) {
+    $router->get('/masterdata', 'AdminController@getResetMasterData')->name('admin.reset.masterdata.index');
+    $router->post('/masterdata', 'AdminController@resetMasterData')->name('admin.reset.masterdata')->middleware("throttle:1");
+});
+
+
 $router->group(['prefix'=> 'zombies'], function (Router $router) {
     $router->get('/', 'ZombieController@index')->name('admin.zombie.list');
     $router->get('/create', 'ZombieController@getCreate')->name('admin.zombie.create');
