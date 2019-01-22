@@ -40,6 +40,14 @@
                         <li {{ (Request::is('*weapons') ? 'class="active"' : '') }}>
                             <a href="{{ url ('admin/weapons') }}"><i class="fa fa-table fa-fw"></i> Weapons</a>
                         </li>
+
+                        <li {{ (Request::is('*weapons') ? 'class="active"' : '') }}>
+                            <a href="{{ url ('admin/weapons') }}"><i class="fa fa-table fa-fw"></i> Weapons</a>
+                        </li>
+
+                        <li {{ (Request::is('*reset') ? 'class="active"' : '') }}>
+                            <a href="{{ url ('admin/reset/masterdata') }}"><i class="fa fa-table fa-fw"></i> Reset master data</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
